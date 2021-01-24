@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "143103133078",
+    "project_id": "suriapp-2f701",
+    "storage_bucket": "suriapp-2f701.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143103133078:android:bc32af134e57234fb249b7",
+        "android_client_info": {
+          "package_name": "com.dechunter.suristore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143103133078-qi5i98burq6dktq90jttnt3nv2isktd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCsn9QpOUCyClg_sUBd8eaqOFS0WbtnSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143103133078-qi5i98burq6dktq90jttnt3nv2isktd5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

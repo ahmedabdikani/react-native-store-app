@@ -6,6 +6,12 @@ export default {
     screens: {
       Root: {
         screens: {
+          HomeStack:{
+            screens: {
+              Home: 'home',
+              Product:'product'
+            },
+          },
           TabOne: {
             screens: {
               TabOneScreen: 'one',
