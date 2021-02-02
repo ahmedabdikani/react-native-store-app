@@ -30,6 +30,7 @@ export type HomeStackPramList = {
 export type ChatStackPramList = {
   Rooms: undefined;
   Chat: undefined;
+  AddContact: undefined;
 };
 export type ProfileStackPramList = {
   Profile: undefined;

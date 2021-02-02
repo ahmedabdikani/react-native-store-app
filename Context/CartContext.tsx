@@ -4,10 +4,10 @@ import { cartItem } from "../Types/ShoppingCart";
 
 interface CartContextType {
   cartItems: cartItem[];
-  setCartItems: React.Dispatch<React.SetStateAction<cartItem[]>>;
+  setCartItems: React.SetStateAction<cartItem[]>;
 }
 
-const CartContext = React.createContext<CartContextType>(null);
+const CartContext = React.createContext<CartContextType>({} as CartContextType);
 
 export const useCartContext = () => {
   return React.useContext(CartContext);

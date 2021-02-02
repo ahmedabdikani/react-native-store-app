@@ -14,28 +14,22 @@ interface IViewScreenProps {
 const ViewScreen = ({ navigation, route }: IViewScreenProps) => {
   return (
     <Pressable onPress={() => navigation.goBack()} style={{ flex: 1 }}>
-      <ImageBackground
-        source={{ uri: route.params.imageUri }}
-        blurRadius={20}
+      <View
         style={{
-          width,
-          height: height * 1.2,
+          flex: 1,
           backgroundColor: "#000",
           justifyContent: "center",
-          flex: 1,
         }}
-        resizeMode="stretch"
       >
         <Image
           source={{ uri: route.params.imageUri }}
           style={{
-            width: "100%",
-            minHeight: "60%",
-            resizeMode: "contain",
+            width,
+            height: height / 1.7,
+            resizeMode: "cover",
           }}
-          resizeMethod={"auto"}
         />
-      </ImageBackground>
+      </View>
     </Pressable>
   );
 };

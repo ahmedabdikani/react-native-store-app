@@ -3,5 +3,4 @@ export default interface user  {
   name:string
   photo:string
   email:string
-  password:string
 }

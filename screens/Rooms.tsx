@@ -1,19 +1,27 @@
 import { Ionicons } from "@expo/vector-icons";
 import _ from "lodash";
 import * as React from "react";
-import { FlatList, Image } from "react-native";
+import { useState } from "react";
+import { FlatList, Image, Pressable } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { CardView, Text, TextSec, View } from "../components/Themed";
+import {
+  CardView,
+  Text,
+  TextSec,
+  useThemeColor,
+  View,
+} from "../components/Themed";
 import Layout from "../constants/Layout";
 import { Fonts, Sizes } from "../constants/Styles";
+import { useAuthContext } from "../Context/AuthContext";
 import navigation from "../navigation";
 
 const { height, width } = Layout.window;
 const padding = Sizes.base;
 
-interface IChatsProps {}
+interface IRoomsProps {}
 
 const chats = Array.from({ length: 20 }, (_, index) => {
   return {
@@ -27,29 +35,99 @@ const chats = Array.from({ length: 20 }, (_, index) => {
   };
 });
 
-const Chats = ({ navigation }: IChatsProps) => {
+const Rooms = ({ navigation }: IRoomsProps) => {
+  const { user } = useAuthContext();
   const { top } = useSafeAreaInsets();
+  const backgroundColor = useThemeColor({}, "background");
+  const card = useThemeColor({}, "card");
+  const color = useThemeColor({}, "text");
+  const [openMenu, setOpenMenu] = useState(false);
 
   return (
-    <CardView style={{ flex: 1 }}>
-      <CardView
-        style={
-          {
-            //height: top
-          }
-        }
-      />
-      <CardView style={{ padding: Sizes.base }}>
-        {/* {renderHeader()} */}
-        {renderRooms(navigation)}
-      </CardView>
-    </CardView>
+    <View style={{ flex: 1 }}>
+      <Header top={top} color={color} setOpenMenu={setOpenMenu} />
+      {renderRooms({ navigation, backgroundColor, card })}
+      {openMenu && (
+        <MoreOptionMenu
+          backgroundColor={backgroundColor}
+          navigation={navigation}
+          color={color}
+        />
+      )}
+    </View>
   );
 };
 
-const renderHeader = () => {
+const MoreOptionMenu = ({ backgroundColor, navigation, color }) => {
   return (
-    <CardView>
+    <View
+      style={{
+        position: "absolute",
+        top: 80,
+        right: padding,
+        zIndex: 20,
+        padding: padding * 2,
+        elevation: 20,
+        borderRadius: padding,
+      }}
+    >
+      <CardView
+        style={{
+          backgroundColor: "transparent",
+          height: 10,
+          width: 10,
+          position: "absolute",
+          right: padding,
+          top: -10,
+          borderLeftColor: "transparent",
+          borderLeftWidth: 10,
+          borderRightColor: "transparent",
+          borderRightWidth: 10,
+          borderBottomColor: backgroundColor,
+          borderBottomWidth: 10,
+        }}
+      />
+      <Pressable
+        onPress={() => null}
+        style={({ pressed }) => ({
+          flexDirection: "row",
+          opacity: pressed ? 0.3 : 1,
+          marginBottom: padding,
+          alignItems: "center",
+        })}
+      >
+        <Ionicons name="chatbubble" size={24} color={color} />
+
+        <Text style={{ ...Fonts.body2, marginLeft: padding }}>New Chat</Text>
+      </Pressable>
+      <Pressable
+        onPress={() => navigation.navigate("AddContact")}
+        style={({ pressed }) => ({
+          flexDirection: "row",
+          opacity: pressed ? 0.3 : 1,
+          alignItems: "center",
+          marginBottom: padding,
+        })}
+      >
+        <Ionicons name="person-add" size={24} color={color} />
+        <Text style={{ ...Fonts.body2, marginLeft: padding }}>
+          Add Contacts
+        </Text>
+      </Pressable>
+    </View>
+  );
+};
+
+const Header = ({ top, color, setOpenMenu }) => {
+  return (
+    <CardView
+      style={{
+        paddingTop: top + padding,
+        paddingHorizontal: padding,
+        elevation: 10,
+        paddingBottom: padding,
+      }}
+    >
       <CardView
         style={{
           flexDirection: "row",
@@ -58,18 +136,25 @@ const renderHeader = () => {
         }}
       >
         <Text style={Fonts.h2}>Chats</Text>
-        <Ionicons name={"add"} size={30} />
+        <Pressable
+          onPress={() => setOpenMenu((prev) => !prev)}
+          style={({ pressed }) => ({
+            opacity: pressed ? 0.3 : 1,
+          })}
+        >
+          <Ionicons name={"add"} size={30} color={color} />
+        </Pressable>
       </CardView>
     </CardView>
   );
 };
 
-const renderRooms = (navigation) => {
+const renderRooms = ({ navigation, backgroundColor, card }) => {
   const renderItem = ({ item }: { item: typeof chats[0] }) => {
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate("Chat")}
-        style={{ flexDirection: "row" }}
+        style={{ flexDirection: "row", marginBottom: padding }}
       >
         <Image
           style={{
@@ -81,7 +166,14 @@ const renderRooms = (navigation) => {
           }}
           source={{ uri: item.user.photo }}
         />
-        <CardView style={{ flex: 1 }}>
+        <CardView
+          style={{
+            flex: 1,
+            borderBottomColor: backgroundColor,
+            borderBottomWidth: 1,
+            paddingBottom: padding,
+          }}
+        >
           <Text style={Fonts.h4}>{item.user.name}</Text>
           <TextSec numberOfLines={1} style={Fonts.body3}>
             {item.messages[0]}
@@ -91,19 +183,31 @@ const renderRooms = (navigation) => {
     );
   };
 
-  const ItemSeparatorComponent = () => {
-    return <View style={{ height: 2, marginVertical: padding }} />;
+  const listEmptyComponent = () => {
+    return (
+      <View
+        style={{
+          height: height * 0.9,
+          width,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TextSec style={{ ...Fonts.h4 }}>No chats</TextSec>
+      </View>
+    );
   };
 
   return (
     <FlatList
-      style={{ marginTop: padding }}
+      style={{ backgroundColor: card, padding }}
       keyExtractor={(_, index) => index.toString()}
       data={chats}
-      ItemSeparatorComponent={ItemSeparatorComponent}
+      ListEmptyComponent={listEmptyComponent}
+      showsVerticalScrollIndicator={false}
       renderItem={renderItem}
     />
   );
 };
 
-export default Chats;
+export default Rooms;

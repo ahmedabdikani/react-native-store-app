@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text, useThemeColor, View } from "../components/Themed";
 import { tintColorLight } from "../constants/Colors";
 import { Fonts, Sizes } from "../constants/Styles";
-import { useUserContext } from "../Context/User";
+import { useAuthContext } from "../Context/AuthContext";
 
 const padding = Sizes.base;
 
@@ -13,7 +13,7 @@ interface ISettingsProps {}
 
 const Settings = ({}: ISettingsProps) => {
   const backgroundColor = useThemeColor({}, "card");
-  const { setUser } = useUserContext();
+  const { signOut } = useAuthContext();
 
   let disabled = false;
 
@@ -23,8 +23,7 @@ const Settings = ({}: ISettingsProps) => {
         disabled={disabled}
         onPress={async () => {
           disabled = true;
-          await AsyncStorage.setItem("user", JSON.stringify(null));
-          setUser(null);
+          signOut();
         }}
         style={{
           justifyContent: "center",

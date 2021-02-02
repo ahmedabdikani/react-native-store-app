@@ -46,6 +46,7 @@ import Settings from "../screens/Settings";
 import Favorites from "../screens/Favorites";
 import { Fonts } from "../constants/Styles";
 import FollowedStores from "../screens/FollowedStores";
+import AddContact from "../screens/AddContact";
 
 // const ahmed extends IoniconsNameType<> = "Dd"
 // type pla<d extends >
@@ -270,6 +271,7 @@ const ChatNavigator = () => {
         name="Rooms"
         component={Rooms}
         options={{
+          headerShown: false,
           title: "Chats",
           headerRight: () => <Ionicons color={color} name={"add"} size={24} />,
         }}
@@ -283,6 +285,15 @@ const ChatNavigator = () => {
           headerRight: () => (
             <Ionicons size={24} name={"ellipsis-vertical"} color={color} />
           ),
+        }}
+      />
+      <ChatStack.Screen
+        name="AddContact"
+        component={AddContact}
+        options={{
+          headerTitleAlign: "center",
+          title: "AddContact",
+          headerShown: false,
         }}
       />
     </ChatStack.Navigator>

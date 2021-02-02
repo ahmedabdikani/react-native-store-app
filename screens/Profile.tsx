@@ -12,6 +12,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import Avatar from "../components/Avatar";
 
 import {
   CardView,
@@ -24,7 +25,7 @@ import {
 import Colors, { lightBlue, tintColorLight } from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { Fonts, Sizes } from "../constants/Styles";
-import { useUserContext } from "../Context/User";
+import { useAuthContext } from "../Context/AuthContext";
 import user from "../Types/User";
 
 const { width, height } = Layout.window;
@@ -49,7 +50,7 @@ const Profile = ({ navigation }: IProfileProps) => {
   const card = useThemeColor({}, "card");
   const colorSec = useThemeColor({}, "textSecondary");
   const { top } = useSafeAreaInsets();
-  const { user } = useUserContext();
+  const { user } = useAuthContext();
   const [openTheme, setOpenTheme] = useState(false);
 
   const renderThemeOptions = () => {
@@ -311,12 +312,7 @@ const renderHeader = ({
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CardView style={{ padding: padding * 0.2, borderRadius: 100 }}>
-          <Image
-            source={{
-              uri: user.photo,
-            }}
-            style={{ width: 50, height: 50, borderRadius: 50 }}
-          />
+          <Avatar imageUri={user.photo} initial={user.name} />
         </CardView>
         <View style={{ marginLeft: padding, flexDirection: "row" }}>
           {/* <TextSec style={Fonts.h3}>User id:</TextSec> */}

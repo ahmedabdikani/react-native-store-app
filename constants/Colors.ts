@@ -1,8 +1,8 @@
-export const tintColorLight = '#FA6432'; 
+export const tintColorLight = '#FA6432';//"#E61D8C" 
 const tintColorDark = tintColorLight;
 export const lightBlue = '#0096C8';
 export const lightRed = '#FA0064'
-export const darkYellow = '#F5AF00' //'#D69A18' 
+export const darkYellow =  '#F5AF00' //'#D69A18' 
 export const lightGreen = '#25EC28'
 
 export default {

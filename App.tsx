@@ -5,10 +5,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "react-query";
 import CartContextProvider from "./Context/CartContext";
 
-import UserContextProvider from "./Context/User";
+import { AuthProvider } from "./Context/AuthContext";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
+import { ChatProvier } from "./Context/ChatContext";
 
 const client = new QueryClient();
 
@@ -22,12 +23,14 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <QueryClientProvider client={client}>
-          <UserContextProvider>
-            <CartContextProvider>
-              <StatusBar style={"auto"} />
-              <Navigation colorScheme={colorScheme} />
-            </CartContextProvider>
-          </UserContextProvider>
+          <AuthProvider>
+            <ChatProvier>
+              <CartContextProvider>
+                <StatusBar style={"auto"} />
+                <Navigation colorScheme={colorScheme} />
+              </CartContextProvider>
+            </ChatProvier>
+          </AuthProvider>
         </QueryClientProvider>
       </SafeAreaProvider>
     );

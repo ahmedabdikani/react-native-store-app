@@ -2,6 +2,7 @@ import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
+import { useState } from "react";
 import { FlatList, FlatListProps, Image } from "react-native";
 import {
   PanGestureHandler,
@@ -9,6 +10,8 @@ import {
 } from "react-native-gesture-handler";
 import Animated, {
   interpolate,
+  runOnJS,
+  set,
   useAnimatedGestureHandler,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -67,6 +70,14 @@ const Product = ({ navigation, route }: IProductProps) => {
   const { product } = route.params;
   const backgroundColor = useThemeColor({}, "card");
   const y = useSharedValue<number>(0);
+  const x = useSharedValue<number>(0);
+  const [index, setIndex] = useState<number>(1);
+
+  const onScroll = useAnimatedScrollHandler({
+    onMomentumEnd: ({ contentOffset }) => {
+      x.value = contentOffset.x;
+    },
+  });
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: (_, ctx) => {
@@ -103,9 +114,10 @@ const Product = ({ navigation, route }: IProductProps) => {
   const renderItem = () => {
     const renderCorousel = () => {
       return (
-        <FlatList
+        <AnimatedFlatList
           // style={style}
           horizontal
+          scroll={onScroll}
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           data={product?.images}
@@ -147,7 +159,7 @@ const Product = ({ navigation, route }: IProductProps) => {
             alignItems: "center",
           }}
         >
-          <Text style={{ color: "#fff" }}>1/{product.images.length}</Text>
+          <Text style={{ color: "#fff" }}>{index + "/" + products.length}</Text>
         </View>
       );
     };

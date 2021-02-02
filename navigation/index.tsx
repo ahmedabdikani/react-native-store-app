@@ -15,7 +15,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import Colors from "../constants/Colors";
 import { StatusBar } from "expo-status-bar";
 import AuthStack from "./AuthStack";
-import { useUserContext } from "../Context/User";
+import { useAuthContext } from "../Context/AuthContext";
 import { useEffect } from "react";
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -40,7 +40,7 @@ export default function Navigation({
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const { user } = useUserContext();
+  const { user } = useAuthContext();
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {

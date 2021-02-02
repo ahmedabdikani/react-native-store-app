@@ -8,7 +8,13 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
-import { useThemeColor, View, Text, CardView } from "../components/Themed";
+import {
+  useThemeColor,
+  View,
+  Text,
+  CardView,
+  TextSec,
+} from "../components/Themed";
 import { tintColorLight } from "../constants/Colors";
 import Layout from "../constants/Layout";
 import {
@@ -219,15 +225,13 @@ const ShoppingCart = ({ navigation, route }: IShoppingCartProps) => {
             marginBottom: padding,
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            Shopping Cart
-          </Text>
+          <Text style={{ ...Fonts.h2 }}>Shopping Cart</Text>
           <TouchableOpacity onPress={() => setOpenMore((prev) => !prev)}>
-            <Text>{openMore ? "Hide" : "More"}</Text>
+            <TextSec style={Fonts.body3}>{openMore ? "Hide" : "More"}</TextSec>
           </TouchableOpacity>
         </CardView>
         <CardView>
-          <Text>10 Items</Text>
+          <Text> {cartItems.length} Items</Text>
         </CardView>
       </CardView>
     );
@@ -281,9 +285,9 @@ const ShoppingCart = ({ navigation, route }: IShoppingCartProps) => {
         {header()}
         <FlatList
           // ListHeaderComponent={header}
-          ListEmptyComponent={listEmptyComponent}
+          ListEmptyComponent={() => listEmptyComponent(textColor)}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingTop: padding, flex: 1 }}
+          contentContainerStyle={{ paddingTop: padding }}
           data={cartItems}
           renderItem={renderItem}
           bounces={false}
@@ -295,9 +299,20 @@ const ShoppingCart = ({ navigation, route }: IShoppingCartProps) => {
   );
 };
 
-const listEmptyComponent = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text style={Fonts.h3}>No cart Items </Text>
+const listEmptyComponent = (textColor: string) => (
+  <View
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      // flexDirection: "row",
+      marginTop: height / 3,
+    }}
+  >
+    <TextSec style={{ ...Fonts.body2, marginBottom: padding }}>
+      Shopping cart is empty
+    </TextSec>
+    <FontAwesome name="shopping-cart" size={20} color={textColor} />
   </View>
 );
 

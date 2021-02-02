@@ -57,75 +57,88 @@ const Home = ({
 }: {
   navigation: NavigationProp<HomeStackPramList, "Home">;
 }) => {
-  const { data, error } = useQuery("product", fetchProducts);
+  // const { data, error } = useQuery("product", fetchProducts);
   const { top } = useSafeAreaInsets();
   const { colors } = useTheme();
 
   React.useEffect(() => {
-    console.log(error, data);
+    // console.log(error, data);
   });
 
   return (
     <View style={styles.container}>
-      <View style={{ height: top }} />
-      <View
-        style={{
-          // flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          paddingBottom: padding,
-        }}
-      >
-        <View style={styles.searchArea}>
-          <TextInput
-            style={{ flex: 1, color: useThemeColor({}, "text") }}
-            placeholderTextColor={useThemeColor({}, "text")}
-            placeholder={"Search here"}
-          />
-          <MaterialCommunityIcons
-            style={{ alignSelf: "center" }}
-            name="camera-outline"
-            size={24}
-            color="#888"
-          />
-          <TouchableOpacity style={styles.searchButton}>
-            <LinearGradient
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingHorizontal: padding / 1.4,
-                borderRadius: searchHeight,
-              }}
-              start={{ x: 0.8, y: 0 }}
-              end={{ x: 0.0, y: 0 }}
-              colors={[tintColorLight, darkYellow]}
-            >
-              <Text style={{ color: "#fff", padding: padding }}>Search</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+      <View style={{ backgroundColor: "transparent", height: top }} />
+      <View style={{ backgroundColor: "transparent" }}>
         <View
           style={{
-            marginRight: padding,
+            backgroundColor: "transparent",
+            // flex: 1,
             flexDirection: "row",
-            flex: 1,
             alignItems: "center",
-            justifyContent: "center",
+            paddingBottom: padding,
           }}
         >
-          <Text>GR</Text>
-          <TouchableOpacity style={{ marginLeft: padding }}>
-            <FontAwesome5
-              name="map-marker-alt"
-              size={24}
-              color={tintColorLight}
+          <View style={styles.searchArea}>
+            <TextInput
+              style={{ flex: 1, color: useThemeColor({}, "text") }}
+              placeholderTextColor={useThemeColor({}, "text")}
+              placeholder={"Search here"}
             />
-          </TouchableOpacity>
+            <MaterialCommunityIcons
+              style={{ alignSelf: "center" }}
+              name="camera-outline"
+              size={24}
+              color="#888"
+            />
+            <TouchableOpacity style={styles.searchButton}>
+              <LinearGradient
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingHorizontal: padding / 1.4,
+                  borderRadius: searchHeight,
+                }}
+                start={{ x: 0.8, y: 0 }}
+                end={{ x: 0.0, y: 0 }}
+                colors={[tintColorLight, darkYellow]}
+              >
+                <Text style={{ color: "#fff", padding: padding }}>Search</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              backgroundColor: "transparent",
+              marginRight: padding,
+              flexDirection: "row",
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ color: tintColorLight }}>GR</Text>
+            <TouchableOpacity style={{ marginLeft: padding }}>
+              <FontAwesome5
+                name="map-marker-alt"
+                size={24}
+                color={tintColorLight}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-
-      <ScrollView>
+      <ScrollView
+        style={{}}
+        contentContainerStyle={{
+          padding,
+          // paddingTop: padding,
+          marginTop: padding * 3,
+          borderRadius: padding * 3,
+          overflow: "hidden",
+          backgroundColor: useThemeColor({}, "background"),
+        }}
+      >
         <View>
           <MiniAppsContainer colors={colors} />
         </View>
@@ -142,9 +155,11 @@ const styles = StyleSheet.create({
   container: {
     width,
     flex: 1,
-    padding,
+    // backgroundColor: tintColorLight,
   },
   searchArea: {
+    marginHorizontal: padding,
+    // backgroundColor: "transparent",
     textAlignVertical: "center",
     flexDirection: "row",
     borderColor: tintColorLight,
@@ -157,7 +172,7 @@ const styles = StyleSheet.create({
   searchButton: {
     // marginRight: -1,
     marginLeft: padding,
-    backgroundColor: tintColorLight,
+    // backgroundColor: tintColorLight,
     flex: 1,
     borderRadius: searchHeight,
     padding: -1,
