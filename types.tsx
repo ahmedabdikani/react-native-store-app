@@ -39,12 +39,6 @@ export type ProfileStackPramList = {
   FollowedStores: undefined;
 };
 
-// export type NavigationProsss<T extends keyof X> = {
-//   navigation: NavigationProp<X, T>;
-// };
-
-// type f = NavigationPropsss<"Home", HomeStackPramList>;
-
 export type TabOneParamList = {
   TabOneScreen: undefined;
 };
