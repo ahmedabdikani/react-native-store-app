@@ -1,7 +1,7 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import navigation from "../navigation";
 import { BottomTabParamList } from "../types";
-import { product } from "./Product";
+import { Product } from "./Product";
 
 
 export type CartNavigationProp <T extends keyof BottomTabParamList> = {
@@ -14,6 +14,6 @@ export type CartRouteProp <T extends keyof BottomTabParamList> = {
 };
 
 export type cartItem = {
-  product: product;
+  product: Product;
   amount: number;
 };

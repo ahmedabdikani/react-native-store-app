@@ -18,16 +18,12 @@ import * as React from "react";
 
 import Colors, { tintColorLight } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
 import Home from "../screens/Home/Home";
 import {
   BottomTabParamList,
   ChatStackPramList,
   HomeStackPramList,
   ProfileStackPramList,
-  TabOneParamList,
-  TabTwoParamList,
 } from "../types";
 import Product from "../screens/Home/Product";
 import IoniconsNameType from "@expo/vector-icons/build/Ionicons";
@@ -47,9 +43,6 @@ import Favorites from "../screens/Profile/Favorites";
 import { Fonts } from "../constants/Styles";
 import FollowedStores from "../screens/Profile/FollowedStores";
 import AddContact from "../screens/Chat/AddContact";
-
-// const ahmed extends IoniconsNameType<> = "Dd"
-// type pla<d extends >
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -119,7 +112,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Me"
+        name="Profile"
         component={ProfileNavigator}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
@@ -197,23 +190,7 @@ function TabBarIcon(props: { name: string; color: string }) {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
-const TabOneStack = createStackNavigator<TabOneParamList>();
-
-function TabOneNavigator() {
-  return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
-      />
-    </TabOneStack.Navigator>
-  );
-}
-
 const HomeStack = createStackNavigator<HomeStackPramList>();
-const ChatStack = createStackNavigator<ChatStackPramList>();
-
 const HomeNavigator = () => {
   return (
     <HomeStack.Navigator
@@ -261,7 +238,7 @@ const HomeNavigator = () => {
     </HomeStack.Navigator>
   );
 };
-
+const ChatStack = createStackNavigator<ChatStackPramList>();
 const ChatNavigator = () => {
   const color = useThemeColor({}, "text");
 
@@ -299,9 +276,7 @@ const ChatNavigator = () => {
     </ChatStack.Navigator>
   );
 };
-
 const ProfileStack = createStackNavigator<ProfileStackPramList>();
-
 const ProfileNavigator = () => {
   const color = useThemeColor({}, "text");
 
@@ -362,17 +337,3 @@ const ProfileNavigator = () => {
     </ProfileStack.Navigator>
   );
 };
-
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
-
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: "Tab Two Title" }}
-      />
-    </TabTwoStack.Navigator>
-  );
-}

@@ -21,6 +21,7 @@ import useAxios from "../../hooks/useAxiosFetch";
 import { HomeStackPramList } from "../../types";
 import { Product as product } from "../../Types/Product";
 import MiniAppList from "../../components/MiniAppList";
+import { HomeNavigationProp } from "../../Types/Home";
 
 const { width, height } = Layout.window;
 const padding = 10;
@@ -43,16 +44,14 @@ export const products: product[] = Array.from({ length: 10 }, (_, i) => ({
   description: "",
 }));
 
-const fetchProducts = async () => {
-  const { data, status } = await axios.get("https://fakestoreapi.com/products");
-  if (status === 200) {
-    return Promise.resolve(data);
-  }
-};
+// const fetchProducts = async () => {
+//   const { data, status } = await axios.get("https://fakestoreapi.com/products");
+//   if (status === 200) {
+//     return Promise.resolve(data);
+//   }
+// };
 
-interface IHomeProps {
-  navigation: NavigationProp<HomeStackPramList, "Home">;
-}
+interface IHomeProps extends HomeNavigationProp<"Home"> {}
 
 const Home: React.FC<IHomeProps> = ({ navigation }) => {
   const { top } = useSafeAreaInsets();

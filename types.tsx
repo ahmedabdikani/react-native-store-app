@@ -1,6 +1,6 @@
 import { NavigationProp } from "@react-navigation/native";
 import Navigation from "./navigation";
-import { product } from "./Types/Product";
+import { Product } from "./Types/Product";
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -11,19 +11,18 @@ export type RootStackParamList = {
 export type BottomTabParamList = {
   HomeStack: HomeStackPramList;
   Fallowed: undefined;
-  ShoppingCart: product;
+  ShoppingCart: Product;
   Chat: undefined;
-  Me: undefined;
-  TabOne: undefined;
+  Profile: undefined;
 };
 
 export type HomeStackPramList = {
   Home: undefined;
   Product: {
-    product: product;
+    product: Product;
   };
   ViewContent: {
-    imageUri: string;
+    Uri: string;
   };
 };
 
@@ -35,14 +34,6 @@ export type ChatStackPramList = {
 export type ProfileStackPramList = {
   Profile: undefined;
   Settings: undefined;
-  Favorite: product;
+  Favorite: Product;
   FollowedStores: undefined;
-};
-
-export type TabOneParamList = {
-  TabOneScreen: undefined;
-};
-
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
 };
