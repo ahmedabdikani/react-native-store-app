@@ -2,10 +2,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import { Text, useThemeColor, View } from "../components/Themed";
-import { tintColorLight } from "../constants/Colors";
-import { Fonts, Sizes } from "../constants/Styles";
-import { useAuthContext } from "../Context/AuthContext";
+import { Text, useThemeColor, View } from "../../components/Themed";
+import { tintColorLight } from "../../constants/Colors";
+import { Fonts, Sizes } from "../../constants/Styles";
+import { useAuthContext } from "../../Context/AuthContext";
 
 const padding = Sizes.base;
 

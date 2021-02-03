@@ -27,8 +27,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.dechunter.suristore",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.dechunter.suristore"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

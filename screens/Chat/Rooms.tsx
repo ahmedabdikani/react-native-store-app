@@ -12,11 +12,11 @@ import {
   TextSec,
   useThemeColor,
   View,
-} from "../components/Themed";
-import Layout from "../constants/Layout";
-import { Fonts, Sizes } from "../constants/Styles";
-import { useAuthContext } from "../Context/AuthContext";
-import navigation from "../navigation";
+} from "../../components/Themed";
+import Layout from "../../constants/Layout";
+import { Fonts, Sizes } from "../../constants/Styles";
+import { useAuthContext } from "../../Context/AuthContext";
+import navigation from "../../navigation";
 
 const { height, width } = Layout.window;
 const padding = Sizes.base;

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Image, ImageBackground, Pressable } from "react-native";
 
-import { View } from "../components/Themed";
-import Layout from "../constants/Layout";
+import { View } from "../../components/Themed";
+import Layout from "../../constants/Layout";
 
 const { width, height } = Layout.window;
 

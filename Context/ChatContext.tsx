@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Auth, db } from "../config/firebase";
 
 interface ChatContextType {
-  searchUser: (userId: string) => Promise<void>;
+  searchUser: (username: string) => Promise<any>;
 }
 console.ignoredYellowBox = ["Setting a timer"];
 export const ChatContext = React.createContext<ChatContextType>(null!);
@@ -17,24 +17,26 @@ interface IChatProviderProps {}
 export const ChatProvier: React.FC<IChatProviderProps> = ({ children }) => {
   const [chats, setChats] = useState([]);
 
-  const searchUser = async (username: string) => {
-    // try {
-    const usersRef = db.collection("users"); //.where("name", "==", username);
+  const searchUser = async (name: string) => {
+    try {
+      const usersRef = db.collection("users"); //.where("name", "==", name);
+      const searchExp = new RegExp(`${name}`, "gi");
+      const userDocs = await usersRef.get();
+      const users = userDocs?.docs?.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const searchResult = users?.filter((user) =>
+        searchExp.test(user.name.trim())
+      );
 
-    usersRef
-      .get()
-      .then((doc) => {
-        const data = doc.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      return Promise.resolve(searchResult);
 
-    // console.log(docs);
-    // } catch (error) {
-    // console.log(error);
-    // }
+      // console.log(searchResult);
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
   };
 
   return (

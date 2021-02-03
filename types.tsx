@@ -20,7 +20,7 @@ export type BottomTabParamList = {
 export type HomeStackPramList = {
   Home: undefined;
   Product: {
-    product?: product;
+    product: product;
   };
   ViewContent: {
     imageUri: string;

@@ -2,17 +2,17 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as React from "react";
 import { Image, ListRenderItem } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import Avatar from "../components/Avatar";
+import Avatar from "../../components/Avatar";
 import {
   CardView,
   Text,
   TextSec,
   useThemeColor,
   View,
-} from "../components/Themed";
-import { Fonts, Sizes } from "../constants/Styles";
-import { product } from "../Types/Product";
-import { products } from "./Home";
+} from "../../components/Themed";
+import { Fonts, Sizes } from "../../constants/Styles";
+import { product } from "../../Types/Product";
+import { products } from "../Home/Home";
 
 const padding = Sizes.base;
 

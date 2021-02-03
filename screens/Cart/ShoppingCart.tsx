@@ -14,17 +14,17 @@ import {
   Text,
   CardView,
   TextSec,
-} from "../components/Themed";
-import { tintColorLight } from "../constants/Colors";
-import Layout from "../constants/Layout";
+} from "../../components/Themed";
+import { tintColorLight } from "../../constants/Colors";
+import Layout from "../../constants/Layout";
 import {
   cartItem,
   CartNavigationProp,
   CartRouteProp,
-} from "../Types/ShoppingCart";
-import { useCartContext } from "../Context/CartContext";
-import { Fonts } from "../constants/Styles";
-import { product } from "../Types/Product";
+} from "../../Types/ShoppingCart";
+import { useCartContext } from "../../Context/CartContext";
+import { Fonts } from "../../constants/Styles";
+import { product } from "../../Types/Product";
 import { FontAwesome } from "@expo/vector-icons";
 
 const padding = 10;

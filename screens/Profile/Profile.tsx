@@ -12,7 +12,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import Avatar from "../components/Avatar";
+import Avatar from "../../components/Avatar";
 
 import {
   CardView,
@@ -21,12 +21,12 @@ import {
   View,
   TextSec,
   setTheme,
-} from "../components/Themed";
-import Colors, { lightBlue, tintColorLight } from "../constants/Colors";
-import Layout from "../constants/Layout";
-import { Fonts, Sizes } from "../constants/Styles";
-import { useAuthContext } from "../Context/AuthContext";
-import user from "../Types/User";
+} from "../../components/Themed";
+import Colors, { lightBlue, tintColorLight } from "../../constants/Colors";
+import Layout from "../../constants/Layout";
+import { Fonts, Sizes } from "../../constants/Styles";
+import { useAuthContext } from "../../Context/AuthContext";
+import user from "../../Types/User";
 
 const { width, height } = Layout.window;
 const padding = Sizes.base;

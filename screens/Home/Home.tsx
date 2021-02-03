@@ -11,16 +11,16 @@ import {
 import { useQuery } from "react-query";
 import axios from "axios";
 
-import { Text, useThemeColor, View } from "../components/Themed";
-import Colors, { darkYellow, tintColorLight } from "../constants/Colors";
-import Layout from "../constants/Layout";
-import MiniAppsContainer from "../components/MiniAppContainer";
-import Advertisment from "../components/Advertisment";
-import Product from "../components/Product";
-import Products from "../components/Products";
-import useAxios from "../hooks/useAxiosFetch";
-import { HomeStackPramList } from "../types";
-import { product } from "../Types/Product";
+import { Text, useThemeColor, View } from "../../components/Themed";
+import Colors, { darkYellow, tintColorLight } from "../../constants/Colors";
+import Layout from "../../constants/Layout";
+import MiniAppsContainer from "../../components/MiniAppContainer";
+import Advertisment from "../../components/Advertisment";
+import Product from "../../components/ProductItem";
+import Products from "../../components/ProductList";
+import useAxios from "../../hooks/useAxiosFetch";
+import { HomeStackPramList } from "../../types";
+import { Product as product } from "../../Types/Product";
 
 const { width, height } = Layout.window;
 const padding = 10;
@@ -52,18 +52,15 @@ const fetchProducts = async () => {
   }
 };
 
-const Home = ({
-  navigation,
-}: {
+interface IHomeProps {
   navigation: NavigationProp<HomeStackPramList, "Home">;
-}) => {
-  // const { data, error } = useQuery("product", fetchProducts);
+}
+
+const Home: React.FC<IHomeProps> = ({ navigation }) => {
   const { top } = useSafeAreaInsets();
   const { colors } = useTheme();
 
-  React.useEffect(() => {
-    // console.log(error, data);
-  });
+  React.useEffect(() => {});
 
   return (
     <View style={styles.container}>
@@ -78,54 +75,7 @@ const Home = ({
             paddingBottom: padding,
           }}
         >
-          <View style={styles.searchArea}>
-            <TextInput
-              style={{ flex: 1, color: useThemeColor({}, "text") }}
-              placeholderTextColor={useThemeColor({}, "text")}
-              placeholder={"Search here"}
-            />
-            <MaterialCommunityIcons
-              style={{ alignSelf: "center" }}
-              name="camera-outline"
-              size={24}
-              color="#888"
-            />
-            <TouchableOpacity style={styles.searchButton}>
-              <LinearGradient
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingHorizontal: padding / 1.4,
-                  borderRadius: searchHeight,
-                }}
-                start={{ x: 0.8, y: 0 }}
-                end={{ x: 0.0, y: 0 }}
-                colors={[tintColorLight, darkYellow]}
-              >
-                <Text style={{ color: "#fff", padding: padding }}>Search</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              backgroundColor: "transparent",
-              marginRight: padding,
-              flexDirection: "row",
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ color: tintColorLight }}>GR</Text>
-            <TouchableOpacity style={{ marginLeft: padding }}>
-              <FontAwesome5
-                name="map-marker-alt"
-                size={24}
-                color={tintColorLight}
-              />
-            </TouchableOpacity>
-          </View>
+          <Header />
         </View>
       </View>
       <ScrollView
@@ -147,6 +97,61 @@ const Home = ({
           <Products navigation={navigation} products={products} />
         </View>
       </ScrollView>
+    </View>
+  );
+};
+
+const Header = () => {
+  return (
+    <View>
+      <View style={styles.searchArea}>
+        <TextInput
+          style={{ flex: 1, color: useThemeColor({}, "text") }}
+          placeholderTextColor={useThemeColor({}, "text")}
+          placeholder={"Search here"}
+        />
+        <MaterialCommunityIcons
+          style={{ alignSelf: "center" }}
+          name="camera-outline"
+          size={24}
+          color="#888"
+        />
+        <TouchableOpacity style={styles.searchButton}>
+          <LinearGradient
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingHorizontal: padding / 1.4,
+              borderRadius: searchHeight,
+            }}
+            start={{ x: 0.8, y: 0 }}
+            end={{ x: 0.0, y: 0 }}
+            colors={[tintColorLight, darkYellow]}
+          >
+            <Text style={{ color: "#fff", padding: padding }}>Search</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          backgroundColor: "transparent",
+          marginRight: padding,
+          flexDirection: "row",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text style={{ color: tintColorLight }}>GR</Text>
+        <TouchableOpacity style={{ marginLeft: padding }}>
+          <FontAwesome5
+            name="map-marker-alt"
+            size={24}
+            color={tintColorLight}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

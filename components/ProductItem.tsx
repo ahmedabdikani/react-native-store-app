@@ -4,18 +4,21 @@ import { Image, TouchableOpacity } from "react-native";
 import { CardView, Text, useThemeColor, View } from "./Themed";
 import Layout from "../constants/Layout";
 import { tintColorLight } from "../constants/Colors";
-import { product } from "../Types/Product";
+import { Product } from "../Types/Product";
 
 const { height, width } = Layout.window;
 const padding = 10;
 const productWidth = (width - padding * 4) / 2;
 
-interface IProductProps {
-  product: product;
-  navigationToProduct: (product: product) => void;
+interface IProductItemProps {
+  product: Product;
+  navigationToProduct: (product: Product) => void;
 }
 
-const Product = ({ product, navigationToProduct }: IProductProps) => {
+const ProductItem: React.FC<IProductItemProps> = ({
+  product,
+  navigationToProduct,
+}) => {
   return (
     <TouchableOpacity
       onPress={() => navigationToProduct(product)}
@@ -60,4 +63,4 @@ const Product = ({ product, navigationToProduct }: IProductProps) => {
     </TouchableOpacity>
   );
 };
-export default Product;
+export default ProductItem;

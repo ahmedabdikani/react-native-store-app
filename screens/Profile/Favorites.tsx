@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Image, ListRenderItem } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import { CardView, Text, TextSec, View } from "../components/Themed";
-import { tintColorLight } from "../constants/Colors";
-import Layout from "../constants/Layout";
-import { Fonts, Sizes } from "../constants/Styles";
-import { product } from "../Types/Product";
-import { products } from "./Home";
+import { CardView, Text, TextSec, View } from "../../components/Themed";
+import { tintColorLight } from "../../constants/Colors";
+import Layout from "../../constants/Layout";
+import { Fonts, Sizes } from "../../constants/Styles";
+import { product } from "../../Types/Product";
+import { products } from "../Home/Home";
 
 const { width, height } = Layout.window;
 const padding = Sizes.base;

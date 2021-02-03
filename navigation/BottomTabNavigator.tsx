@@ -20,7 +20,7 @@ import Colors, { tintColorLight } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
-import Home from "../screens/Home";
+import Home from "../screens/Home/Home";
 import {
   BottomTabParamList,
   ChatStackPramList,
@@ -29,24 +29,24 @@ import {
   TabOneParamList,
   TabTwoParamList,
 } from "../types";
-import Product from "../screens/Product";
+import Product from "../screens/Home/Product";
 import IoniconsNameType from "@expo/vector-icons/build/Ionicons";
 import { Text, useThemeColor, View } from "../components/Themed";
 import { color } from "react-native-reanimated";
 import HearBeat from "../Icons/HearBeat";
 import Svg, { Path } from "react-native-svg";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import ShoppingCart from "../screens/ShoppingCart";
-import ViewScreen from "../screens/ViewScreen";
-import Profile from "../screens/Profile";
-import Rooms from "../screens/Rooms";
-import Chats from "../screens/Chats";
+import ShoppingCart from "../screens/Cart/ShoppingCart";
+import ViewScreen from "../screens/Home/ViewScreen";
+import Profile from "../screens/Profile/Profile";
+import Rooms from "../screens/Chat/Rooms";
+import Chats from "../screens/Chat/Chats";
 import Playground from "../screens/Playground";
-import Settings from "../screens/Settings";
-import Favorites from "../screens/Favorites";
+import Settings from "../screens/Profile/Settings";
+import Favorites from "../screens/Profile/Favorites";
 import { Fonts } from "../constants/Styles";
-import FollowedStores from "../screens/FollowedStores";
-import AddContact from "../screens/AddContact";
+import FollowedStores from "../screens/Profile/FollowedStores";
+import AddContact from "../screens/Chat/AddContact";
 
 // const ahmed extends IoniconsNameType<> = "Dd"
 // type pla<d extends >

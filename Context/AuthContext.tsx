@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
-import { Auth, db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { SignUpFormProps } from "../navigation/AuthStack";
 
 import user from "../Types/User";
@@ -41,9 +41,9 @@ export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    const unsupscribe = Auth.onAuthStateChanged(async (user) => {
+    const unsupscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        console.log(user);
+        // console.log(user);
 
         if (!user.emailVerified) {
           // user.sendEmailVerification();
@@ -83,7 +83,7 @@ export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
     rememberMe,
   }: signInWithEmailProps) => {
     try {
-      const { user } = await Auth.signInWithEmailAndPassword(email, password);
+      const { user } = await auth.signInWithEmailAndPassword(email, password);
       if (user) {
         setUser({
           id: user.uid,
@@ -103,7 +103,7 @@ export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
   const rememberUser = () => {};
   const signUpWithEmail = async ({ name, email, password }: Partial<user>) => {
     try {
-      const { user } = await Auth.createUserWithEmailAndPassword(
+      const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
       );
@@ -127,7 +127,7 @@ export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
   };
   const signOut = async () => {
     try {
-      await Auth.signOut();
+      await auth.signOut();
       setUser(null);
     } catch (error) {
       console.log(error);

@@ -19,20 +19,20 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-import ProductC from "../components/Product";
+import ProductItem from "../../components/ProductItem";
 import {
   CardView,
   Text,
   TextSec,
   useThemeColor,
   View,
-} from "../components/Themed";
-import { darkYellow, tintColorLight } from "../constants/Colors";
-import Layout from "../constants/Layout";
-import { Fonts } from "../constants/Styles";
-import { useCartContext } from "../Context/CartContext";
-import navigation from "../navigation";
-import { HomeStackPramList } from "../types";
+} from "../../components/Themed";
+import { darkYellow, tintColorLight } from "../../constants/Colors";
+import Layout from "../../constants/Layout";
+import { Fonts } from "../../constants/Styles";
+import { useCartContext } from "../../Context/CartContext";
+import navigation from "../../navigation";
+import { HomeStackPramList } from "../../types";
 
 const { width, height } = Layout.window;
 const padding = 10;
@@ -58,6 +58,7 @@ const products = Array.from({ length: 6 }, (_, i) => ({
 
   image: "https://source.unsplash.com/random/" + i,
 }));
+
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 interface IProductProps {
@@ -357,7 +358,7 @@ const Product = ({ navigation, route }: IProductProps) => {
                   key={index}
                   style={{ paddingVertical: padding, paddingRight: padding }}
                 >
-                  <ProductC product={product} />
+                  <ProductItem product={product} />
                 </View>
               );
             })}

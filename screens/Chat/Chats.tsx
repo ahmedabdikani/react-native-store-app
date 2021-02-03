@@ -3,12 +3,12 @@ import * as React from "react";
 import { useState } from "react";
 import { TextInput, Keyboard, Pressable } from "react-native";
 import { color } from "react-native-reanimated";
-import Avatar from "../components/Avatar";
+import Avatar from "../../components/Avatar";
 
-import { CardView, Text, useThemeColor, View } from "../components/Themed";
-import { tintColorLight } from "../constants/Colors";
-import Layout from "../constants/Layout";
-import { Fonts, Sizes } from "../constants/Styles";
+import { CardView, Text, useThemeColor, View } from "../../components/Themed";
+import { tintColorLight } from "../../constants/Colors";
+import Layout from "../../constants/Layout";
+import { Fonts, Sizes } from "../../constants/Styles";
 
 const padding = Sizes.base;
 const { width, height } = Layout.window;
