@@ -8,51 +8,50 @@ import {
   lightGreen,
 } from "../constants/Colors";
 import Layout from "../constants/Layout";
-import MiniAppCard from "./MiniAppsCard";
+import MiniAppItem from "./MiniAppItem";
 import { View } from "./Themed";
 
 const { height, width } = Layout.window;
 const miniAppWidth = (width - 60) / 4;
+const miniApps = [
+  {
+    appIcon: "hotel",
+    name: "FontAwesome5",
+    appName: "Hotels",
+    color: lightBlue,
+  },
+  {
+    name: "FontAwesome5",
+    appIcon: "plane",
+    appName: "Tickets",
+    color: tintColorLight,
+  },
+  {
+    name: "FontAwesome",
+    appIcon: "bank",
+    appName: "Bank",
+    color: lightGreen,
+  },
+  {
+    name: "FontAwesome",
+    appIcon: "mobile-phone",
+    appName: "Phone Recharge",
+    color: lightRed,
+  },
+];
 
-interface props {
-  colors: any;
-}
+interface IMiniAppList {}
 
-const MiniAppsContainer = ({ colors }: props) => {
+const MiniAppList: React.FC<IMiniAppList> = ({}) => {
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 20 }}>
-      {[
-        {
-          appIcon: "hotel",
-          name: "FontAwesome5",
-          appName: "Hotels",
-          color: lightBlue,
-        },
-        {
-          name: "FontAwesome5",
-          appIcon: "plane",
-          appName: "Tickets",
-          color: tintColorLight,
-        },
-        {
-          name: "FontAwesome",
-          appIcon: "bank",
-          appName: "Bank",
-          color: lightGreen,
-        },
-        {
-          name: "FontAwesome",
-          appIcon: "mobile-phone",
-          appName: "Phone Recharge",
-          color: lightRed,
-        },
-      ].map((item, index) => {
+      {miniApps.map((item, index) => {
         return (
           <TouchableOpacity
             key={index}
             style={{ marginRight: 10, marginBottom: 10 }}
           >
-            <MiniAppCard
+            <MiniAppItem
               width={miniAppWidth}
               color={item.color}
               appName={item.appName}
@@ -86,4 +85,4 @@ const MiniAppsContainer = ({ colors }: props) => {
   );
 };
 
-export default MiniAppsContainer;
+export default MiniAppList;

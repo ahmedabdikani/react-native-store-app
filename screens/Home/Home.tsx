@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { TextInput, StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
-import { NavigationProp, useTheme } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -14,13 +14,13 @@ import axios from "axios";
 import { Text, useThemeColor, View } from "../../components/Themed";
 import Colors, { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
-import MiniAppsContainer from "../../components/MiniAppContainer";
 import Advertisment from "../../components/Advertisment";
 import Product from "../../components/ProductItem";
 import Products from "../../components/ProductList";
 import useAxios from "../../hooks/useAxiosFetch";
 import { HomeStackPramList } from "../../types";
 import { Product as product } from "../../Types/Product";
+import MiniAppList from "../../components/MiniAppList";
 
 const { width, height } = Layout.window;
 const padding = 10;
@@ -42,12 +42,10 @@ export const products: product[] = Array.from({ length: 10 }, (_, i) => ({
   category: "",
   description: "",
 }));
+
 const fetchProducts = async () => {
   const { data, status } = await axios.get("https://fakestoreapi.com/products");
-
   if (status === 200) {
-    console.log(status);
-    data.image = []; //getImages(200);
     return Promise.resolve(data);
   }
 };
@@ -58,7 +56,6 @@ interface IHomeProps {
 
 const Home: React.FC<IHomeProps> = ({ navigation }) => {
   const { top } = useSafeAreaInsets();
-  const { colors } = useTheme();
 
   React.useEffect(() => {});
 
@@ -90,7 +87,7 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
         }}
       >
         <View>
-          <MiniAppsContainer colors={colors} />
+          <MiniAppList />
         </View>
         <Advertisment />
         <View style={{ marginTop: padding }}>
