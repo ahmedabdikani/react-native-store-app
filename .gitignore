@@ -9,6 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 config/
+.gitignore
 
 # macOS
 .DS_Store
