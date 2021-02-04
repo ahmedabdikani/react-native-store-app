@@ -1,10 +1,12 @@
 import * as React from "react";
-import { Image, TouchableOpacity } from "react-native";
+import { Image } from "react-native";
 
 import { CardView, Text, useThemeColor, View } from "./Themed";
 import Layout from "../constants/Layout";
 import { tintColorLight } from "../constants/Colors";
 import { Product } from "../Types/Product";
+import Button from "./Button";
+import { Fonts } from "../constants/Styles";
 
 const { height, width } = Layout.window;
 const padding = 10;
@@ -19,11 +21,10 @@ const ProductItem: React.FC<IProductItemProps> = ({
   product,
   navigationToProduct,
 }) => {
+  const secondaryColor = useThemeColor({}, "textSecondary");
+
   return (
-    <TouchableOpacity
-      onPress={() => navigationToProduct(product)}
-      style={{ flex: 1 }}
-    >
+    <Button onPress={() => navigationToProduct(product)} style={{ flex: 1 }}>
       <CardView
         style={{
           flex: 1,
@@ -33,7 +34,7 @@ const ProductItem: React.FC<IProductItemProps> = ({
         }}
       >
         <Image
-          source={{ uri: product.images[0] }}
+          source={{ uri: product?.images[0] }}
           style={{
             height: productWidth,
             width: productWidth,
@@ -41,26 +42,23 @@ const ProductItem: React.FC<IProductItemProps> = ({
             backgroundColor: "#fff",
           }}
         />
-        <View style={{ padding, backgroundColor: "transparent" }}>
+        <CardView style={{ padding }}>
           <Text numberOfLines={2}>{product.title}</Text>
-          <View
+          <CardView
             style={{
               flexDirection: "row",
-              backgroundColor: "transparent",
               justifyContent: "space-between",
               alignItems: "flex-end",
             }}
           >
-            <Text
-              style={{ fontSize: 18, color: tintColorLight, fontWeight: "600" }}
-            >
+            <Text style={{ ...Fonts.h3, color: tintColorLight }}>
               {product.price}$
             </Text>
-            <Text style={{ color: "#777" }}>150 people liked</Text>
-          </View>
-        </View>
+            <Text style={{ color: secondaryColor }}>150 people liked</Text>
+          </CardView>
+        </CardView>
       </CardView>
-    </TouchableOpacity>
+    </Button>
   );
 };
 export default ProductItem;

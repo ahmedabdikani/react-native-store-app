@@ -1,10 +1,11 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 
 import { tintColorLight } from "../constants/Colors";
 import { HomeStackPramList } from "../types";
+import { HomeNavigationProp } from "../Types/Home";
 import { Product } from "../Types/Product";
 import ProductItem from "./ProductItem";
 
@@ -13,26 +14,33 @@ const margin = 10;
 const numColmns = 2;
 
 interface IProductListProps {
-  navigation: NavigationProp<HomeStackPramList, "Home">;
   products: Product[];
 }
 
-const ProductList: React.FC<IProductListProps> = ({ navigation, products }) => {
+const ProductList: React.FC<IProductListProps> = ({ products }) => {
+  const navigation = useNavigation<HomeNavigationProp<"Home">["navigation"]>();
   const navigationToProduct = (product: Product) => {
     navigation.navigate("Product", { product });
   };
 
   return (
-    <View style={{}}>
+    <View
+      style={{
+        flex: 1,
+        marginBottom: margin,
+        alignItems: "center",
+        alignSelf: "center",
+      }}
+    >
+      <Header />
       <View
         style={{
-          marginBottom: margin,
-          alignItems: "center",
-          alignSelf: "center",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          flex: 1,
         }}
       >
-        <Header />
-
         {products?.map((product, index) => (
           <View style={{ marginRight: 10, marginBottom: 10 }}>
             <ProductItem
