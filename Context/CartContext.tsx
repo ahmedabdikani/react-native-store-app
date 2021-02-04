@@ -46,9 +46,7 @@ const reducer = (state: CartItem[], action: Actions) => {
       break;
     case "RemoveProductFromCart":
       index = findIndex(action.payload as Product["id"]);
-      if (state[index].amount >= 0) {
-        continue;
-      } else {
+      if (state[index].amount > 1) {
         state[index] = { ...state[index], amount: state[index].amount - 1 };
       }
       break;
