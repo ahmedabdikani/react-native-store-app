@@ -15,8 +15,7 @@ import { Text, useThemeColor, View } from "../../components/Themed";
 import Colors, { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import Advertisment from "../../components/Advertisment";
-import Product from "../../components/ProductItem";
-import Products from "../../components/ProductList";
+import ProductList from "../../components/ProductList";
 import useAxios from "../../hooks/useAxiosFetch";
 import { HomeStackPramList } from "../../types";
 import { Product as product } from "../../Types/Product";
@@ -65,7 +64,6 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
         <View
           style={{
             backgroundColor: "transparent",
-            // flex: 1,
             flexDirection: "row",
             alignItems: "center",
             paddingBottom: padding,
@@ -85,12 +83,10 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
           backgroundColor: useThemeColor({}, "background"),
         }}
       >
-        <View>
-          <MiniAppList />
-        </View>
+        <MiniAppList />
         <Advertisment />
         <View style={{ marginTop: padding }}>
-          <Products navigation={navigation} products={products} />
+          <ProductList products={products} />
         </View>
       </ScrollView>
     </View>

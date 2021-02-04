@@ -32,7 +32,7 @@ import { color } from "react-native-reanimated";
 import HearBeat from "../Icons/HearBeat";
 import Svg, { Path } from "react-native-svg";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import ShoppingCart from "../screens/Cart/ShoppingCart";
+import Cart from "../screens/Cart/Cart";
 import ViewScreen from "../screens/Home/ViewScreen";
 import Profile from "../screens/Profile/Profile";
 import Rooms from "../screens/Chat/Rooms";
@@ -43,6 +43,7 @@ import Favorites from "../screens/Profile/Favorites";
 import { Fonts } from "../constants/Styles";
 import FollowedStores from "../screens/Profile/FollowedStores";
 import AddContact from "../screens/Chat/AddContact";
+import { CartStackPramList } from "../Types/Cart";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -100,7 +101,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="ShoppingCart"
-        component={ShoppingCart}
+        component={CartNavigator}
         options={{
           tabBarIcon: ({ color, focused }) => {
             if (focused) {
@@ -335,5 +336,22 @@ const ProfileNavigator = () => {
         }}
       />
     </ProfileStack.Navigator>
+  );
+};
+
+const CartStack = createStackNavigator<CartStackPramList>();
+const CartNavigator = () => {
+  return (
+    <CartStack.Navigator screenOptions={{ headerShown: false }}>
+      <CartStack.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          headerShown: false,
+          headerTitleAlign: "center",
+          title: "Cart",
+        }}
+      />
+    </CartStack.Navigator>
   );
 };

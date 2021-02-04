@@ -1,23 +1,17 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { useState } from "react";
 import { FlatList, FlatListProps, Image } from "react-native";
-import {
-  PanGestureHandler,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   interpolate,
-  runOnJS,
-  set,
   useAnimatedGestureHandler,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import Button from "../../components/Button";
 
 import ProductItem from "../../components/ProductItem";
 import {
@@ -31,8 +25,8 @@ import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts } from "../../constants/Styles";
 import { useCartContext } from "../../Context/CartContext";
-import navigation from "../../navigation";
 import { HomeStackPramList } from "../../types";
+import { ProductNavigationProp, ProductRouteProp } from "../../Types/Product";
 
 const { width, height } = Layout.window;
 const padding = 10;
@@ -61,13 +55,12 @@ const products = Array.from({ length: 6 }, (_, i) => ({
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-interface IProductProps {
-  navigation: NavigationProp<HomeStackPramList, "Product">;
-  route: RouteProp<HomeStackPramList, "Product">;
-}
+interface IProductProps
+  extends ProductNavigationProp<"Product">,
+    ProductRouteProp<"Product"> {}
 
 const Product = ({ navigation, route }: IProductProps) => {
-  const { setCartItems } = useCartContext();
+  const { addProductToCart } = useCartContext();
   const { product } = route.params;
   const backgroundColor = useThemeColor({}, "card");
   const y = useSharedValue<number>(0);
@@ -116,7 +109,6 @@ const Product = ({ navigation, route }: IProductProps) => {
     const renderCorousel = () => {
       return (
         <AnimatedFlatList
-          // style={style}
           horizontal
           scroll={onScroll}
           pagingEnabled
@@ -124,11 +116,10 @@ const Product = ({ navigation, route }: IProductProps) => {
           data={product?.images}
           renderItem={({ item: image, index }) => {
             return (
-              <TouchableOpacity
-                activeOpacity={0.7}
+              <Button
                 onPress={() =>
                   navigation.navigate("ViewContent", {
-                    imageUri: image,
+                    uri: image,
                   })
                 }
               >
@@ -136,7 +127,7 @@ const Product = ({ navigation, route }: IProductProps) => {
                   style={[{ width, height: imageHeight }, style]}
                   source={{ uri: image }}
                 />
-              </TouchableOpacity>
+              </Button>
             );
           }}
           keyExtractor={(_, index) => index.toString()}
@@ -240,7 +231,7 @@ const Product = ({ navigation, route }: IProductProps) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>Comments</Text>
-            <TouchableOpacity>
+            <Button>
               <Text
                 style={{
                   color: tintColorLight,
@@ -250,7 +241,7 @@ const Product = ({ navigation, route }: IProductProps) => {
               >
                 See more
               </Text>
-            </TouchableOpacity>
+            </Button>
           </CardView>
           {comments.map(renderCommentItem)}
         </CardView>
@@ -266,7 +257,7 @@ const Product = ({ navigation, route }: IProductProps) => {
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>
               Furniture Store
             </Text>
-            <TouchableOpacity>
+            <Button>
               <Text
                 style={{
                   color: tintColorLight,
@@ -276,7 +267,7 @@ const Product = ({ navigation, route }: IProductProps) => {
               >
                 See more
               </Text>
-            </TouchableOpacity>
+            </Button>
           </CardView>
           <CardView style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {products.map(renderSimilarProductItem)}
@@ -290,7 +281,7 @@ const Product = ({ navigation, route }: IProductProps) => {
       index: number
     ) => {
       return (
-        <TouchableOpacity
+        <Button
           onPress={() => navigation.navigate("Product", { product })}
           key={index}
           style={{ margin: padding }}
@@ -312,7 +303,7 @@ const Product = ({ navigation, route }: IProductProps) => {
               ${item.price}
             </Text>
           </CardView>
-        </TouchableOpacity>
+        </Button>
       );
     };
 
@@ -400,27 +391,9 @@ const Product = ({ navigation, route }: IProductProps) => {
         <FontAwesome name="star" color={tintColorLight} size={24} />
 
         <View style={{ flexDirection: "row", backgroundColor: "transparent" }}>
-          <TouchableOpacity
+          <Button
             onPress={() => {
-              setCartItems((prev) => {
-                if (prev.length === 0) {
-                  return [{ product, amount: 1 }];
-                }
-                const productExists = prev.find(
-                  (cartItem) => product?.id === cartItem.product.id
-                );
-                if (productExists) {
-                  return prev.map((cartItem) => {
-                    if (cartItem.product.id === product?.id) {
-                      return { ...cartItem, amount: cartItem.amount + 1 };
-                    } else {
-                      return cartItem;
-                    }
-                  });
-                } else {
-                  return [...prev, { product, amount: 1 }];
-                }
-              });
+              addProductToCart(product);
             }}
             style={{
               justifyContent: "center",
@@ -435,9 +408,9 @@ const Product = ({ navigation, route }: IProductProps) => {
             <Text style={{ color: "#fff", fontWeight: "bold" }}>
               Send to cart
             </Text>
-          </TouchableOpacity>
+          </Button>
 
-          <TouchableOpacity
+          <Button
             style={{
               justifyContent: "center",
               alignItems: "center",
@@ -449,7 +422,7 @@ const Product = ({ navigation, route }: IProductProps) => {
             }}
           >
             <Text style={{ color: "#fff", fontWeight: "bold" }}>Puy item</Text>
-          </TouchableOpacity>
+          </Button>
         </View>
       </View>
     );

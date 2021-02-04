@@ -7,7 +7,7 @@ export type HomeStackPramList = {
     product: Product;
   };
   ViewContent: {
-    imageUri: string;
+    uri: string;
   };
 };
 

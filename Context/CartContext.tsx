@@ -1,29 +1,102 @@
 import * as React from "react";
-import { product } from "../Types/Product";
-import { cartItem } from "../Types/ShoppingCart";
+import { CartItem } from "../Types/Cart";
+import { Product } from "../Types/Product";
 
-interface CartContextType {
-  cartItems: cartItem[];
-  setCartItems: React.SetStateAction<cartItem[]>;
+export type AddProductFromCartType = (product: Product) => void;
+export type RemoveProductFromCartType = (id: Product["id"]) => void;
+
+interface CartContext {
+  cartItems: CartItem[];
+  total: number;
+  addProductToCart: AddProductFromCartType;
+  removeProductFromCart: RemoveProductFromCartType;
+  deleteProductFromCart: RemoveProductFromCartType;
 }
 
-const CartContext = React.createContext<CartContextType>({} as CartContextType);
+type AddProductToCart = {
+  type: "AddProductToCart";
+  payload: Product;
+};
+type RemoveProductFromCart = {
+  type: "RemoveProductFromCart";
+  payload: Product["id"];
+};
+type DeleteProductFromCart = {
+  type: "DeleteProductFromCart";
+  payload: Product["id"];
+};
+
+type Actions = AddProductToCart | RemoveProductFromCart | DeleteProductFromCart;
+
+const reducer = (state: CartItem[], action: Actions) => {
+  let index;
+
+  const findIndex = (id: Product["id"]) => {
+    return state.findIndex((cartItem) => cartItem.product.id === id);
+  };
+
+  switch (action.type) {
+    case "AddProductToCart":
+      index = findIndex(action.payload.id);
+      if (index < 0) {
+        state = [...state, { product: action.payload, amount: 1 }];
+      } else {
+        state[index] = { ...state[index], amount: state[index].amount + 1 };
+      }
+      break;
+    case "RemoveProductFromCart":
+      index = findIndex(action.payload as Product["id"]);
+      if (state[index].amount >= 0) {
+        continue;
+      } else {
+        state[index] = { ...state[index], amount: state[index].amount - 1 };
+      }
+      break;
+    case "DeleteProductFromCart":
+      state = state.filter((item) => item.product.id !== action.payload);
+      break;
+    default:
+      state = state;
+  }
+  return state;
+};
+
+const CartContext = React.createContext<CartContext>({} as CartContext);
 
 export const useCartContext = () => {
   return React.useContext(CartContext);
 };
 
-interface ICartContextProviderProps {}
+interface ICartProviderProps {}
 
-const CartContextProvider: React.FC<ICartContextProviderProps> = ({
-  children,
-}) => {
-  const [cartItems, setCartItems] = React.useState<cartItem[]>([]);
+export const CartProvider: React.FC<ICartProviderProps> = ({ children }) => {
+  const [state, useDispatch] = React.useReducer(reducer, []);
 
+  const total = state.reduce(
+    (acc, cartItem) => parseInt(cartItem.product.price) * cartItem.amount + acc,
+    0
+  );
+
+  const addProductToCart = (product: Product) => {
+    useDispatch({ payload: product, type: "AddProductToCart" });
+  };
+  const removeProductFromCart = (id: Product["id"]) => {
+    useDispatch({ payload: id, type: "RemoveProductFromCart" });
+  };
+  const deleteProductFromCart = (id: Product["id"]) => {
+    useDispatch({ payload: id, type: "DeleteProductFromCart" });
+  };
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems }}>
+    <CartContext.Provider
+      value={{
+        cartItems: state,
+        total,
+        deleteProductFromCart,
+        removeProductFromCart,
+        addProductToCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
-export default CartContextProvider;

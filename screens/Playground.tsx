@@ -19,7 +19,6 @@ import Layout from "../constants/Layout";
 interface IChatsProps {}
 
 const Chats = ({}: IChatsProps) => {
-  // const value = useSharedValue<number>(10);
   const x = useSharedValue<number>(0);
   const y = useSharedValue<number>(0);
 
@@ -71,7 +70,7 @@ const Chats = ({}: IChatsProps) => {
   });
 
   // useEffect(() => {
-  //   value.value = withRepeat(withTiming(200, { duration: 1000 }), -1, true);
+
   // }, []);
 
   return (

@@ -4,7 +4,10 @@ import { FlatList, ListRenderItem } from "react-native";
 
 import Layout from "../constants/Layout";
 import { Fonts, Sizes } from "../constants/Styles";
-import { DeleteCartItem, UpdateCartItem } from "../Context/CartContext";
+import {
+  AddProductFromCartType,
+  RemoveProductFromCartType,
+} from "../Context/CartContext";
 import { CartItem } from "../Types/Cart";
 import Item from "./CartItem";
 import { TextSec, useThemeColor, View } from "./Themed";
@@ -15,15 +18,17 @@ const padding = Sizes.base;
 interface ICartListProps {
   cartItems: CartItem[];
   openMore: boolean;
-  updateCartItem: UpdateCartItem;
-  deleteCartItem: DeleteCartItem;
+  deleteProductFromCart: RemoveProductFromCartType;
+  removeProductFromCart: RemoveProductFromCartType;
+  addProductToCart: AddProductFromCartType;
 }
 
 const CartList: React.FC<ICartListProps> = ({
   cartItems,
   openMore,
-  updateCartItem,
-  deleteCartItem,
+  deleteProductFromCart,
+  removeProductFromCart,
+  addProductToCart,
 }) => {
   const color = useThemeColor({}, "text");
 
@@ -32,8 +37,9 @@ const CartList: React.FC<ICartListProps> = ({
       <Item
         cartItem={cartItem}
         openMore={openMore}
-        updateCartItem={updateCartItem}
-        deleteCartItem={deleteCartItem}
+        addProductToCart={addProductToCart}
+        removeProductFromCart={removeProductFromCart}
+        deleteProductFromCart={deleteProductFromCart}
       />
     );
   };
