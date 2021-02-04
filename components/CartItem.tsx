@@ -5,7 +5,7 @@ import { Image } from "react-native";
 import { tintColorLight } from "../constants/Colors";
 import { Sizes } from "../constants/Styles";
 import {
-  AddProductFromCartType,
+  AddProductToCartType,
   RemoveProductFromCartType,
 } from "../Context/CartContext";
 import { CartItem as ItemType } from "../Types/Cart";
@@ -17,7 +17,7 @@ const padding = Sizes.base;
 interface ICartItemProps {
   cartItem: ItemType;
   openMore: boolean;
-  addProductToCart: AddProductFromCartType;
+  addProductToCart: AddProductToCartType;
   removeProductFromCart: RemoveProductFromCartType;
   deleteProductFromCart: RemoveProductFromCartType;
 }
@@ -127,7 +127,7 @@ interface IAmountProp {
   textColor: string;
   cartItem: ItemType;
   removeProductFromCart: RemoveProductFromCartType;
-  addProductToCart: AddProductFromCartType;
+  addProductToCart: AddProductToCartType;
 }
 
 const Amount = ({

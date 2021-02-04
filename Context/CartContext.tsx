@@ -2,13 +2,13 @@ import * as React from "react";
 import { CartItem } from "../Types/Cart";
 import { Product } from "../Types/Product";
 
-export type AddProductFromCartType = (product: Product) => void;
+export type AddProductToCartType = (product: Product) => void;
 export type RemoveProductFromCartType = (id: Product["id"]) => void;
 
 interface CartContext {
   cartItems: CartItem[];
   total: number;
-  addProductToCart: AddProductFromCartType;
+  addProductToCart: AddProductToCartType;
   removeProductFromCart: RemoveProductFromCartType;
   deleteProductFromCart: RemoveProductFromCartType;
 }

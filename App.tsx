@@ -24,12 +24,12 @@ export default function App() {
       <SafeAreaProvider>
         <QueryClientProvider client={client}>
           <AuthProvider>
-            <ChatProvier>
+            <CartProvider>
               <ChatProvier>
                 <StatusBar style={"auto"} />
                 <Navigation colorScheme={colorScheme} />
               </ChatProvier>
-            </ChatProvier>
+            </CartProvider>
           </AuthProvider>
         </QueryClientProvider>
       </SafeAreaProvider>

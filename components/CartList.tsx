@@ -5,7 +5,7 @@ import { FlatList, ListRenderItem } from "react-native";
 import Layout from "../constants/Layout";
 import { Fonts, Sizes } from "../constants/Styles";
 import {
-  AddProductFromCartType,
+  AddProductToCartType,
   RemoveProductFromCartType,
 } from "../Context/CartContext";
 import { CartItem } from "../Types/Cart";
@@ -20,7 +20,7 @@ interface ICartListProps {
   openMore: boolean;
   deleteProductFromCart: RemoveProductFromCartType;
   removeProductFromCart: RemoveProductFromCartType;
-  addProductToCart: AddProductFromCartType;
+  addProductToCart: AddProductToCartType;
 }
 
 const CartList: React.FC<ICartListProps> = ({

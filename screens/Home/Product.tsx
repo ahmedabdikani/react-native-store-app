@@ -373,8 +373,6 @@ const Product = ({ navigation, route }: IProductProps) => {
     );
   };
 
-  // React.useCallback( , []);
-
   const renderFooter = () => {
     return (
       <View
@@ -392,9 +390,7 @@ const Product = ({ navigation, route }: IProductProps) => {
 
         <View style={{ flexDirection: "row", backgroundColor: "transparent" }}>
           <Button
-            onPress={() => {
-              addProductToCart(product);
-            }}
+            onPress={() => addProductToCart(product)}
             style={{
               justifyContent: "center",
               alignItems: "center",
