@@ -15,7 +15,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-import { useAuthContext } from "../Context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 import {
   CardView,
   Text,
@@ -26,7 +26,7 @@ import {
 import { tintColorLight } from "../constants/Colors";
 import { Fonts, Sizes } from "../constants/Styles";
 import firebaseConfig from "../config/firebaseConfig";
-import user from "../Types/User";
+import user from "../types/User";
 import Layout from "../constants/Layout";
 import { UseQueryResult } from "react-query";
 import { useState } from "react";
@@ -560,7 +560,6 @@ const SignUp = ({ navigation }) => {
                 placeholder="Enter Name..."
                 placeholderTextColor={color}
                 onBlur={onBlur}
-                style={{ color, ...Fonts.body2, flex: 1 }}
               />
             )}
             name="name"

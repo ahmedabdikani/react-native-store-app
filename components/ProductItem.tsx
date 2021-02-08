@@ -4,7 +4,7 @@ import { Image } from "react-native";
 import { CardView, Text, useThemeColor, View } from "./Themed";
 import Layout from "../constants/Layout";
 import { tintColorLight } from "../constants/Colors";
-import { Product } from "../Types/Product";
+import { Product } from "../types/Product";
 import Button from "./Button";
 import { Fonts } from "../constants/Styles";
 
@@ -31,6 +31,7 @@ const ProductItem: React.FC<IProductItemProps> = ({
           borderRadius: padding,
           overflow: "hidden",
           width: productWidth,
+          marginRight: padding,
         }}
       >
         <Image
@@ -61,4 +62,5 @@ const ProductItem: React.FC<IProductItemProps> = ({
     </Button>
   );
 };
+
 export default ProductItem;

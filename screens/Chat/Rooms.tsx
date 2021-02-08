@@ -15,7 +15,7 @@ import {
 } from "../../components/Themed";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
-import { useAuthContext } from "../../Context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 import navigation from "../../navigation";
 
 const { height, width } = Layout.window;

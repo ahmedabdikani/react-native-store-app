@@ -7,8 +7,8 @@ import { Sizes } from "../constants/Styles";
 import {
   AddProductToCartType,
   RemoveProductFromCartType,
-} from "../Context/CartContext";
-import { CartItem as ItemType } from "../Types/Cart";
+} from "../context/CartContext";
+import { CartItem as ItemType } from "../types/Cart";
 import Button from "./Button";
 import { CardView, Text, useThemeColor } from "./Themed";
 

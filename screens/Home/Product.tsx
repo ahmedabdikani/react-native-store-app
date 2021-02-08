@@ -1,7 +1,14 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { useState } from "react";
-import { FlatList, FlatListProps, Image } from "react-native";
+import {
+  FlatList,
+  ListRenderItem,
+  Image,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   interpolate,
@@ -24,9 +31,13 @@ import {
 import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts } from "../../constants/Styles";
-import { useCartContext } from "../../Context/CartContext";
-import { HomeStackPramList } from "../../types";
-import { ProductNavigationProp, ProductRouteProp } from "../../Types/Product";
+import { useCartContext } from "../../context/CartContext";
+import { HomeNavigationProp } from "../../types/Home";
+import {
+  Product,
+  ProductNavigationProp,
+  ProductRouteProp,
+} from "../../types/Product";
 
 const { width, height } = Layout.window;
 const padding = 10;
@@ -44,34 +55,17 @@ const comments = Array.from({ length: 3 }, (_, index) => {
   };
 });
 
-const products = Array.from({ length: 6 }, (_, i) => ({
-  id: Math.random() * 100000,
-  title:
-    "officiis magnam consectetur. Quae suscipit sed excepturi ad praesentium odit corrupti voluptates esse quasi consequuntur, minus ipsa.",
-  price: Math.floor(Math.random() * 400) + 103,
-
-  image: "https://source.unsplash.com/random/" + i,
-}));
-
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 interface IProductProps
   extends ProductNavigationProp<"Product">,
     ProductRouteProp<"Product"> {}
 
-const Product = ({ navigation, route }: IProductProps) => {
-  const { addProductToCart } = useCartContext();
+const ProductScreen = ({ navigation, route }: IProductProps) => {
   const { product } = route.params;
   const backgroundColor = useThemeColor({}, "card");
   const y = useSharedValue<number>(0);
-  const x = useSharedValue<number>(0);
   const [index, setIndex] = useState<number>(1);
-
-  const onScroll = useAnimatedScrollHandler({
-    onMomentumEnd: ({ contentOffset }) => {
-      x.value = contentOffset.x;
-    },
-  });
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: (_, ctx) => {
@@ -84,13 +78,6 @@ const Product = ({ navigation, route }: IProductProps) => {
     onEnd: () => {
       // y.value = withSpring(imageHeight);
     },
-  });
-
-  const style = useAnimatedStyle(() => {
-    const inputRange = [0, -200];
-    return {
-      transform: [{ scaleY: withSpring(1) }, { translateX: 0 }], //interpolate(y.value, inputRange, [imageHeight, 1]),
-    };
   });
 
   React.useEffect(() => {
@@ -106,36 +93,7 @@ const Product = ({ navigation, route }: IProductProps) => {
   }, [navigation]);
 
   const renderItem = () => {
-    const renderCorousel = () => {
-      return (
-        <AnimatedFlatList
-          horizontal
-          scroll={onScroll}
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          data={product?.images}
-          renderItem={({ item: image, index }) => {
-            return (
-              <Button
-                onPress={() =>
-                  navigation.navigate("ViewContent", {
-                    uri: image,
-                  })
-                }
-              >
-                <Animated.Image
-                  style={[{ width, height: imageHeight }, style]}
-                  source={{ uri: image }}
-                />
-              </Button>
-            );
-          }}
-          keyExtractor={(_, index) => index.toString()}
-        />
-      );
-    };
-
-    const renderPagination = () => {
+    const Pagination = () => {
       return (
         <View
           style={{
@@ -151,12 +109,14 @@ const Product = ({ navigation, route }: IProductProps) => {
             alignItems: "center",
           }}
         >
-          <Text style={{ color: "#fff" }}>{index + "/" + products.length}</Text>
+          <Text style={{ color: "#fff" }}>
+            {index + "/" + product.images.length}
+          </Text>
         </View>
       );
     };
 
-    const renderProductInfo = () => {
+    const Details = () => {
       return (
         <View style={{ padding }}>
           <View
@@ -197,7 +157,7 @@ const Product = ({ navigation, route }: IProductProps) => {
       );
     };
 
-    const renderCommentItem = (item: typeof comments[0], index: number) => {
+    const CommentItem = (item: typeof comments[0], index: number) => {
       return (
         <CardView style={{ marginTop: padding }} key={index}>
           <CardView style={{ flexDirection: "row" }}>
@@ -215,7 +175,9 @@ const Product = ({ navigation, route }: IProductProps) => {
               <Text>5 days ago</Text>
             </CardView>
           </CardView>
-          <CardView style={{ marginVertical: padding * 0.5 }}>
+          <CardView
+            style={{ marginVertical: padding * 0.5, marginHorizontal: padding }}
+          >
             <TextSec numberOfLines={2} style={{ fontSize: 15 }}>
               {item.title}
             </TextSec>
@@ -224,29 +186,46 @@ const Product = ({ navigation, route }: IProductProps) => {
       );
     };
 
-    const renderCommentSection = () => {
+    const ProductComments = () => {
+      const children = CommentItem;
       return (
-        <CardView style={{ margin: padding, padding, borderRadius: padding }}>
-          <CardView
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Comments</Text>
-            <Button>
-              <Text
-                style={{
-                  color: tintColorLight,
-                  textDecorationLine: "underline",
-                  fontWeight: "bold",
-                }}
-              >
-                See more
-              </Text>
-            </Button>
-          </CardView>
-          {comments.map(renderCommentItem)}
-        </CardView>
+        <RenderList
+          style={{
+            padding: padding,
+            borderRadius: padding,
+            backgroundColor,
+            marginHorizontal: padding,
+          }}
+          data={comments}
+        >
+          {children}
+        </RenderList>
       );
     };
+
+    // const renderCommentSection = () => {
+    //   return (
+    //     <CardView style={{ margin: padding, padding, borderRadius: padding }}>
+    //       <CardView
+    //         style={{ flexDirection: "row", justifyContent: "space-between" }}
+    //       >
+    //         <Text style={{ fontSize: 15, fontWeight: "bold" }}>Comments</Text>
+    //         <Button>
+    //           <Text
+    //             style={{
+    //               color: tintColorLight,
+    //               textDecorationLine: "underline",
+    //               fontWeight: "bold",
+    //             }}
+    //           >
+    //             See more
+    //           </Text>
+    //         </Button>
+    //       </CardView>
+    //       {comments.map(renderCommentItem)}
+    //     </CardView>
+    //   );
+    // };
 
     const renderSimilarItemsSection = () => {
       return (
@@ -270,16 +249,13 @@ const Product = ({ navigation, route }: IProductProps) => {
             </Button>
           </CardView>
           <CardView style={{ flexDirection: "row", flexWrap: "wrap" }}>
-            {products.map(renderSimilarProductItem)}
+            {/* {products.map(renderSimilarProductItem)} */}
           </CardView>
         </CardView>
       );
     };
 
-    const renderSimilarProductItem = (
-      item: typeof products[0],
-      index: number
-    ) => {
+    const renderSimilarProductItem = (item: Product, index: number) => {
       return (
         <Button
           onPress={() => navigation.navigate("Product", { product })}
@@ -307,9 +283,9 @@ const Product = ({ navigation, route }: IProductProps) => {
       );
     };
 
-    const renderMoreProductInfo = () => {
+    const MoreDetails = () => {
       return (
-        <View>
+        <View style={{ paddingHorizontal: padding }}>
           <Text style={{ ...Fonts.body2, paddingVertical: padding }}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, in
             maiores. Eligendi magni explicabo, accusantium, nisi deserunt
@@ -321,7 +297,7 @@ const Product = ({ navigation, route }: IProductProps) => {
               <Image
                 key={index}
                 source={{ uri: image }}
-                style={{ width, height: width }}
+                style={{ width: width - padding * 2, height: width }}
               />
             );
           })}
@@ -342,7 +318,7 @@ const Product = ({ navigation, route }: IProductProps) => {
             Similar Items
           </Text>
           <View style={{ flexWrap: "wrap", flexDirection: "row", flex: 1 }}>
-            {products.map((product, index) => {
+            {[].map((product, index) => {
               product.images = [product.image];
               return (
                 <View
@@ -361,65 +337,15 @@ const Product = ({ navigation, route }: IProductProps) => {
     return (
       <View style={{ flex: 1 }}>
         <View>
-          {renderCorousel()}
-          {renderPagination()}
+          <Carousel images={product.images} />
+          {Pagination()}
         </View>
-        {renderProductInfo()}
-        {renderCommentSection()}
-        {renderSimilarItemsSection()}
-        {renderMoreProductInfo()}
+        {Details()}
+        {/* {renderCommentSection()} */}
+        <ProductComments />
+        {/* {renderSimilarItemsSection()} */}
+        {MoreDetails()}
         {/* {renderSimilarProducts()} */}
-      </View>
-    );
-  };
-
-  const renderFooter = () => {
-    return (
-      <View
-        style={{
-          backgroundColor: useThemeColor({}, "card"),
-          flexDirection: "row",
-          paddingHorizontal: padding,
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <FontAwesome5 name="store" color={tintColorLight} size={20} />
-        <FontAwesome5 name="comment-dots" color={"#777"} size={24} />
-        <FontAwesome name="star" color={tintColorLight} size={24} />
-
-        <View style={{ flexDirection: "row", backgroundColor: "transparent" }}>
-          <Button
-            onPress={() => addProductToCart(product)}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              borderBottomLeftRadius: padding * 3,
-              borderTopLeftRadius: padding * 3,
-              height: 50,
-              width: 120,
-              backgroundColor: darkYellow,
-            }}
-          >
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>
-              Send to cart
-            </Text>
-          </Button>
-
-          <Button
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              borderBottomRightRadius: padding * 3,
-              borderTopRightRadius: padding * 3,
-              height: 50,
-              width: 120,
-              backgroundColor: tintColorLight,
-            }}
-          >
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>Puy item</Text>
-          </Button>
-        </View>
       </View>
     );
   };
@@ -429,16 +355,139 @@ const Product = ({ navigation, route }: IProductProps) => {
       {/* <PanGestureHandler onGestureEvent={onGestureEvent}> */}
       {/* <Animated.View style={{ flex: 1 }}> */}
       <FlatList
-        // onScroll={onScroll}
         data={[1]}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
       />
-      {renderFooter()}
+      <Footer product={product} />
       {/* </Animated.View> */}
       {/* </PanGestureHandler> */}
     </View>
   );
 };
 
-export default Product;
+interface IRenderListProps<T> {
+  data: T[];
+  style?: StyleProp<ViewStyle>;
+}
+
+const RenderList = ({
+  children,
+  data,
+  style,
+}: React.PropsWithChildren<IRenderListProps<T>>) => {
+  return (
+    <View style={style}>
+      {data.map((item, index) => children(item, index))}
+    </View>
+  );
+};
+
+const Carousel = ({ images }: { images: Product["images"] }) => {
+  const x = useSharedValue<number>(0);
+
+  const onScroll = useAnimatedScrollHandler({
+    onMomentumEnd: ({ contentOffset }) => {
+      x.value = contentOffset.x;
+    },
+  });
+
+  const renderCarouselItem: ListRenderItem<Product["images"][0]> = ({
+    item,
+    index,
+  }) => {
+    return <CarouselItem uri={item} x={x} />;
+  };
+
+  return (
+    <AnimatedFlatList
+      horizontal
+      scroll={onScroll}
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      data={images}
+      renderItem={renderCarouselItem}
+      keyExtractor={(_, index: number) => index.toString()}
+    />
+  );
+};
+
+const CarouselItem = ({
+  uri,
+  x,
+}: {
+  uri: string;
+  x: Animated.SharedValue<number>;
+}) => {
+  const style = useAnimatedStyle(() => ({}));
+
+  const navigation = useNavigation<
+    HomeNavigationProp<"ViewContent">["navigation"]
+  >();
+
+  return (
+    <Button onPress={() => navigation.navigate("ViewContent", { uri })}>
+      <Animated.Image
+        style={[{ width, height: imageHeight }, style]}
+        source={{ uri }}
+      />
+    </Button>
+  );
+};
+
+const Footer = ({ product }: { product: Product }) => {
+  const { addProductToCart } = useCartContext();
+  const backgroundColor = useThemeColor({}, "card");
+  const textSecondary = useThemeColor({}, "textSecondary");
+
+  return (
+    <View
+      style={{
+        backgroundColor,
+        flexDirection: "row",
+        paddingHorizontal: padding,
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <FontAwesome5 name="store" color={tintColorLight} size={20} />
+      <FontAwesome5 name="comment-dots" color={textSecondary} size={24} />
+      <FontAwesome name="star" color={tintColorLight} size={24} />
+
+      <CardView style={{ flexDirection: "row" }}>
+        <Button
+          onPress={() => addProductToCart(product)}
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            borderBottomLeftRadius: padding * 3,
+            borderTopLeftRadius: padding * 3,
+            height: 50,
+            width: 120,
+            backgroundColor: darkYellow,
+          }}
+        >
+          <Text style={{ color: "#fff", fontWeight: "bold" }}>
+            Send to cart
+          </Text>
+        </Button>
+
+        <Button
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            borderBottomRightRadius: padding * 3,
+            borderTopRightRadius: padding * 3,
+            height: 50,
+            width: 120,
+            backgroundColor: tintColorLight,
+          }}
+        >
+          <Text style={{ color: "#fff", fontWeight: "bold" }}>Puy item</Text>
+        </Button>
+      </CardView>
+    </View>
+  );
+};
+
+export default ProductScreen;

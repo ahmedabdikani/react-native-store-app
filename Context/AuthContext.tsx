@@ -3,9 +3,9 @@ import * as React from "react";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 import { auth, db } from "../config/firebase";
-import { SignUpFormProps } from "../navigation/AuthStack";
+import { SignUpFormProps } from "../navigation/AuthNavigator";
 
-import user from "../Types/User";
+import user from "../types/User";
 
 interface signInWithEmailProps {
   email: string;

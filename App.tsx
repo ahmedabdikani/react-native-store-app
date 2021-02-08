@@ -3,13 +3,13 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "react-query";
-import { CartProvider } from "./Context/CartContext";
+import { CartProvider } from "./context/CartContext";
 
-import { AuthProvider } from "./Context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { ChatProvier } from "./Context/ChatContext";
+import { ChatProvier } from "./context/ChatContext";
 
 const client = new QueryClient();
 

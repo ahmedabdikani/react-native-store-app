@@ -13,10 +13,10 @@ import {
 } from "../../components/Themed";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
-import { CartItem, CartNavigationProp, CartRouteProp } from "../../Types/Cart";
-import { useCartContext } from "../../Context/CartContext";
+import { CartItem, CartNavigationProp, CartRouteProp } from "../../types/Cart";
+import { useCartContext } from "../../context/CartContext";
 import { Fonts } from "../../constants/Styles";
-import { Product } from "../../Types/Product";
+import { Product } from "../../types/Product";
 import { FontAwesome } from "@expo/vector-icons";
 import Button from "../../components/Button";
 import CartList from "../../components/CartList";
@@ -34,13 +34,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
   const backgroundColor = useThemeColor({}, "card");
   const tabBarheight = useBottomTabBarHeight();
   const [openMore, setOpenMore] = React.useState(false);
-  const {
-    cartItems,
-    total,
-    addProductToCart,
-    deleteProductFromCart,
-    removeProductFromCart,
-  } = useCartContext();
+  const { cartItems, total } = useCartContext();
 
   const header = () => {
     return (
@@ -64,7 +58,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
           </TouchableOpacity>
         </CardView>
         <CardView>
-          <Text> {cartItems?.length} Items</Text>
+          <Text> Items {cartItems.length}</Text>
         </CardView>
       </CardView>
     );
@@ -115,13 +109,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
       <CardView style={{ height: top, width }} />
       <View style={styles.container}>
         {header()}
-        <CartList
-          cartItems={cartItems}
-          addProductToCart={addProductToCart}
-          removeProductFromCart={removeProductFromCart}
-          deleteProductFromCart={deleteProductFromCart}
-          openMore={openMore}
-        />
+        <CartList cartItems={cartItems} openMore={openMore} />
         {footer()}
       </View>
     </View>

@@ -8,10 +8,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Fonts, Sizes } from "../../constants/Styles";
 import { Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useChatContext } from "../../Context/ChatContext";
+import { useChatContext } from "../../context/ChatContext";
 import { useState } from "react";
 import Avatar from "../../components/Avatar";
-import { useAuthContext } from "../../Context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 
 interface IAddContactProps {}
 

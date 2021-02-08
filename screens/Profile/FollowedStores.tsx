@@ -11,8 +11,8 @@ import {
   View,
 } from "../../components/Themed";
 import { Fonts, Sizes } from "../../constants/Styles";
-import { product } from "../../Types/Product";
-import { products } from "../Home/Home";
+import { product } from "../../types/Product";
+import { products } from "../home/Home";
 
 const padding = Sizes.base;
 

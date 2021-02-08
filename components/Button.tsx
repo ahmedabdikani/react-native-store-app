@@ -10,6 +10,7 @@ const Button: React.FC<IButtonProps> = ({ children, style, ...otherProps }) => {
       {...otherProps}
       style={({ pressed }) => ({
         opacity: pressed ? 0.3 : 1,
+        ...style,
       })}
     >
       {children}

@@ -18,32 +18,32 @@ import * as React from "react";
 
 import Colors, { tintColorLight } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import Home from "../screens/Home/Home";
+import Home from "../screens/home/Home";
 import {
   BottomTabParamList,
   ChatStackPramList,
   HomeStackPramList,
   ProfileStackPramList,
 } from "../types";
-import Product from "../screens/Home/Product";
+import Product from "../screens/home/Product";
 import IoniconsNameType from "@expo/vector-icons/build/Ionicons";
 import { Text, useThemeColor, View } from "../components/Themed";
 import { color } from "react-native-reanimated";
 import HearBeat from "../Icons/HearBeat";
 import Svg, { Path } from "react-native-svg";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Cart from "../screens/Cart/Cart";
-import ViewScreen from "../screens/Home/ViewScreen";
-import Profile from "../screens/Profile/Profile";
-import Rooms from "../screens/Chat/Rooms";
-import Chats from "../screens/Chat/Chats";
+import Cart from "../screens/cart/Cart";
+import ViewScreen from "../screens/home/ViewScreen";
+import Profile from "../screens/profile/Profile";
+import Rooms from "../screens/chat/Rooms";
+import Chats from "../screens/chat/Chats";
 import Playground from "../screens/Playground";
-import Settings from "../screens/Profile/Settings";
-import Favorites from "../screens/Profile/Favorites";
+import Settings from "../screens/profile/Settings";
+import Favorites from "../screens/profile/Favorites";
 import { Fonts } from "../constants/Styles";
-import FollowedStores from "../screens/Profile/FollowedStores";
-import AddContact from "../screens/Chat/AddContact";
-import { CartStackPramList } from "../Types/Cart";
+import FollowedStores from "../screens/profile/FollowedStores";
+import AddContact from "../screens/chat/AddContact";
+import { CartStackPramList } from "../types/Cart";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 

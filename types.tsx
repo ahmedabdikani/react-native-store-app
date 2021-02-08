@@ -1,6 +1,6 @@
 import { NavigationProp } from "@react-navigation/native";
 import Navigation from "./navigation";
-import { Product } from "./Types/Product";
+import { Product } from "./types/Product";
 
 export type RootStackParamList = {
   Auth: undefined;

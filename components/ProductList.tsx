@@ -1,16 +1,17 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import _ from "lodash";
 import * as React from "react";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, ListRenderItem } from "react-native";
 
 import { tintColorLight } from "../constants/Colors";
 import { HomeStackPramList } from "../types";
-import { HomeNavigationProp } from "../Types/Home";
-import { Product } from "../Types/Product";
+import { HomeNavigationProp } from "../types/Home";
+import { Product } from "../types/Product";
 import ProductItem from "./ProductItem";
 
 import { Text, View } from "./Themed";
-const margin = 10;
+const padding = 10;
 const numColmns = 2;
 
 interface IProductListProps {
@@ -23,41 +24,36 @@ const ProductList: React.FC<IProductListProps> = ({ products }) => {
     navigation.navigate("Product", { product });
   };
 
+  const renderItem: ListRenderItem<Product> = ({ item: product, index }) => (
+    <ProductItem
+      key={index}
+      product={product}
+      navigationToProduct={navigationToProduct}
+    />
+  );
+
   return (
-    <View
-      style={{
-        flex: 1,
-        marginBottom: margin,
-        alignItems: "center",
-        alignSelf: "center",
-      }}
-    >
-      <Header />
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          flex: 1,
-        }}
-      >
-        {products?.map((product, index) => (
-          <View style={{ marginRight: 10, marginBottom: 10 }}>
-            <ProductItem
-              key={index}
-              product={product}
-              navigationToProduct={navigationToProduct}
-            />
-          </View>
-        ))}
-      </View>
-    </View>
+    <FlatList
+      ListHeaderComponent={Header}
+      contentContainerStyle={{ alignItems: "center" }}
+      columnWrapperStyle={{ marginBottom: padding }}
+      numColumns={numColmns}
+      data={products}
+      renderItem={renderItem}
+      keyExtractor={(_, index) => index.toString()}
+    />
   );
 };
 
 const Header = () => {
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View
+      style={{
+        flexDirection: "row",
+        marginVertical: padding,
+        alignSelf: "center",
+      }}
+    >
       <FontAwesome name={"heart"} size={18} color={tintColorLight} />
       <Text
         style={{

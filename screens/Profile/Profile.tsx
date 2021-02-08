@@ -25,8 +25,8 @@ import {
 import Colors, { lightBlue, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
-import { useAuthContext } from "../../Context/AuthContext";
-import user from "../../Types/User";
+import { useAuthContext } from "../../context/AuthContext";
+import user from "../../types/User";
 
 const { width, height } = Layout.window;
 const padding = Sizes.base;

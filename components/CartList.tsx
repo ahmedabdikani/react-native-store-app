@@ -7,8 +7,9 @@ import { Fonts, Sizes } from "../constants/Styles";
 import {
   AddProductToCartType,
   RemoveProductFromCartType,
-} from "../Context/CartContext";
-import { CartItem } from "../Types/Cart";
+  useCartContext,
+} from "../context/CartContext";
+import { CartItem } from "../types/Cart";
 import Item from "./CartItem";
 import { TextSec, useThemeColor, View } from "./Themed";
 
@@ -18,20 +19,15 @@ const padding = Sizes.base;
 interface ICartListProps {
   cartItems: CartItem[];
   openMore: boolean;
-  deleteProductFromCart: RemoveProductFromCartType;
-  removeProductFromCart: RemoveProductFromCartType;
-  addProductToCart: AddProductToCartType;
 }
 
-const CartList: React.FC<ICartListProps> = ({
-  cartItems,
-  openMore,
-  deleteProductFromCart,
-  removeProductFromCart,
-  addProductToCart,
-}) => {
+const CartList: React.FC<ICartListProps> = ({ cartItems, openMore }) => {
   const color = useThemeColor({}, "text");
-
+  const {
+    deleteProductFromCart,
+    removeProductFromCart,
+    addProductToCart,
+  } = useCartContext();
   const renderCartItem: ListRenderItem<CartItem> = ({ item: cartItem }) => {
     return (
       <Item

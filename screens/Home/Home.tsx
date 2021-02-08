@@ -1,29 +1,25 @@
 import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import React from "react";
 import { TextInput, StyleSheet } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationProp } from "@react-navigation/native";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
-import axios from "axios";
 
 import { Text, useThemeColor, View } from "../../components/Themed";
-import Colors, { darkYellow, tintColorLight } from "../../constants/Colors";
+import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import Advertisment from "../../components/Advertisment";
 import ProductList from "../../components/ProductList";
-import useAxios from "../../hooks/useAxiosFetch";
-import { HomeStackPramList } from "../../types";
-import { Product as product } from "../../Types/Product";
+import { Product as product } from "../../types/Product";
 import MiniAppList from "../../components/MiniAppList";
-import { HomeNavigationProp } from "../../Types/Home";
+import { HomeNavigationProp } from "../../types/Home";
+import { Sizes } from "../../constants/Styles";
+import Button from "../../components/Button";
 
 const { width, height } = Layout.window;
-const padding = 10;
+const padding = Sizes.base;
 const searchHeight = 40;
 
 const getImages = (index: number): string[] => {
@@ -58,44 +54,37 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
   React.useEffect(() => {});
 
   return (
-    <View style={styles.container}>
-      <View style={{ backgroundColor: "transparent", height: top }} />
-      <View style={{ backgroundColor: "transparent" }}>
-        <View
-          style={{
-            backgroundColor: "transparent",
-            flexDirection: "row",
-            alignItems: "center",
-            paddingBottom: padding,
-          }}
-        >
-          <Header />
-        </View>
-      </View>
-      <ScrollView
-        style={{}}
+    <View style={{ ...styles.container, paddingTop: top + padding }}>
+      <Header />
+      <FlatList
+        data={[0]}
+        keyExtractor={(_, index) => index.toString()}
         contentContainerStyle={{
           padding,
-          // paddingTop: padding,
           marginTop: padding * 3,
           borderRadius: padding * 3,
           overflow: "hidden",
           backgroundColor: useThemeColor({}, "background"),
         }}
-      >
-        <MiniAppList />
-        <Advertisment />
-        <View style={{ marginTop: padding }}>
-          <ProductList products={products} />
-        </View>
-      </ScrollView>
+        renderItem={() => {
+          return (
+            <View>
+              <MiniAppList />
+              <Advertisment />
+              <View style={{ marginTop: padding }}>
+                <ProductList products={products} />
+              </View>
+            </View>
+          );
+        }}
+      />
     </View>
   );
 };
 
 const Header = () => {
   return (
-    <View>
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
       <View style={styles.searchArea}>
         <TextInput
           style={{ flex: 1, color: useThemeColor({}, "text") }}
@@ -108,7 +97,7 @@ const Header = () => {
           size={24}
           color="#888"
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <Button style={styles.searchButton}>
           <LinearGradient
             style={{
               flex: 1,
@@ -123,40 +112,32 @@ const Header = () => {
           >
             <Text style={{ color: "#fff", padding: padding }}>Search</Text>
           </LinearGradient>
-        </TouchableOpacity>
+        </Button>
       </View>
       <View
         style={{
-          backgroundColor: "transparent",
-          marginRight: padding,
           flexDirection: "row",
-          flex: 1,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <Text style={{ color: tintColorLight }}>GR</Text>
-        <TouchableOpacity style={{ marginLeft: padding }}>
+        <Button style={{ marginLeft: padding }}>
           <FontAwesome5
             name="map-marker-alt"
             size={24}
             color={tintColorLight}
           />
-        </TouchableOpacity>
+        </Button>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width,
-    flex: 1,
-    // backgroundColor: tintColorLight,
-  },
+  container: {},
   searchArea: {
     marginHorizontal: padding,
-    // backgroundColor: "transparent",
     textAlignVertical: "center",
     flexDirection: "row",
     borderColor: tintColorLight,
@@ -164,13 +145,14 @@ const styles = StyleSheet.create({
     width: width * 0.8,
     borderWidth: 1.5,
     height: searchHeight,
+    marginBottom: padding,
     paddingLeft: padding,
   },
   searchButton: {
-    // marginRight: -1,
+    elevation: 10,
+    marginRight: -1,
     marginLeft: padding,
-    // backgroundColor: tintColorLight,
-    flex: 1,
+    backgroundColor: tintColorLight,
     borderRadius: searchHeight,
     padding: -1,
   },

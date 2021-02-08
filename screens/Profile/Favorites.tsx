@@ -5,8 +5,8 @@ import { CardView, Text, TextSec, View } from "../../components/Themed";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
-import { product } from "../../Types/Product";
-import { products } from "../Home/Home";
+import { product } from "../../types/Product";
+import { products } from "../home/Home";
 
 const { width, height } = Layout.window;
 const padding = Sizes.base;

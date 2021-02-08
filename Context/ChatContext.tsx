@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useState } from "react";
-import { Auth, db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 
 interface ChatContextType {
-  searchUser: (username: string) => Promise<any>;
+  searchUser: (name: string) => Promise<any>;
 }
 console.ignoredYellowBox = ["Setting a timer"];
 export const ChatContext = React.createContext<ChatContextType>(null!);
@@ -31,8 +31,6 @@ export const ChatProvier: React.FC<IChatProviderProps> = ({ children }) => {
       );
 
       return Promise.resolve(searchResult);
-
-      // console.log(searchResult);
     } catch (error) {
       console.log(error);
       return Promise.reject(error);

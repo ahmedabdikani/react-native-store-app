@@ -1,6 +1,6 @@
 import * as React from "react";
-import { CartItem } from "../Types/Cart";
-import { Product } from "../Types/Product";
+import { CartItem } from "../types/Cart";
+import { Product } from "../types/Product";
 
 export type AddProductToCartType = (product: Product) => void;
 export type RemoveProductFromCartType = (id: Product["id"]) => void;
