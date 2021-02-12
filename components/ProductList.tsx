@@ -2,12 +2,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import _ from "lodash";
 import * as React from "react";
-import { FlatList, ListRenderItem } from "react-native";
 
 import { tintColorLight } from "../constants/Colors";
 import { HomeStackPramList } from "../types";
 import { HomeNavigationProp } from "../types/Home";
 import { Product } from "../types/Product";
+import FlatList from "./FlatList";
 import ProductItem from "./ProductItem";
 
 import { Text, View } from "./Themed";
@@ -20,28 +20,27 @@ interface IProductListProps {
 
 const ProductList: React.FC<IProductListProps> = ({ products }) => {
   const navigation = useNavigation<HomeNavigationProp<"Home">["navigation"]>();
-  const navigationToProduct = (product: Product) => {
-    navigation.navigate("Product", { product });
-  };
-
-  const renderItem: ListRenderItem<Product> = ({ item: product, index }) => (
-    <ProductItem
-      key={index}
-      product={product}
-      navigationToProduct={navigationToProduct}
-    />
+  const navigationToProduct = React.useCallback(
+    (product: Product) => {
+      navigation.navigate("Product", { product });
+    },
+    [navigation]
   );
 
   return (
     <FlatList
-      ListHeaderComponent={Header}
-      contentContainerStyle={{ alignItems: "center" }}
-      columnWrapperStyle={{ marginBottom: padding }}
-      numColumns={numColmns}
       data={products}
-      renderItem={renderItem}
-      keyExtractor={(_, index) => index.toString()}
-    />
+      numColumns={numColmns}
+      columnWrapperStyle={{ marginBottom: padding }}
+    >
+      {({ item: product, index }) => (
+        <ProductItem
+          key={index}
+          product={product}
+          navigationToProduct={navigationToProduct}
+        />
+      )}
+    </FlatList>
   );
 };
 

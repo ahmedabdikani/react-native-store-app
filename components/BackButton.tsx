@@ -1,20 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
+import { Platform } from "react-native";
 import Button from "./Button";
 
 import { useThemeColor } from "./Themed";
 
-interface IBackButtonProps {}
+interface IBackButtonProps {
+  children: (color: string) => JSX.Element;
+}
 
 export const BackButton: React.FC<IBackButtonProps> = ({ children }) => {
   const color = useThemeColor({}, "text");
   const navigation = useNavigation();
 
-  return <Button onPress={() => navigation.goBack()}>children(color)</Button>;
+  return <Button onPress={() => navigation.goBack()}>{children(color)}</Button>;
 };
 
-export const IosBackButton: React.FC = () => {
+export const BackButtonIos: React.FC = () => {
   return (
     <BackButton>
       {(color: string) => {
@@ -24,7 +27,7 @@ export const IosBackButton: React.FC = () => {
   );
 };
 
-export const AndroidBackButton: React.FC = () => {
+export const BackButtonAndroid: React.FC = () => {
   return (
     <BackButton>
       {(color: string) => {
@@ -33,3 +36,6 @@ export const AndroidBackButton: React.FC = () => {
     </BackButton>
   );
 };
+
+export const BackButtonNative: React.FC = () =>
+  Platform.OS === "android" ? <BackButtonAndroid /> : <BackButtonIos />;

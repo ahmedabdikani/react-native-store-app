@@ -52,7 +52,7 @@ const ProductItem: React.FC<IProductItemProps> = ({
               alignItems: "flex-end",
             }}
           >
-            <Text style={{ ...Fonts.h3, color: tintColorLight }}>
+            <Text style={{ ...Fonts.body2, color: tintColorLight }}>
               {product.price}$
             </Text>
             <Text style={{ color: secondaryColor }}>150 people liked</Text>

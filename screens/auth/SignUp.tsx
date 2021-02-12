@@ -22,6 +22,11 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Logo from "../../components/Logo";
 import Input from "../../components/Input";
 import { tintColorLight } from "../../constants/Colors";
+import { Platform } from "react-native";
+import { BackButtonNative } from "../../components/BackButton";
+import InputControlled from "../../components/InputControlled";
+import Error from "../../components/Error";
+import { color } from "react-native-reanimated";
 
 const padding = Sizes.base;
 
@@ -40,7 +45,7 @@ interface ISignUpProps extends AuthNavigationProp<"SignUp"> {}
 
 const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
   const [disabled, setDisabled] = React.useState(false);
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState<string | undefined>(undefined);
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const { signUpWithEmail } = useAuthContext();
   const { control, errors, handleSubmit } = useForm<SignUpFormProps>({
@@ -64,29 +69,19 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
       style={{
         flex: 1,
         paddingTop: 100,
-        paddingHorizontal: padding * 3,
+        paddingHorizontal: padding * 2,
       }}
     >
       <View
         style={{
           position: "absolute",
           top: 50,
-          left: padding * 3,
+          left: padding * 2,
           zIndex: 20,
           padding,
         }}
       >
-        <Button
-          onPress={() => navigation.goBack()}
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <MaterialIcons name="arrow-back-ios" size={24} color={color} />
-          {/* <Text>Go back</Text> */}
-        </Button>
+        <BackButtonNative />
       </View>
       <Logo size={"m"} />
       <Text style={{ ...Fonts.h1, marginVertical: padding * 2 }}>SIGN UP</Text>
@@ -110,20 +105,11 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
           >
             <MaterialIcons name="person" color={color} size={20} />
           </View>
-          <Controller
+          <InputControlled
+            keyboardType={"default"}
             control={control}
-            render={({ onBlur, onChange, value }) => (
-              <Input
-                value={value}
-                returnKeyType={"next"}
-                onChangeText={(value) => onChange(value)}
-                placeholder="Enter Name..."
-                placeholderTextColor={color}
-                onBlur={onBlur}
-              />
-            )}
+            placeholder="Enter Name..."
             name="name"
-            defaultValue=""
           />
         </CardView>
         <CardView
@@ -149,21 +135,11 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
               size={20}
             />
           </View>
-          <Controller
+          <InputControlled
+            keyboardType={"email-address"}
             control={control}
-            render={({ onBlur, onChange, value }) => (
-              <Input
-                returnKeyType={"next"}
-                keyboardType={"email-address"}
-                onChangeText={(value) => onChange(value)}
-                placeholder="Enter Email..."
-                placeholderTextColor={color}
-                style={{ color, ...Fonts.body2, flex: 1 }}
-                value={value}
-              />
-            )}
+            placeholder={"Enter Email..."}
             name="email"
-            defaultValue=""
           />
         </CardView>
         <CardView
@@ -185,20 +161,11 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
           >
             <MaterialCommunityIcons name="lock" color={color} size={20} />
           </View>
-          <Controller
+          <InputControlled
             control={control}
-            render={({ onBlur, onChange, value }) => (
-              <Input
-                secureTextEntry={secureTextEntry}
-                onChangeText={(value) => onChange(value)}
-                placeholder="Enter Password..."
-                placeholderTextColor={color}
-                style={{ color, flex: 1, ...Fonts.body2 }}
-                value={value}
-              />
-            )}
-            name="password"
-            defaultValue=""
+            keyboardType={"default"}
+            name={"password"}
+            placeholder={"Enter password..."}
           />
           <Button onPress={() => setSecureTextEntry((prev) => !prev)}>
             {secureTextEntry ? (
@@ -227,20 +194,11 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
           >
             <MaterialCommunityIcons name="lock" color={color} size={20} />
           </View>
-          <Controller
+          <InputControlled
+            placeholder={"Enter password..."}
             control={control}
-            render={({ onBlur, onChange, value }) => (
-              <Input
-                secureTextEntry={secureTextEntry}
-                onChangeText={(value) => onChange(value)}
-                placeholder="Confirm password"
-                placeholderTextColor={color}
-                style={{ color, flex: 1, ...Fonts.body2 }}
-                value={value}
-              />
-            )}
-            name="passwordConform"
-            defaultValue=""
+            name={"passwordConform"}
+            keyboardType={"default"}
           />
           <Button onPress={() => setSecureTextEntry((prev) => !prev)}>
             {secureTextEntry ? (
@@ -253,8 +211,7 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
 
         <Button
           onPress={handleSubmit(onSubmit)}
-          style={({ pressed }) => ({
-            opacity: pressed ? 0.5 : 1,
+          style={{
             alignSelf: "center",
             width: 200,
             backgroundColor: tintColorLight,
@@ -266,7 +223,7 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
             flexDirection: "row",
             marginTop: padding * 2,
             marginBottom: padding * 2,
-          })}
+          }}
         >
           <Text
             style={{ ...Fonts.h3, color: "#fff", textTransform: "uppercase" }}
@@ -276,14 +233,12 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
         </Button>
       </View>
       <View style={{ alignItems: "center", justifyContent: "center" }}>
-        {error && <Text>{error}</Text>}
-        {errors.name && <Text>{errors.name.message}</Text>}
-        {errors.email && <Text>{errors.email.message}</Text>}
-        {errors.password && <Text>{errors.password.message}</Text>}
+        {error && <Error error={error} />}
+        {errors.name && <Error error={errors.name.message} />}
+        {errors.email && <Error error={errors.email.message} />}
+        {errors.password && <Error error={errors.password.message} />}
         {errors.passwordConform && (
-          <Text style={{ ...Fonts.body2, color: tintColorLight }}>
-            # {errors.passwordConform.message}
-          </Text>
+          <Error error={errors.passwordConform.message} />
         )}
       </View>
 
@@ -313,3 +268,5 @@ const SignUp: React.FC<ISignUpProps> = ({ navigation }) => {
     </View>
   );
 };
+
+export default SignUp;

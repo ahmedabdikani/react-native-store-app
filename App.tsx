@@ -10,6 +10,7 @@ import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { ChatProvier } from "./context/ChatContext";
+import { View } from "react-native";
 
 const client = new QueryClient();
 

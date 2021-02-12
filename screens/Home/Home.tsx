@@ -1,22 +1,20 @@
-import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { LinearGradient } from "expo-linear-gradient";
-import { NavigationProp } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useQuery } from "react-query";
 
 import { Text, useThemeColor, View } from "../../components/Themed";
-import { darkYellow, tintColorLight } from "../../constants/Colors";
+import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import Advertisment from "../../components/Advertisment";
 import ProductList from "../../components/ProductList";
-import { Product as product } from "../../types/Product";
+import { Product } from "../../types/Product";
 import MiniAppList from "../../components/MiniAppList";
 import { HomeNavigationProp } from "../../types/Home";
-import { Sizes } from "../../constants/Styles";
+import { Fonts, Sizes, Styles } from "../../constants/Styles";
 import Button from "../../components/Button";
+import FlatList from "../../components/FlatList";
+import LinearGradient from "../../components/LinearGradient";
 
 const { width, height } = Layout.window;
 const padding = Sizes.base;
@@ -28,7 +26,7 @@ const getImages = (index: number): string[] => {
     (_, i) => "https://source.unsplash.com/random/" + (i + 1) * index
   );
 };
-export const products: product[] = Array.from({ length: 10 }, (_, i) => ({
+export const products: Product[] = Array.from({ length: 10 }, (_, i) => ({
   id: Math.random() * 100000,
   title:
     "officiis magnam consectetur. Quae suscipit sed excepturi ad praesentium odit corrupti voluptates esse quasi consequuntur, minus ipsa.",
@@ -41,88 +39,93 @@ export const products: product[] = Array.from({ length: 10 }, (_, i) => ({
 
 // const fetchProducts = async () => {
 //   const { data, status } = await axios.get("https://fakestoreapi.com/products");
-//   if (status === 200) {
-//     return Promise.resolve(data);
+//   if (status !== 200) {
+//     throw new Error("Error: "status)
 //   }
+//    return data;
 // };
 
 interface IHomeProps extends HomeNavigationProp<"Home"> {}
 
 const Home: React.FC<IHomeProps> = ({ navigation }) => {
-  const { top } = useSafeAreaInsets();
-
-  React.useEffect(() => {});
-
+  // React.useEffect(() => {});
   return (
-    <View style={{ ...styles.container, paddingTop: top + padding }}>
+    <View style={styles.container}>
       <Header />
       <FlatList
         data={[0]}
-        keyExtractor={(_, index) => index.toString()}
         contentContainerStyle={{
-          padding,
-          marginTop: padding * 3,
+          paddingLeft: padding,
+          alignItems: "center",
           borderRadius: padding * 3,
           overflow: "hidden",
-          backgroundColor: useThemeColor({}, "background"),
         }}
-        renderItem={() => {
-          return (
-            <View>
-              <MiniAppList />
-              <Advertisment />
-              <View style={{ marginTop: padding }}>
-                <ProductList products={products} />
-              </View>
+      >
+        {() => (
+          <View>
+            <MiniAppList />
+            <Advertisment />
+            <View style={{ marginTop: padding }}>
+              <ProductList products={products} />
             </View>
-          );
-        }}
-      />
+          </View>
+        )}
+      </FlatList>
     </View>
   );
 };
 
 const Header = () => {
+  const { top } = useSafeAreaInsets();
+
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <View
+      style={{
+        flexDirection: "row",
+        ...Styles.centerH,
+        // backgroundColor: "pink",
+        paddingTop: top + padding * 3,
+      }}
+    >
       <View style={styles.searchArea}>
         <TextInput
           style={{ flex: 1, color: useThemeColor({}, "text") }}
           placeholderTextColor={useThemeColor({}, "text")}
           placeholder={"Search here"}
         />
-        <MaterialCommunityIcons
+        <Ionicons
           style={{ alignSelf: "center" }}
-          name="camera-outline"
+          name="ios-camera-outline"
           size={24}
-          color="#888"
+          color="#aaa"
         />
         <Button style={styles.searchButton}>
-          <LinearGradient
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingHorizontal: padding / 1.4,
-              borderRadius: searchHeight,
-            }}
-            start={{ x: 0.8, y: 0 }}
-            end={{ x: 0.0, y: 0 }}
-            colors={[tintColorLight, darkYellow]}
-          >
-            <Text style={{ color: "#fff", padding: padding }}>Search</Text>
+          <LinearGradient style={Styles.centerHV}>
+            <Text
+              style={{ ...Fonts.h4, color: "#fff", padding: padding * 1.5 }}
+            >
+              Search
+            </Text>
           </LinearGradient>
         </Button>
       </View>
       <View
         style={{
+          backgroundColor: "transparent",
           flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
+          ...Styles.centerHV,
         }}
       >
-        <Text style={{ color: tintColorLight }}>GR</Text>
-        <Button style={{ marginLeft: padding }}>
+        <Text
+          style={{
+            color: tintColorLight,
+            ...Fonts.body2,
+            paddingRight: padding / 2,
+          }}
+        >
+          沈阳
+        </Text>
+        <Button>
           <FontAwesome5
             name="map-marker-alt"
             size={24}
@@ -135,29 +138,30 @@ const Header = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
   searchArea: {
+    backgroundColor: "transparent",
     marginHorizontal: padding,
     textAlignVertical: "center",
     flexDirection: "row",
     borderColor: tintColorLight,
     borderRadius: searchHeight / 2,
-    width: width * 0.8,
-    borderWidth: 1.5,
+    width: width * 0.79,
+    borderWidth: 1,
     height: searchHeight,
-    marginBottom: padding,
+    marginBottom: padding / 2,
     paddingLeft: padding,
   },
   searchButton: {
+    overflow: "hidden",
     elevation: 10,
-    marginRight: -1,
     marginLeft: padding,
     backgroundColor: tintColorLight,
     borderRadius: searchHeight,
-    padding: -1,
-  },
-  miniAppsSection: {
-    marginTop: padding * 2,
+    margin: 2,
   },
 });
 

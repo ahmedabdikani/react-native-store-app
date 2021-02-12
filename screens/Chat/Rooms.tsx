@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
-import _ from "lodash";
+import { useNavigation } from "@react-navigation/core";
 import * as React from "react";
-import { useState } from "react";
-import { FlatList, Image, Pressable } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Button from "../../components/Button";
+import FlatList from "../../components/FlatList";
 
 import {
   CardView,
@@ -16,7 +16,6 @@ import {
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
 import { useAuthContext } from "../../context/AuthContext";
-import navigation from "../../navigation";
 
 const { height, width } = Layout.window;
 const padding = Sizes.base;
@@ -35,30 +34,31 @@ const chats = Array.from({ length: 20 }, (_, index) => {
   };
 });
 
-const Rooms = ({ navigation }: IRoomsProps) => {
+const Rooms: React.FC<IRoomsProps> = ({}) => {
   const { user } = useAuthContext();
   const { top } = useSafeAreaInsets();
   const backgroundColor = useThemeColor({}, "background");
   const card = useThemeColor({}, "card");
   const color = useThemeColor({}, "text");
-  const [openMenu, setOpenMenu] = useState(false);
+  const [openMenu, setOpenMenu] = React.useState(false);
 
   return (
     <View style={{ flex: 1 }}>
-      <Header top={top} color={color} setOpenMenu={setOpenMenu} />
-      {renderRooms({ navigation, backgroundColor, card })}
-      {openMenu && (
-        <MoreOptionMenu
-          backgroundColor={backgroundColor}
-          navigation={navigation}
-          color={color}
-        />
-      )}
+      <Header setOpenMenu={setOpenMenu} />
+      <FlatList style={{ backgroundColor: card, padding }} data={chats}>
+        {({ item, index }) => <RoomItem item={item} />}
+      </FlatList>
+
+      {openMenu && <MoreOptionsMenu />}
     </View>
   );
 };
 
-const MoreOptionMenu = ({ backgroundColor, navigation, color }) => {
+const MoreOptionsMenu = () => {
+  const navigation = useNavigation();
+  const color = useThemeColor({}, "text");
+  const backgroundColor = useThemeColor({}, "background");
+
   return (
     <View
       style={{
@@ -87,25 +87,21 @@ const MoreOptionMenu = ({ backgroundColor, navigation, color }) => {
           borderBottomWidth: 10,
         }}
       />
-      <Pressable
+      <Button
         onPress={() => null}
         style={({ pressed }) => ({
           flexDirection: "row",
-          opacity: pressed ? 0.3 : 1,
           marginBottom: padding,
-          alignItems: "center",
         })}
       >
         <Ionicons name="chatbubble" size={24} color={color} />
 
         <Text style={{ ...Fonts.body2, marginLeft: padding }}>New Chat</Text>
-      </Pressable>
-      <Pressable
+      </Button>
+      <Button
         onPress={() => navigation.navigate("AddContact")}
         style={({ pressed }) => ({
           flexDirection: "row",
-          opacity: pressed ? 0.3 : 1,
-          alignItems: "center",
           marginBottom: padding,
         })}
       >
@@ -113,12 +109,18 @@ const MoreOptionMenu = ({ backgroundColor, navigation, color }) => {
         <Text style={{ ...Fonts.body2, marginLeft: padding }}>
           Add Contacts
         </Text>
-      </Pressable>
+      </Button>
     </View>
   );
 };
 
-const Header = ({ top, color, setOpenMenu }) => {
+const Header = ({
+  setOpenMenu,
+}: {
+  setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { top } = useSafeAreaInsets();
+  const color = useThemeColor({}, "text");
   return (
     <CardView
       style={{
@@ -136,77 +138,47 @@ const Header = ({ top, color, setOpenMenu }) => {
         }}
       >
         <Text style={Fonts.h2}>Chats</Text>
-        <Pressable
-          onPress={() => setOpenMenu((prev) => !prev)}
-          style={({ pressed }) => ({
-            opacity: pressed ? 0.3 : 1,
-          })}
-        >
+        <Button onPress={() => setOpenMenu((prev) => !prev)}>
           <Ionicons name={"add"} size={30} color={color} />
-        </Pressable>
+        </Button>
       </CardView>
     </CardView>
   );
 };
 
-const renderRooms = ({ navigation, backgroundColor, card }) => {
-  const renderItem = ({ item }: { item: typeof chats[0] }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Chat")}
-        style={{ flexDirection: "row", marginBottom: padding }}
-      >
-        <Image
-          style={{
-            height: 50,
-            width: 50,
-            borderRadius: 50,
-            resizeMode: "cover",
-            marginRight: padding,
-          }}
-          source={{ uri: item.user.photo }}
-        />
-        <CardView
-          style={{
-            flex: 1,
-            borderBottomColor: backgroundColor,
-            borderBottomWidth: 1,
-            paddingBottom: padding,
-          }}
-        >
-          <Text style={Fonts.h4}>{item.user.name}</Text>
-          <TextSec numberOfLines={1} style={Fonts.body3}>
-            {item.messages[0]}
-          </TextSec>
-        </CardView>
-      </TouchableOpacity>
-    );
-  };
+const RoomItem = ({ item }: { item: typeof chats[number] }) => {
+  const navigation = useNavigation();
 
-  const listEmptyComponent = () => {
-    return (
-      <View
+  const backgroundColor = useThemeColor({}, "background");
+  return (
+    <Button
+      onPress={() => navigation.navigate("Chat")}
+      style={{ flexDirection: "row", marginBottom: padding }}
+    >
+      <Image
         style={{
-          height: height * 0.9,
-          width,
-          justifyContent: "center",
-          alignItems: "center",
+          height: 50,
+          width: 50,
+          borderRadius: 50,
+          resizeMode: "cover",
+          marginRight: padding,
+        }}
+        source={{ uri: item.user.photo }}
+      />
+      <CardView
+        style={{
+          flex: 1,
+          borderBottomColor: backgroundColor,
+          borderBottomWidth: 1,
+          paddingBottom: padding * 2,
         }}
       >
-        <TextSec style={{ ...Fonts.h4 }}>No chats</TextSec>
-      </View>
-    );
-  };
-
-  return (
-    <FlatList
-      style={{ backgroundColor: card, padding }}
-      keyExtractor={(_, index) => index.toString()}
-      data={chats}
-      ListEmptyComponent={listEmptyComponent}
-      showsVerticalScrollIndicator={false}
-      renderItem={renderItem}
-    />
+        <Text style={Fonts.h4}>{item.user.name}</Text>
+        <TextSec numberOfLines={1} style={Fonts.body3}>
+          {item.messages[0]}
+        </TextSec>
+      </CardView>
+    </Button>
   );
 };
 

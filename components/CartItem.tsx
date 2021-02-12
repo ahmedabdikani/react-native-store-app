@@ -4,10 +4,7 @@ import { Image } from "react-native";
 
 import { tintColorLight } from "../constants/Colors";
 import { Sizes } from "../constants/Styles";
-import {
-  AddProductToCartType,
-  RemoveProductFromCartType,
-} from "../context/CartContext";
+import { useCartContext } from "../context/CartContext";
 import { CartItem as ItemType } from "../types/Cart";
 import Button from "./Button";
 import { CardView, Text, useThemeColor } from "./Themed";
@@ -17,19 +14,9 @@ const padding = Sizes.base;
 interface ICartItemProps {
   cartItem: ItemType;
   openMore: boolean;
-  addProductToCart: AddProductToCartType;
-  removeProductFromCart: RemoveProductFromCartType;
-  deleteProductFromCart: RemoveProductFromCartType;
 }
 
-const CartItem: React.FC<ICartItemProps> = ({
-  cartItem,
-  openMore,
-  addProductToCart,
-  removeProductFromCart,
-  deleteProductFromCart,
-}) => {
-  const color = useThemeColor({}, "text");
+const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
   return (
     <CardView
       style={{
@@ -85,18 +72,9 @@ const CartItem: React.FC<ICartItemProps> = ({
             </Text>
 
             {openMore ? (
-              <Trash
-                id={cartItem.product.id}
-                textColor={color}
-                deleteProductFromCart={deleteProductFromCart}
-              />
+              <Trash id={cartItem.product.id} />
             ) : (
-              <Amount
-                cartItem={cartItem}
-                addProductToCart={addProductToCart}
-                removeProductFromCart={removeProductFromCart}
-                textColor={color}
-              />
+              <Amount cartItem={cartItem} />
             )}
           </CardView>
         </CardView>
@@ -107,42 +85,37 @@ const CartItem: React.FC<ICartItemProps> = ({
 
 interface ITrashProp {
   id: ItemType["product"]["id"];
-  deleteProductFromCart: RemoveProductFromCartType;
-  textColor: string;
 }
 
-const Trash = ({ id, deleteProductFromCart, textColor }: ITrashProp) => {
+const Trash = ({ id }: ITrashProp) => {
+  const color = useThemeColor({}, "text");
+  const { deleteProductFromCart } = useCartContext();
   return (
     <Button
       onPress={() => {
         deleteProductFromCart(id);
       }}
     >
-      <FontAwesome name="trash-o" size={24} color={textColor} />
+      <FontAwesome name="trash-o" size={24} color={color} />
     </Button>
   );
 };
 
 interface IAmountProp {
-  textColor: string;
   cartItem: ItemType;
-  removeProductFromCart: RemoveProductFromCartType;
-  addProductToCart: AddProductToCartType;
 }
 
-const Amount = ({
-  cartItem,
-  addProductToCart,
-  removeProductFromCart,
-  textColor,
-}: IAmountProp) => {
+const Amount = ({ cartItem }: IAmountProp) => {
+  const { removeProductFromCart, addProductToCart } = useCartContext();
+  const color = useThemeColor({}, "text");
   const disabled = cartItem.amount <= 1;
+
   return (
     <CardView
       style={{
         flexDirection: "row",
         alignItems: "center",
-        borderColor: textColor,
+        borderColor: color,
         borderRadius: padding,
         borderWidth: 1,
       }}
@@ -152,7 +125,7 @@ const Amount = ({
         onPress={() => removeProductFromCart(cartItem.product.id)}
         style={{
           paddingHorizontal: padding * 0.5,
-          borderColor: textColor,
+          borderColor: color,
           borderRightWidth: 1,
         }}
       >
@@ -164,7 +137,7 @@ const Amount = ({
       <Button
         onPress={() => addProductToCart(cartItem.product)}
         style={{
-          borderColor: textColor,
+          borderColor: color,
           paddingHorizontal: padding * 0.5,
           borderLeftWidth: 1,
         }}

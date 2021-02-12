@@ -109,7 +109,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
       <CardView style={{ height: top, width }} />
       <View style={styles.container}>
         {header()}
-        <CartList cartItems={cartItems} openMore={openMore} />
+        <CartList openMore={openMore} />
         {footer()}
       </View>
     </View>

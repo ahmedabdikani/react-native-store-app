@@ -11,7 +11,6 @@ import {
 import {
   createStackNavigator,
   HeaderBackButton,
-  Header,
   StackHeaderLeftButtonProps,
 } from "@react-navigation/stack";
 import * as React from "react";
@@ -26,9 +25,7 @@ import {
   ProfileStackPramList,
 } from "../types";
 import Product from "../screens/home/Product";
-import IoniconsNameType from "@expo/vector-icons/build/Ionicons";
 import { Text, useThemeColor, View } from "../components/Themed";
-import { color } from "react-native-reanimated";
 import HearBeat from "../Icons/HearBeat";
 import Svg, { Path } from "react-native-svg";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -44,6 +41,7 @@ import { Fonts } from "../constants/Styles";
 import FollowedStores from "../screens/profile/FollowedStores";
 import AddContact from "../screens/chat/AddContact";
 import { CartStackPramList } from "../types/Cart";
+import { BackButtonNative } from "../components/BackButton";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -185,14 +183,14 @@ const CustomTabButton = ({
     );
   }
 };
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
+
 function TabBarIcon(props: { name: string; color: string }) {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 const HomeStack = createStackNavigator<HomeStackPramList>();
 const HomeNavigator = () => {
+  const backgroundColor = useThemeColor({}, "background");
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -220,14 +218,16 @@ const HomeNavigator = () => {
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: "rgba(0,0,0,.4)",
-                  height: 50,
-                  width: 50,
-                  borderRadius: 50,
+                  backgroundColor,
+                  height: 40,
+                  width: 40,
+                  opacity: 0.8,
+                  borderRadius: 40,
                   marginLeft: 20,
                 }}
               >
-                {HeaderBackButton(props)}
+                {/* {HeaderBackButton(props)} */}
+                <BackButtonNative />
               </View>
             );
           },

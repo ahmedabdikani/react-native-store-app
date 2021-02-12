@@ -22,6 +22,8 @@ const Sizes = {
   body3:14,
   body4:12,
 
+  
+
 
 }
 
@@ -72,7 +74,27 @@ const Fonts = StyleSheet.create({
   body4:{
     fontWeight:"normal",
     fontSize:Sizes.body4,
-  }
+  },
+
 });
 
-export {Fonts, Sizes}
+const Styles =StyleSheet.create( {
+  centerH:{
+    alignItems: "center",
+  },
+  centerV:{
+    justifyContent: "center",
+  },
+  centerHV:{
+    alignItems: "center",
+    justifyContent:"center"
+  },
+  fRow:{
+    flexDirection: "row",
+  },
+
+
+
+})
+
+export {Fonts, Sizes, Styles}

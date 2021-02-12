@@ -22,7 +22,7 @@ const ViewScreen = ({ navigation, route }: IViewScreenProps) => {
         }}
       >
         <Image
-          source={{ uri: route.params.imageUri }}
+          source={{ uri: route.params.uri }}
           style={{
             width,
             height: height / 1.7,
