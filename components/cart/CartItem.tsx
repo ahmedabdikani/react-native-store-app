@@ -2,12 +2,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as React from "react";
 import { Image } from "react-native";
 
-import { tintColorLight } from "../constants/Colors";
-import { Sizes } from "../constants/Styles";
-import { useCartContext } from "../context/CartContext";
-import { CartItem as ItemType } from "../types/Cart";
-import Button from "./Button";
-import { CardView, Text, useThemeColor } from "./Themed";
+import { tintColorLight } from "../../constants/Colors";
+import { Sizes } from "../../constants/Styles";
+import { useCartContext } from "../../context/CartContext";
+import { CartItem as ItemType } from "../../types/Cart";
+import Button from "../button/Button";
+import { CardView, Text, useThemeColor } from "../Themed";
 
 const padding = Sizes.base;
 

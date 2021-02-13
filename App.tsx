@@ -3,14 +3,14 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "react-query";
-import { CartProvider } from "./context/CartContext";
 
-import { AuthProvider } from "./context/AuthContext";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
+import { AuthProvider } from "./context/AuthContext";
 import { ChatProvier } from "./context/ChatContext";
-import { View } from "react-native";
+import { ProductProvider } from "./context/ProductContext";
+import { CartProvider } from "./context/CartContext";
 
 const client = new QueryClient();
 
@@ -23,14 +23,16 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
+        <StatusBar style={"auto"} />
         <QueryClientProvider client={client}>
           <AuthProvider>
-            <CartProvider>
-              <ChatProvier>
-                <StatusBar style={"auto"} />
-                <Navigation colorScheme={colorScheme} />
-              </ChatProvier>
-            </CartProvider>
+            <ChatProvier>
+              <ProductProvider>
+                <CartProvider>
+                  <Navigation colorScheme={colorScheme} />
+                </CartProvider>
+              </ProductProvider>
+            </ChatProvier>
           </AuthProvider>
         </QueryClientProvider>
       </SafeAreaProvider>

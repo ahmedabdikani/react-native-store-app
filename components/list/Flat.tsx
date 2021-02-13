@@ -4,19 +4,17 @@ import {
   FlatListProps,
   ListRenderItem,
 } from "react-native";
-import { Fonts, Styles } from "../constants/Styles";
-import { TextSec, View } from "./Themed";
+import { Fonts, Styles } from "../../constants/Styles";
+import { TextSec, View } from "../Themed";
 
-interface IFlatListProps<T> extends Partial<FlatListProps<T>> {
+interface IFlatListProps<T> extends Omit<FlatListProps<T>, "renderItem"> {
   readonly data: T[];
-  readonly numColumns?: number;
   children: ListRenderItem<T>;
 }
 
 const FlatList = <T extends {}>({
   children,
   data,
-  numColumns,
   ...props
 }: IFlatListProps<T>) => {
   const ListEmptyComponent = () => {
@@ -31,7 +29,6 @@ const FlatList = <T extends {}>({
     <_DefaultList
       bounces={false}
       ListEmptyComponent={ListEmptyComponent}
-      numColumns={numColumns}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       data={data}

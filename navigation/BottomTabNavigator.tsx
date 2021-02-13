@@ -41,7 +41,7 @@ import { Fonts } from "../constants/Styles";
 import FollowedStores from "../screens/profile/FollowedStores";
 import AddContact from "../screens/chat/AddContact";
 import { CartStackPramList } from "../types/Cart";
-import { BackButtonNative } from "../components/BackButton";
+import { BackButtonNative } from "../components/button/BackButton";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 

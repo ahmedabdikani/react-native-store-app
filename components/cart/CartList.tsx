@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import Layout from "../constants/Layout";
-import { Sizes } from "../constants/Styles";
-import { useCartContext } from "../context/CartContext";
-import { CartItem } from "../types/Cart";
+import Layout from "../../constants/Layout";
+import { Sizes } from "../../constants/Styles";
+import { useCartContext } from "../../context/CartContext";
+import { CartItem } from "../../types/Cart";
 import Item from "./CartItem";
-import FlatList from "./FlatList";
+import FlatList from "../list/Flat";
 
 const { height, width } = Layout.window;
 const padding = Sizes.base;

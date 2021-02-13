@@ -3,56 +3,54 @@ import * as React from "react";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 import { auth, db } from "../config/firebase";
-import { SignUpFormProps } from "../navigation/AuthNavigator";
 
-import user from "../types/User";
+import User from "../types/User";
 
-interface signInWithEmailProps {
+interface SignInWithEmailProps {
   email: string;
   password: string;
   rememberMe?: boolean;
 }
-interface IAuthContext {
-  user: user | null;
-  setUser: React.Dispatch<React.SetStateAction<user | null>>;
-  signOut: () => void;
-  signInWithEmail: (signInWithEmail: signInWithEmailProps) => Promise<void>;
-  signUpWithEmail: (signInWithEmail: SignUpFormProps) => Promise<any>;
+interface SignUpWithEmailProps {
+  name: string;
+  email: string;
+  password: string;
+}
+interface Context {
+  user: User | null;
+  signOut: () => Promise<any>;
+  signInWithEmail: (signInWithEmail: SignInWithEmailProps) => Promise<any>;
+  signUpWithEmail: (signInWithEmail: SignUpWithEmailProps) => Promise<any>;
 }
 
-const AuthContext = React.createContext<IAuthContext>(null!);
+const AuthContext = React.createContext<Context>({} as Context);
 
 export const useAuthContext = () => {
   return React.useContext(AuthContext);
 };
 
-interface IUserContextProps {}
-
-const fakeuser: user = {
-  email: "gsgsd",
-  id: "4wesfsfs",
-  password: "dfgdsfgsdg",
-  name: "fsfsfsfs",
-  photo: "https://source.unsplash.com/random/45",
+const fakeuser: User = {
+  email: "ahmedabdikani@g.com",
+  id: "random",
+  name: "ahmed abdikani",
+  photoUrl: "https://source.unsplash.com/random/45",
 };
 
-export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
-  const [user, setUser] = React.useState<user | null>(null);
+export const AuthProvider: React.FC = ({ children }) => {
+  const [user, setUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    const unsupscribe = auth.onAuthStateChanged(async (user) => {
+    const unsupscribe = auth!.onAuthStateChanged(async (user) => {
       if (user) {
-        // console.log(user);
-
         if (!user.emailVerified) {
           // user.sendEmailVerification();
         }
         setUser({
           email: user.email!,
           id: user.uid,
-          name: user.displayName,
-          photo: user.photoURL,
+          name: user.displayName as string,
+          photoUrl: user.photoURL as string,
         });
       }
       setLoading(false);
@@ -81,15 +79,15 @@ export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
     email,
     password,
     rememberMe,
-  }: signInWithEmailProps) => {
+  }: SignInWithEmailProps) => {
     try {
-      const { user } = await auth.signInWithEmailAndPassword(email, password);
+      const { user } = await auth!.signInWithEmailAndPassword(email, password);
       if (user) {
         setUser({
           id: user.uid,
-          email: user.email,
-          name: user.displayName,
-          photo: user.photoURL,
+          email: user.email as string,
+          name: user.displayName as string,
+          photoUrl: user.photoURL as string,
         });
       }
     } catch (error) {
@@ -99,38 +97,35 @@ export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
   const signInWithGoogle = () => {};
   const signInWithFacebook = () => {};
   const signInWithTwitter = () => {};
-
   const rememberUser = () => {};
-  const signUpWithEmail = async ({ name, email, password }: Partial<user>) => {
+
+  const signUpWithEmail = async ({
+    name,
+    email,
+    password,
+  }: SignUpWithEmailProps) => {
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
+      const { user } = await auth!.createUserWithEmailAndPassword(
         email,
         password
       );
 
       if (user) {
         await user.updateProfile({ displayName: name });
-
-        // await db.collection("users").doc(user.uid).set({
-        //   name,
-        //   email,
-        //   password,
-        //   emailVerified: user.emailVerified,
-        //   active: true,
-        // });
       }
-      return Promise.resolve("sucsess");
     } catch (error) {
-      // console.log(error);
-      return Promise.reject(error);
+      console.log(error);
+      throw new Error(error);
     }
   };
   const signOut = async () => {
     try {
-      await auth.signOut();
-      setUser(null);
+      await auth?.signOut();
     } catch (error) {
       console.log(error);
+      throw new Error(error);
+    } finally {
+      setUser(null);
     }
   };
 
@@ -140,7 +135,7 @@ export const AuthProvider: React.FC<IUserContextProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, signOut, signInWithEmail, signUpWithEmail }}
+      value={{ user, signOut, signInWithEmail, signUpWithEmail }}
     >
       {children}
     </AuthContext.Provider>

@@ -5,7 +5,7 @@ import {
 } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
-import Button from "../../components/Button";
+import Button from "../../components/button/Button";
 import {
   CardView,
   Text,
@@ -20,11 +20,11 @@ import { useAuthContext } from "../../context/AuthContext";
 import { SignUpFormProps } from "../../navigation/AuthNavigator";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Logo from "../../components/Logo";
-import Input from "../../components/Input";
+import Input from "../../components/input/Input";
 import { tintColorLight } from "../../constants/Colors";
 import { Platform } from "react-native";
-import { BackButtonNative } from "../../components/BackButton";
-import InputControlled from "../../components/InputControlled";
+import { BackButtonNative } from "../../components/button/BackButton";
+import InputControlled from "../../components/input/InputControlled";
 import Error from "../../components/Error";
 import { color } from "react-native-reanimated";
 

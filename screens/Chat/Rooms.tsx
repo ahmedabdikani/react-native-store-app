@@ -3,8 +3,8 @@ import { useNavigation } from "@react-navigation/core";
 import * as React from "react";
 import { Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Button from "../../components/Button";
-import FlatList from "../../components/FlatList";
+import Button from "../../components/button/Button";
+import FlatList from "../../components/list/Flat";
 
 import {
   CardView,

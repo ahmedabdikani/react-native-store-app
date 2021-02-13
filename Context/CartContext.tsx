@@ -5,7 +5,7 @@ import { Product } from "../types/Product";
 export type AddProductToCartType = (product: Product) => void;
 export type RemoveProductFromCartType = (id: Product["id"]) => void;
 
-interface CartContext {
+interface Context {
   cartItems: CartItem[];
   total: number;
   addProductToCart: AddProductToCartType;
@@ -59,15 +59,13 @@ const reducer = (state: CartItem[], action: Actions) => {
   return state;
 };
 
-const CartContext = React.createContext<CartContext>({} as CartContext);
+const CartContext = React.createContext<Context>({} as Context);
 
 export const useCartContext = () => {
   return React.useContext(CartContext);
 };
 
-interface ICartProviderProps {}
-
-export const CartProvider: React.FC<ICartProviderProps> = ({ children }) => {
+export const CartProvider: React.FC = ({ children }) => {
   const [state, useDispatch] = React.useReducer(reducer, []);
 
   const total = state.reduce(

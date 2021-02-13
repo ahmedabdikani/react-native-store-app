@@ -3,14 +3,14 @@ import { useNavigation } from "@react-navigation/native";
 import _ from "lodash";
 import * as React from "react";
 
-import { tintColorLight } from "../constants/Colors";
-import { HomeStackPramList } from "../types";
-import { HomeNavigationProp } from "../types/Home";
-import { Product } from "../types/Product";
-import FlatList from "./FlatList";
+import { tintColorLight } from "../../constants/Colors";
+import { HomeStackPramList } from "../../types";
+import { HomeNavigationProp } from "../../types/Home";
+import { Product } from "../../types/Product";
+import FlatList from "../list/Flat";
 import ProductItem from "./ProductItem";
 
-import { Text, View } from "./Themed";
+import { Text, View } from "../Themed";
 const padding = 10;
 const numColmns = 2;
 

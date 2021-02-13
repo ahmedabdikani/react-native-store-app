@@ -6,10 +6,7 @@ import Animated, {
   useAnimatedScrollHandler,
   Extrapolate,
   interpolate,
-  interpolateColor,
-  withSpring,
   withTiming,
-  withRepeat,
 } from "react-native-reanimated";
 
 import Colors, {
@@ -20,7 +17,8 @@ import Colors, {
 } from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { Fonts, Sizes } from "../constants/Styles";
-import Button from "./Button";
+import Button from "./button/Button";
+import AnimatedList from "./list/Animated";
 import { CardView, Text, TextSec, useThemeColor, View } from "./Themed";
 
 const img0 = require("../assets/images/carosel4.png");
@@ -53,7 +51,7 @@ const ads = [
 interface IAdvertismentProps {}
 
 const Advertisment = ({}: IAdvertismentProps) => {
-  const ref = React.useRef<FlatList<typeof carousel[number]>>();
+  const ref = React.useRef<FlatList>();
   const index = useSharedValue(0);
   const x = useSharedValue(0);
 
@@ -96,22 +94,18 @@ const Advertisment = ({}: IAdvertismentProps) => {
             marginRight: margin,
           }}
         >
-          <AnimatedFlatList
+          <AnimatedList
             ref={ref}
-            horizontal={true}
+            onScroll={onScroll}
+            horizontal
             snapToInterval={cardWidth}
             decelerationRate={0}
-            scrollEventThrottle={16}
-            onScroll={onScroll}
-            bounces={false}
-            showsHorizontalScrollIndicator={false}
             data={carousel}
-            renderItem={React.useCallback(({ item, index }) => {
+          >
+            {({ item }) => {
               return <CarouselItem item={item} />;
-            }, [])}
-            keyExtractor={(_, index: number) => index.toString()}
-          />
-
+            }}
+          </AnimatedList>
           <View
             style={{
               left: cardWidth / 2 - (carousel.length * 15) / 2,
@@ -132,8 +126,8 @@ const Advertisment = ({}: IAdvertismentProps) => {
             width: cardWidth,
           }}
         >
-          {ads.map((adItem) => (
-            <AdItem adItem={adItem} />
+          {ads.map((adItem, i) => (
+            <AdItem adItem={adItem} key={i} />
           ))}
         </View>
       </View>

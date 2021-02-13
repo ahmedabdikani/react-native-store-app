@@ -1,25 +1,23 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
-import { FlatList, ListRenderItem, Image } from "react-native";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import { Image, TextInput } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
-  useAnimatedGestureHandler,
+  useAnimatedProps,
   useAnimatedScrollHandler,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Button from "../../components/Button";
 
-import ProductItem from "../../components/ProductItem";
-import SmallList from "../../components/SmallList";
+import Button from "../../components/button/Button";
+import ProductItem from "../../components/product/ProductItem";
+import Shadow from "../../components/Shadow";
+import SmallList from "../../components/list/Small";
 import {
   CardView,
   Text,
@@ -37,6 +35,8 @@ import {
   ProductNavigationProp,
   ProductRouteProp,
 } from "../../types/Product";
+import AnimatedList from "../../components/list/Animated";
+import { useProductContext } from "../../context/ProductContext";
 
 const { width, height } = Layout.window;
 const padding = 10;
@@ -54,13 +54,23 @@ const comments = Array.from({ length: 3 }, (_, index) => {
   };
 });
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+Animated.addWhitelistedUIProps({
+  text: true,
+  value: true,
+  defaultValue: true,
+});
+const AnimatedText = Animated.createAnimatedComponent(TextInput);
 
 interface IProductProps
   extends ProductNavigationProp<"Product">,
     ProductRouteProp<"Product"> {}
 
 const ProductScreen = ({ navigation, route }: IProductProps) => {
+  const { products } = useProductContext();
+  const similarProduts = Array.from(
+    { length: 6 },
+    (_, index) => products[index]
+  );
   const { product } = route.params;
   const y = useSharedValue(0);
   const { top } = useSafeAreaInsets();
@@ -103,7 +113,7 @@ const ProductScreen = ({ navigation, route }: IProductProps) => {
           </Button>
         </CardView>
         <CardView style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {/* {products.map(renderSimilarProductItem)} */}
+          {similarProduts.map(renderSimilarProductItem)}
         </CardView>
       </CardView>
     );
@@ -140,27 +150,24 @@ const ProductScreen = ({ navigation, route }: IProductProps) => {
   return (
     <View style={{ flex: 1 }}>
       <Header y={y} top={top} />
-      <AnimatedFlatList
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-        keyExtractor={(_, index) => index.toString()}
-        data={[0]}
-        renderItem={React.useCallback(() => {
+      <AnimatedList data={[0]} onScroll={onScroll}>
+        {() => {
           return (
             <View>
               <Carousel images={product.images} />
               <Details product={product} />
               <CommentList data={comments} />
+              {SimilarProduts()}
               <MoreDetails product={product} />
             </View>
           );
-        }, [])}
-      />
+        }}
+      </AnimatedList>
       <Footer product={product} />
     </View>
   );
 };
-const CommentItem = ({ comment }: { comment: typeof comments[0] }) => {
+const CommentItem = ({ comment }: { comment: typeof comments[number] }) => {
   return (
     <CardView style={{ marginTop: padding }}>
       <CardView style={{ flexDirection: "row" }}>
@@ -215,19 +222,34 @@ const CommentList = ({ data }: { data: typeof comments }) => {
   const backgroundColor = useThemeColor({}, "card");
 
   return (
-    <SmallList
+    <CardView
       style={{
         padding: padding,
         borderRadius: padding,
-        backgroundColor,
+        // backgroundColor,
         marginHorizontal: padding,
       }}
-      data={data}
     >
-      {(comment, index) => {
-        return <CommentItem comment={comment} key={index} />;
-      }}
-    </SmallList>
+      <CardView
+        style={{ flexDirection: "row", justifyContent: "space-between" }}
+      >
+        <Text style={Fonts.h3}>Comments</Text>
+        <Button>
+          <Text
+            style={{
+              color: tintColorLight,
+              textDecorationLine: "underline",
+              ...Fonts.h4,
+            }}
+          >
+            See more
+          </Text>
+        </Button>
+      </CardView>
+      <SmallList data={data}>
+        {(comment, index) => <CommentItem comment={comment} key={index} />}
+      </SmallList>
+    </CardView>
   );
 };
 const Header = ({
@@ -322,35 +344,21 @@ const Details = ({ product }: { product: Product }) => {
 };
 
 const Carousel = ({ images }: { images: Product["images"] }) => {
-  const x = useSharedValue<number>(width);
+  const x = useSharedValue<number>(0);
   const onScroll = useAnimatedScrollHandler({
     onMomentumEnd: ({ contentOffset }) => {
       x.value = contentOffset.x;
     },
   });
 
-  const renderCarouselItem: ListRenderItem<Product["images"][0]> = ({
-    item,
-    index,
-  }) => {
-    return <CarouselItem uri={item} />;
-  };
-
   return (
     <View>
-      <AnimatedFlatList
-        horizontal
-        scroll={onScroll}
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        data={images}
-        renderItem={renderCarouselItem}
-        keyExtractor={(_, index: number) => index.toString()}
-      />
-      <Pagination
-        currentIndex={Math.round(x.value / width)}
-        total={images.length}
-      />
+      <AnimatedList data={images} horizontal onScroll={onScroll} pagingEnabled>
+        {({ item }) => {
+          return <CarouselItem uri={item} />;
+        }}
+      </AnimatedList>
+      <Pagination x={x} total={images.length} />
     </View>
   );
 };
@@ -389,48 +397,60 @@ const Footer = ({ product }: { product: Product }) => {
       <FontAwesome5 name="comment-dots" color={textSecondary} size={24} />
       <FontAwesome name="star" color={tintColorLight} size={24} />
 
-      <CardView style={{ flexDirection: "row" }}>
+      <CardView
+        style={{
+          flexDirection: "row",
+          marginVertical: padding / 2,
+        }}
+      >
         <Button
           onPress={() => addProductToCart(product)}
           style={{
             ...Styles.centerHV,
             borderBottomLeftRadius: padding * 3,
             borderTopLeftRadius: padding * 3,
-            height: 50,
+            height: 45,
             width: 120,
             backgroundColor: darkYellow,
           }}
         >
           <Text style={{ color: "#fff", ...Fonts.h4 }}>Send to cart</Text>
         </Button>
-
-        <Button
-          style={{
-            ...Styles.centerHV,
-            borderBottomRightRadius: padding * 3,
-            borderTopRightRadius: padding * 3,
-            height: 50,
-            width: 120,
-            backgroundColor: tintColorLight,
-          }}
-        >
-          <Text style={{ color: "#fff", ...Fonts.h4 }}>Puy item</Text>
-        </Button>
+        <Shadow>
+          <Button
+            style={{
+              ...Styles.centerHV,
+              borderBottomRightRadius: padding * 3,
+              borderTopRightRadius: padding * 3,
+              height: 45,
+              width: 120,
+              backgroundColor: tintColorLight,
+            }}
+          >
+            <Text style={{ color: "#fff", ...Fonts.h4 }}>Puy item</Text>
+          </Button>
+        </Shadow>
       </CardView>
     </CardView>
   );
 };
 
 interface IPaginationProps {
-  currentIndex: number;
+  x: Animated.SharedValue<number>;
   total: number;
 }
-const Pagination = ({ currentIndex, total }: IPaginationProps) => {
+const Pagination = ({ x, total }: IPaginationProps) => {
+  const animatedProps = useAnimatedProps(() => {
+    return {
+      defaultValue: Math.round(x.value / width) + 1 + "/ " + 5,
+      value: Math.round(x.value / width) + 1 + "/ " + 5,
+    };
+  });
   return (
     <View
       style={{
         height: 30,
-        width: 50,
+        width: 60,
         position: "absolute",
         bottom: padding,
         right: 0,
@@ -440,7 +460,11 @@ const Pagination = ({ currentIndex, total }: IPaginationProps) => {
         ...Styles.centerHV,
       }}
     >
-      <Text style={{ color: "#fff" }}>{currentIndex + "/" + total}</Text>
+      <AnimatedText
+        style={{ color: "#fff" }}
+        editable={false}
+        animatedProps={animatedProps}
+      />
     </View>
   );
 };

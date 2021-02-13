@@ -1,6 +1,6 @@
-export default interface user  {
+export default interface User  {
   id:string
   name:string
-  imageUri:string
+  photoUrl:string
   email:string
 }

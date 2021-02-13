@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Button from "../../components/Button";
+import Button from "../../components/button/Button";
 import { Text, useThemeColor, View } from "../../components/Themed";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";

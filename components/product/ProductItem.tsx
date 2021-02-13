@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Image } from "react-native";
 
-import { CardView, Text, useThemeColor, View } from "./Themed";
-import Layout from "../constants/Layout";
-import { tintColorLight } from "../constants/Colors";
-import { Product } from "../types/Product";
-import Button from "./Button";
-import { Fonts } from "../constants/Styles";
+import { CardView, Text, useThemeColor, View } from "../Themed";
+import Layout from "../../constants/Layout";
+import { tintColorLight } from "../../constants/Colors";
+import { Product } from "../../types/Product";
+import Button from "../button/Button";
+import { Fonts } from "../../constants/Styles";
 
 const { height, width } = Layout.window;
 const padding = 10;

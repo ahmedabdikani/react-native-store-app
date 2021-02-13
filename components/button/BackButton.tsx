@@ -4,7 +4,7 @@ import * as React from "react";
 import { Platform } from "react-native";
 import Button from "./Button";
 
-import { useThemeColor } from "./Themed";
+import { useThemeColor } from "../Themed";
 
 interface IBackButtonProps {
   children: (color: string) => JSX.Element;

@@ -1,5 +1,5 @@
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import React from "react";
+import * as React from "react";
 import { TextInput, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -7,35 +7,19 @@ import { Text, useThemeColor, View } from "../../components/Themed";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import Advertisment from "../../components/Advertisment";
-import ProductList from "../../components/ProductList";
+import ProductList from "../../components/product/ProductList";
 import { Product } from "../../types/Product";
 import MiniAppList from "../../components/MiniAppList";
 import { HomeNavigationProp } from "../../types/Home";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
-import Button from "../../components/Button";
-import FlatList from "../../components/FlatList";
+import Button from "../../components/button/Button";
+import FlatList from "../../components/list/Flat";
 import LinearGradient from "../../components/LinearGradient";
+import { useProductContext } from "../../context/ProductContext";
 
 const { width, height } = Layout.window;
 const padding = Sizes.base;
 const searchHeight = 40;
-
-const getImages = (index: number): string[] => {
-  return Array.from(
-    { length: 5 },
-    (_, i) => "https://source.unsplash.com/random/" + (i + 1) * index
-  );
-};
-export const products: Product[] = Array.from({ length: 10 }, (_, i) => ({
-  id: Math.random() * 100000,
-  title:
-    "officiis magnam consectetur. Quae suscipit sed excepturi ad praesentium odit corrupti voluptates esse quasi consequuntur, minus ipsa.",
-  price: (Math.floor(Math.random() * 400) + 103).toString(),
-
-  images: getImages(i + 1),
-  category: "",
-  description: "",
-}));
 
 // const fetchProducts = async () => {
 //   const { data, status } = await axios.get("https://fakestoreapi.com/products");
@@ -48,7 +32,7 @@ export const products: Product[] = Array.from({ length: 10 }, (_, i) => ({
 interface IHomeProps extends HomeNavigationProp<"Home"> {}
 
 const Home: React.FC<IHomeProps> = ({ navigation }) => {
-  // React.useEffect(() => {});
+  const { products } = useProductContext();
   return (
     <View style={styles.container}>
       <Header />
@@ -100,7 +84,7 @@ const Header = () => {
           color="#aaa"
         />
         <Button style={styles.searchButton}>
-          <LinearGradient style={Styles.centerHV}>
+          <LinearGradient>
             <Text
               style={{ ...Fonts.h4, color: "#fff", padding: padding * 1.5 }}
             >

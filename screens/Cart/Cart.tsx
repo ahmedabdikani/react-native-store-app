@@ -18,8 +18,8 @@ import { useCartContext } from "../../context/CartContext";
 import { Fonts } from "../../constants/Styles";
 import { Product } from "../../types/Product";
 import { FontAwesome } from "@expo/vector-icons";
-import Button from "../../components/Button";
-import CartList from "../../components/CartList";
+import Button from "../../components/button/Button";
+import CartList from "../../components/cart/CartList";
 
 const padding = 10;
 const { height, width } = Layout.window;

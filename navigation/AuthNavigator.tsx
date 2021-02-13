@@ -29,7 +29,7 @@ import { TextInput } from "react-native";
 import { AuthNavigationProp } from "../types/Auth";
 import SignUp from "../screens/auth/SignUp";
 import Intro from "../screens/auth/Intro";
-import Button from "../components/Button";
+import Button from "../components/button/Button";
 
 const padding = Sizes.base;
 const { width, height } = Layout.window;
