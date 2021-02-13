@@ -1,5 +1,6 @@
 # react-native-store-app
-alibaba like app. online shopping
+
+<h4>Taobao like app / online shopping </h4>
 
 this project is acomplete mess and in noway the end result, but for what is worth this is the current state of the project.
 
