@@ -16,11 +16,11 @@ import AuthStack from "./AuthNavigator";
 import { useAuthContext } from "../context/AuthContext";
 import BottomTabNavigator from "./BottomTabNavigator";
 
-interface INAvigationProps {
+interface NAvigationProps {
   colorScheme: ColorSchemeName;
 }
 
-const Navigation: React.FC<INAvigationProps> = ({ colorScheme }) => {
+const Navigation: React.FC<NAvigationProps> = ({ colorScheme }) => {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}

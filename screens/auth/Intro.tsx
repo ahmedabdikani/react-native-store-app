@@ -1,4 +1,6 @@
+import Logo from "components/Logo";
 import * as React from "react";
+import { StyleSheet } from "react-native";
 
 import Button from "../../components/button/Button";
 import { Text, useThemeColor, View } from "../../components/Themed";
@@ -7,72 +9,52 @@ import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
 import { AuthNavigationProp } from "../../types/Auth";
 
-const { width, height } = Layout.window;
+const { height } = Layout.window;
 const padding = Sizes.base;
 
-interface IIntroProps extends AuthNavigationProp<"Intro"> {}
+interface IntroProps extends AuthNavigationProp<"Intro"> {}
 
-const Intro: React.FC<IIntroProps> = ({ navigation }: IIntroProps) => {
+const Intro: React.FC<IntroProps> = ({ navigation }) => {
   const backgroundColor = useThemeColor({}, "card");
 
   return (
-    <View style={{ flex: 1, marginTop: height / 5 }}>
-      <View style={{ marginBottom: padding * 10 }}>
-        <Text
-          style={{
-            fontSize: 60,
-            fontWeight: "bold",
-            textAlign: "center",
-            elevation: 10,
-          }}
-        >
-          Suri
-        </Text>
-        <Text
-          style={{
-            elevation: 10,
-
-            color: tintColorLight,
-            fontSize: 30,
-            fontFamily: "lobster",
-            textAlign: "center",
-          }}
-        >
-          Life made easier
-        </Text>
-      </View>
+    <View style={styles.container}>
+      <Logo size="m" />
       <Button
         onPress={() => navigation.navigate("SignIn")}
-        style={{
-          backgroundColor: tintColorLight,
-          margin: padding,
-          alignItems: "center",
-          paddingVertical: padding * 2,
-          borderRadius: padding,
-          elevation: 10,
-        }}
+        style={styles.button}
       >
-        <Text
-          style={{ ...Fonts.h3, color: "#fff", textTransform: "uppercase" }}
-        >
-          sign in
-        </Text>
+        <Text style={[styles.buttonText, styles.white]}>sign in</Text>
       </Button>
       <Button
         onPress={() => navigation.navigate("SignUp")}
-        style={{
-          backgroundColor,
-          margin: padding,
-          alignItems: "center",
-          paddingVertical: padding * 2,
-          borderRadius: padding,
-          elevation: 10,
-        }}
+        style={[styles.button, { backgroundColor }]}
       >
-        <Text style={{ ...Fonts.h3, textTransform: "uppercase" }}>Sign up</Text>
+        <Text style={styles.buttonText}>Sign up</Text>
       </Button>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: height / 5,
+  },
+  white: { color: "#fff" },
+
+  button: {
+    backgroundColor: tintColorLight,
+    margin: padding,
+    alignItems: "center",
+    paddingVertical: padding * 2,
+    borderRadius: padding,
+    elevation: 10,
+  },
+  buttonText: {
+    ...Fonts.h3,
+    textTransform: "uppercase",
+  },
+});
 
 export default Intro;

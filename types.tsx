@@ -1,5 +1,3 @@
-import { NavigationProp } from "@react-navigation/native";
-import Navigation from "./navigation";
 import { Product } from "./types/Product";
 
 export type RootStackParamList = {
@@ -26,11 +24,6 @@ export type HomeStackPramList = {
   };
 };
 
-export type ChatStackPramList = {
-  Rooms: undefined;
-  Chat: undefined;
-  AddContact: undefined;
-};
 export type ProfileStackPramList = {
   Profile: undefined;
   Settings: undefined;

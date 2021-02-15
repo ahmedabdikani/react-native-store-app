@@ -1,19 +1,21 @@
 import * as React from "react";
-import { useState } from "react";
-import { auth, db } from "../config/firebase";
+import { db } from "../config/firebase";
 import User from "../types/User";
+import { Chat } from "../types/Chat";
 
 interface Context {
+  chats: Chat[];
   searchUser: (name: string) => Promise<any>;
 }
-export const ChatContext = React.createContext<Context>({} as Context);
+
+const ChatContext = React.createContext<Context>({} as Context);
 
 export const useChatContext = () => {
   return React.useContext(ChatContext);
 };
 
 export const ChatProvier: React.FC = ({ children }) => {
-  const [chats, setChats] = useState([]);
+  const [chats] = React.useState([]);
 
   const searchUser = async (name: string) => {
     try {
@@ -36,7 +38,7 @@ export const ChatProvier: React.FC = ({ children }) => {
   };
 
   return (
-    <ChatContext.Provider value={{ searchUser }}>
+    <ChatContext.Provider value={{ chats, searchUser }}>
       {children}
     </ChatContext.Provider>
   );

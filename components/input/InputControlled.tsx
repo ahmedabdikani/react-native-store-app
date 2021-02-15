@@ -4,14 +4,14 @@ import { KeyboardTypeOptions } from "react-native";
 
 import Input from "./Input";
 
-interface IControlledInputProps {
+export interface InputControlledProps {
   control: Control<Record<string, any>>;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   name: string;
 }
 
-const ControlledInput: React.FC<IControlledInputProps> = ({
+const InputControlled: React.FC<InputControlledProps> = ({
   control,
   placeholder,
   keyboardType,
@@ -33,4 +33,4 @@ const ControlledInput: React.FC<IControlledInputProps> = ({
     />
   );
 };
-export default ControlledInput;
+export default InputControlled;

@@ -92,8 +92,12 @@ const Styles =StyleSheet.create( {
   fRow:{
     flexDirection: "row",
   },
-
-
+  centerSelf:{
+    alignSelf:"center"
+  },
+  container:{
+    padding:Sizes.base
+  }
 
 })
 

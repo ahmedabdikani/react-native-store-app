@@ -37,7 +37,7 @@ const fakeuser: User = {
 };
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<User | null>({});
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
@@ -55,7 +55,6 @@ export const AuthProvider: React.FC = ({ children }) => {
       }
       setLoading(false);
     });
-
     return () => {
       unsupscribe();
     };

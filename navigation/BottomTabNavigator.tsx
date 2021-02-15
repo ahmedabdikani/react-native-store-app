@@ -20,7 +20,6 @@ import useColorScheme from "../hooks/useColorScheme";
 import Home from "../screens/home/Home";
 import {
   BottomTabParamList,
-  ChatStackPramList,
   HomeStackPramList,
   ProfileStackPramList,
 } from "../types";
@@ -39,9 +38,10 @@ import Settings from "../screens/profile/Settings";
 import Favorites from "../screens/profile/Favorites";
 import { Fonts } from "../constants/Styles";
 import FollowedStores from "../screens/profile/FollowedStores";
-import AddContact from "../screens/chat/AddContact";
+import AddContact from "../screens/chat/Contacts";
 import { CartStackPramList } from "../types/Cart";
 import { BackButtonNative } from "../components/button/BackButton";
+import { ChatStackPramList } from "../types/Chat";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -266,7 +266,7 @@ const ChatNavigator = () => {
         }}
       />
       <ChatStack.Screen
-        name="AddContact"
+        name="Contacts"
         component={AddContact}
         options={{
           headerTitleAlign: "center",

@@ -3,7 +3,7 @@ import {} from "react-native";
 
 interface IAddContactProps {}
 
-const AddContact: React.FC<IAddContactProps> = ({}: IAddContactProps) => {
+const Contacts: React.FC<IAddContactProps> = ({}) => {
   return null;
 };
-export default AddContact;
+export default Contacts;

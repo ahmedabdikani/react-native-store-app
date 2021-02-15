@@ -12,16 +12,8 @@ export default {
               Product:'product'
             },
           },
-          TabOne: {
-            screens: {
-              TabOneScreen: 'one',
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
+
+
         },
       },
       NotFound: '*',
