@@ -1,28 +1,19 @@
 import * as React from "react";
-import { Image, ListRenderItem, StyleSheet } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
-import {
-  useThemeColor,
-  View,
-  Text,
-  CardView,
-  TextSec,
-} from "../../components/Themed";
+import { View, Text, CardView, TextSec } from "../../components/Theme";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
-import { CartItem, CartNavigationProp, CartRouteProp } from "../../types/Cart";
+import { CartNavigationProp, CartRouteProp } from "../../types/Cart";
 import { useCartContext } from "../../context/CartContext";
 import { Fonts } from "../../constants/Styles";
-import { Product } from "../../types/Product";
-import { FontAwesome } from "@expo/vector-icons";
-import Button from "../../components/button/Button";
 import CartList from "../../components/cart/CartList";
+import useThemeColor from "../../hooks/useThemeColor";
+import { StyleSheet } from "react-native";
+import Button from "../../components/button/Button";
 
 const padding = 10;
-const { height, width } = Layout.window;
+const { width } = Layout.window;
 
 interface ICartProps
   extends CartNavigationProp<"Cart">,
@@ -30,9 +21,7 @@ interface ICartProps
 
 const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
   const { top } = useSafeAreaInsets();
-  const textColor = useThemeColor({}, "text");
   const backgroundColor = useThemeColor({}, "card");
-  const tabBarheight = useBottomTabBarHeight();
   const [openMore, setOpenMore] = React.useState(false);
   const { cartItems, total } = useCartContext();
 
@@ -53,9 +42,9 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
           }}
         >
           <Text style={{ ...Fonts.h2 }}>Shopping Cart</Text>
-          <TouchableOpacity onPress={() => setOpenMore((prev) => !prev)}>
+          <Button onPress={() => setOpenMore((prev) => !prev)}>
             <TextSec style={Fonts.body3}>{openMore ? "Hide" : "More"}</TextSec>
-          </TouchableOpacity>
+          </Button>
         </CardView>
         <CardView>
           <Text> Items {cartItems.length}</Text>
@@ -87,7 +76,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
           }}
         >
           <Text>Total ${total}</Text>
-          <TouchableOpacity
+          <Button
             style={{
               marginLeft: padding,
               backgroundColor: tintColorLight,
@@ -98,7 +87,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
             }}
           >
             <Text style={{ color: "#fff" }}>Checkout</Text>
-          </TouchableOpacity>
+          </Button>
         </View>
       </View>
     );

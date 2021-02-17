@@ -2,8 +2,9 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import Button from "../../components/button/Button";
-import { Text, TextSec, useThemeColor, View } from "../../components/Themed";
+import { Text, TextSec, View } from "../../components/Theme";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
+import useThemeColor from "../../hooks/useThemeColor";
 import { AuthNavigationProp, SignUpFormProps } from "../../types/Auth";
 import * as yup from "yup";
 import { useAuthContext } from "../../context/AuthContext";
@@ -13,8 +14,8 @@ import { tintColorLight } from "../../constants/Colors";
 import { StyleSheet } from "react-native";
 import { BackButtonNative } from "../../components/button/BackButton";
 import Error from "../../components/Error";
-import InputForm from "components/input/InputForm";
-import ButtonSecureText from "components/button/ButtonSecureText";
+import InputForm from "../../components/input/InputForm";
+import ButtonSecureText from "../../components/button/ButtonSecureText";
 
 const padding = Sizes.base;
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-import { View } from "../components/Themed";
+import { View } from "../components/Theme";
 
 interface IHearBeatProps {
   color: string;

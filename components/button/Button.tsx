@@ -1,17 +1,16 @@
 import * as React from "react";
-import { Pressable, PressableProps } from "react-native";
+import { Pressable, PressableProps, StyleProp, ViewStyle } from "react-native";
 
-interface IButtonProps extends PressableProps {}
+interface ButtonProps extends Omit<PressableProps, "style"> {
+  style?: StyleProp<ViewStyle>;
+}
 
-const Button: React.FC<IButtonProps> = ({ children, style, ...otherProps }) => {
+const Button: React.FC<ButtonProps> = ({ children, style, ...props }) => {
   Pressable.propTypes;
   return (
     <Pressable
-      {...otherProps}
-      style={({ pressed }) => ({
-        opacity: pressed ? 0.3 : 1,
-        ...style,
-      })}
+      {...props}
+      style={({ pressed }) => [{ opacity: pressed ? 0.3 : 1 }, style]}
     >
       {children}
     </Pressable>

@@ -6,14 +6,11 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  withRepeat,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Layout.window;
-import { View } from "../components/Themed";
+import { View } from "../components/Theme";
 import Layout from "../constants/Layout";
 
 interface IChatsProps {}
@@ -68,10 +65,6 @@ const Chats = ({}: IChatsProps) => {
       }
     },
   });
-
-  // useEffect(() => {
-
-  // }, []);
 
   return (
     <View style={{ flex: 1, marginTop: 45, overflow: "hidden" }}>

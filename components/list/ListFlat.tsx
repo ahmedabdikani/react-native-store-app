@@ -5,18 +5,18 @@ import {
   ListRenderItem,
 } from "react-native";
 import { Fonts, Styles } from "../../constants/Styles";
-import { TextSec, View } from "../Themed";
+import { TextSec, View } from "../Theme";
 
-interface IFlatListProps<T> extends Omit<FlatListProps<T>, "renderItem"> {
+interface ListFlatProps<T> extends Omit<FlatListProps<T>, "renderItem"> {
   readonly data: T[];
   children: ListRenderItem<T>;
 }
 
-const FlatList = <T extends {}>({
+const ListFlat = <T extends {}>({
   children,
   data,
   ...props
-}: IFlatListProps<T>) => {
+}: ListFlatProps<T>) => {
   const ListEmptyComponent = () => {
     return (
       <View style={{ ...Styles.centerHV }}>
@@ -39,4 +39,4 @@ const FlatList = <T extends {}>({
   );
 };
 
-export default FlatList;
+export default ListFlat;

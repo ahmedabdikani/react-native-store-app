@@ -8,34 +8,22 @@ import Animated, {
   useAnimatedProps,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
-  withSpring,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Button from "../../components/button/Button";
-import ProductItem from "../../components/product/ProductItem";
 import Shadow from "../../components/Shadow";
-import SmallList from "../../components/list/Small";
-import {
-  CardView,
-  Text,
-  TextSec,
-  useThemeColor,
-  View,
-} from "../../components/Themed";
+import SmallList from "../../components/list/ListSmall";
+import { CardView, Text, TextSec, View } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
 import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Styles } from "../../constants/Styles";
 import { useCartContext } from "../../context/CartContext";
-import { HomeNavigationProp } from "../../types/Home";
-import {
-  Product,
-  ProductNavigationProp,
-  ProductRouteProp,
-} from "../../types/Product";
-import AnimatedList from "../../components/list/Animated";
+import { HomeNavigationProps } from "../../types/Home";
+import { Product } from "../../types/Product";
+import AnimatedList from "../../components/list/ListAnimated";
 import { useProductContext } from "../../context/ProductContext";
 
 const { width, height } = Layout.window;
@@ -61,9 +49,7 @@ Animated.addWhitelistedUIProps({
 });
 const AnimatedText = Animated.createAnimatedComponent(TextInput);
 
-interface IProductProps
-  extends ProductNavigationProp<"Product">,
-    ProductRouteProp<"Product"> {}
+interface IProductProps extends HomeNavigationProps<"Product"> {}
 
 const ProductScreen = ({ navigation, route }: IProductProps) => {
   const { products } = useProductContext();
@@ -219,14 +205,11 @@ const MoreDetails = ({ product }: { product: Product }) => {
 };
 
 const CommentList = ({ data }: { data: typeof comments }) => {
-  const backgroundColor = useThemeColor({}, "card");
-
   return (
     <CardView
       style={{
         padding: padding,
         borderRadius: padding,
-        // backgroundColor,
         marginHorizontal: padding,
       }}
     >
@@ -247,7 +230,7 @@ const CommentList = ({ data }: { data: typeof comments }) => {
         </Button>
       </CardView>
       <SmallList data={data}>
-        {(comment, index) => <CommentItem comment={comment} key={index} />}
+        {({ item, index }) => <CommentItem comment={item} key={index} />}
       </SmallList>
     </CardView>
   );
@@ -366,9 +349,7 @@ const Carousel = ({ images }: { images: Product["images"] }) => {
 const CarouselItem = ({ uri }: { uri: string }) => {
   const style = useAnimatedStyle(() => ({}));
 
-  const navigation = useNavigation<
-    HomeNavigationProp<"ViewContent">["navigation"]
-  >();
+  const navigation = useNavigation();
 
   return (
     <Button onPress={() => navigation.navigate("ViewContent", { uri })}>

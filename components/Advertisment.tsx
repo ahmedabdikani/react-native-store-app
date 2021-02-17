@@ -9,17 +9,12 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import Colors, {
-  lightBlue,
-  lightGreen,
-  lightRed,
-  tintColorLight,
-} from "../constants/Colors";
+import { lightBlue, lightRed, tintColorLight } from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { Fonts, Sizes } from "../constants/Styles";
 import Button from "./button/Button";
-import AnimatedList from "./list/Animated";
-import { CardView, Text, TextSec, useThemeColor, View } from "./Themed";
+import AnimatedList from "./list/ListAnimated";
+import { CardView, Text, View } from "./Theme";
 
 const img0 = require("../assets/images/carosel4.png");
 const img1 = require("../assets/images/carosel1.png");
@@ -30,11 +25,10 @@ const img5 = require("../assets/images/ad5.png");
 const img6 = require("../assets/images/ad6.png");
 const img7 = require("../assets/images/ad10.png");
 
-const { width, height } = Layout.window;
+const { width } = Layout.window;
 const margin = 10;
 const padding = Sizes.base;
 const radius = 20;
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const cardWidth = (width - margin * 4) / 2;
 const cardHeight = cardWidth * 1.5;
 const carousel = [

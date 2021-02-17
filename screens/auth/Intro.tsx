@@ -1,13 +1,14 @@
-import Logo from "components/Logo";
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
 import Button from "../../components/button/Button";
-import { Text, useThemeColor, View } from "../../components/Themed";
+import { Text, View } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
 import { AuthNavigationProp } from "../../types/Auth";
+import Logo from "../../components/Logo";
 
 const { height } = Layout.window;
 const padding = Sizes.base;

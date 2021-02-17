@@ -3,21 +3,21 @@ import * as React from "react";
 import { TextInput, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Text, useThemeColor, View } from "../../components/Themed";
+import { Text, View } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import Advertisment from "../../components/Advertisment";
 import ProductList from "../../components/product/ProductList";
-import { Product } from "../../types/Product";
 import MiniAppList from "../../components/MiniAppList";
 import { HomeNavigationProp } from "../../types/Home";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
 import Button from "../../components/button/Button";
-import FlatList from "../../components/list/Flat";
+import FlatList from "../../components/list/ListFlat";
 import LinearGradient from "../../components/LinearGradient";
 import { useProductContext } from "../../context/ProductContext";
 
-const { width, height } = Layout.window;
+const { width } = Layout.window;
 const padding = Sizes.base;
 const searchHeight = 40;
 

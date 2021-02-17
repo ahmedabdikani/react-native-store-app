@@ -3,25 +3,14 @@ import { useNavigation } from "@react-navigation/core";
 import * as React from "react";
 import { Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import Button from "../../components/button/Button";
-import FlatList from "../../components/list/Flat";
-
-import {
-  CardView,
-  Text,
-  TextSec,
-  useThemeColor,
-  View,
-} from "../../components/Themed";
-import Layout from "../../constants/Layout";
+import FlatList from "../../components/list/ListFlat";
+import { CardView, Text, TextSec, View } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
 import { Fonts, Sizes } from "../../constants/Styles";
-import { useAuthContext } from "../../context/AuthContext";
 
-const { height, width } = Layout.window;
 const padding = Sizes.base;
-
-interface IRoomsProps {}
-
 const chats = Array.from({ length: 20 }, (_, index) => {
   return {
     id: Math.random() * 1000000,
@@ -34,12 +23,10 @@ const chats = Array.from({ length: 20 }, (_, index) => {
   };
 });
 
-const Rooms: React.FC<IRoomsProps> = ({}) => {
-  const { user } = useAuthContext();
-  const { top } = useSafeAreaInsets();
-  const backgroundColor = useThemeColor({}, "background");
+interface RoomsProps {}
+
+const Rooms: React.FC<RoomsProps> = ({}) => {
   const card = useThemeColor({}, "card");
-  const color = useThemeColor({}, "text");
   const [openMenu, setOpenMenu] = React.useState(false);
 
   return (

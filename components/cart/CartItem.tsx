@@ -7,7 +7,8 @@ import { Sizes } from "../../constants/Styles";
 import { useCartContext } from "../../context/CartContext";
 import { CartItem as ItemType } from "../../types/Cart";
 import Button from "../button/Button";
-import { CardView, Text, useThemeColor } from "../Themed";
+import { CardView, Text } from "../Theme";
+import useThemeColor from "../../hooks/useThemeColor";
 
 const padding = Sizes.base;
 

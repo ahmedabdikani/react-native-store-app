@@ -9,23 +9,18 @@ import { StyleSheet } from "react-native";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 
-import { BackButtonNative } from "components/button/BackButton";
-import Button from "components/button/Button";
-import ButtonSecureText from "components/button/ButtonSecureText";
-import InputForm from "components/input/InputForm";
-import Logo from "components/Logo";
-import {
-  CardView,
-  Text,
-  TextSec,
-  useThemeColor,
-  View,
-} from "components/Themed";
-import { tintColorLight } from "constants/Colors";
-import { Fonts, Sizes, Styles } from "constants/Styles";
-import { useAuthContext } from "context/AuthContext";
-import { AuthNavigationProp, SignInFormProps } from "types/Auth";
-import Error from "components/Error";
+import { BackButtonNative } from "../../components/button/BackButton";
+import Button from "../../components/button/Button";
+import ButtonSecureText from "../../components/button/ButtonSecureText";
+import InputForm from "../../components/input/InputForm";
+import Logo from "../../components/Logo";
+import { CardView, Text, TextSec, View } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
+import { tintColorLight } from "../../constants/Colors";
+import { Fonts, Sizes, Styles } from "../../constants/Styles";
+import { useAuthContext } from "../../context/AuthContext";
+import { AuthNavigationProp, SignInFormProps } from "../../types/Auth";
+import Error from "../../components/Error";
 
 const spacing = Sizes.base;
 

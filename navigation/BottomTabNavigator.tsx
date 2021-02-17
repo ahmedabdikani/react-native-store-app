@@ -1,33 +1,19 @@
+import * as React from "react";
 import {
   FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import {
-  BottomTabBarButtonProps,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
-import {
-  createStackNavigator,
-  HeaderBackButton,
-  StackHeaderLeftButtonProps,
-} from "@react-navigation/stack";
-import * as React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import Colors, { tintColorLight } from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
+import { tintColorLight } from "../constants/Colors";
 import Home from "../screens/home/Home";
-import {
-  BottomTabParamList,
-  HomeStackPramList,
-  ProfileStackPramList,
-} from "../types";
 import Product from "../screens/home/Product";
-import { Text, useThemeColor, View } from "../components/Themed";
+import useThemeColor from "../hooks/useThemeColor";
+import { Text, View } from "../components/Theme";
 import HearBeat from "../Icons/HearBeat";
-import Svg, { Path } from "react-native-svg";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import Cart from "../screens/cart/Cart";
 import ViewScreen from "../screens/home/ViewScreen";
 import Profile from "../screens/profile/Profile";
@@ -42,12 +28,13 @@ import AddContact from "../screens/chat/Contacts";
 import { CartStackPramList } from "../types/Cart";
 import { BackButtonNative } from "../components/button/BackButton";
 import { ChatStackPramList } from "../types/Chat";
+import { BottomTabParamList } from "../types/BottomTab";
+import { HomeStackPramList } from "../types/Home";
+import { ProfileStackPramList } from "../types/Profile";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="HomeStack"
@@ -84,7 +71,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Chat"
+        name="ChatStack"
         component={ChatNavigator}
         options={{
           tabBarIcon: ({ color, focused }) => {
@@ -98,7 +85,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="ShoppingCart"
+        name="CartStack"
         component={CartNavigator}
         options={{
           tabBarIcon: ({ color, focused }) => {
@@ -111,7 +98,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Profile"
+        name="ProfileStack"
         component={ProfileNavigator}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
@@ -128,61 +115,61 @@ export default function BottomTabNavigator() {
   );
 }
 
-const CustomTabButton = ({
-  children,
-  accessibilityState,
-  onPress,
-  ...props
-}: BottomTabBarButtonProps) => {
-  if (accessibilityState?.selected) {
-    return (
-      <View
-        {...props}
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          flex: 1,
-          backgroundColor: "transparent",
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: "transparent",
-            position: "absolute",
-            top: 0,
-          }}
-        >
-          <Svg width={75} height={61} viewBox="0 0 75 61" fill="none">
-            <Path d="M75.2 0v61H0V0c4.1 0 7.4 3.1 7.9 7.1C10 21.7 22.5 33 37.7 33c15.2 0 27.7-11.3 29.7-25.9.5-4 3.9-7.1 7.9-7.1h-.1z" />
-          </Svg>
-        </View>
-        <TouchableOpacity
-          onPress={onPress}
-          style={{
-            elevation: 2,
-            zIndex: 2,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            backgroundColor: "#fff",
-            top: -22,
-            justifyContent: "center",
-            alignItems: "center",
-            paddingVertical: 10,
-          }}
-        >
-          {children}
-        </TouchableOpacity>
-      </View>
-    );
-  } else {
-    return (
-      <View {...props}>
-        <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>
-      </View>
-    );
-  }
-};
+// const CustomTabButton = ({
+//   children,
+//   accessibilityState,
+//   onPress,
+//   ...props
+// }: BottomTabBarButtonProps) => {
+//   if (accessibilityState?.selected) {
+//     return (
+//       <View
+//         {...props}
+//         style={{
+//           justifyContent: "center",
+//           alignItems: "center",
+//           flex: 1,
+//           backgroundColor: "transparent",
+//         }}
+//       >
+//         <View
+//           style={{
+//             backgroundColor: "transparent",
+//             position: "absolute",
+//             top: 0,
+//           }}
+//         >
+//           <Svg width={75} height={61} viewBox="0 0 75 61" fill="none">
+//             <Path d="M75.2 0v61H0V0c4.1 0 7.4 3.1 7.9 7.1C10 21.7 22.5 33 37.7 33c15.2 0 27.7-11.3 29.7-25.9.5-4 3.9-7.1 7.9-7.1h-.1z" />
+//           </Svg>
+//         </View>
+//         <TouchableOpacity
+//           onPress={onPress}
+//           style={{
+//             elevation: 2,
+//             zIndex: 2,
+//             borderRadius: 50,
+//             height: 50,
+//             width: 50,
+//             backgroundColor: "#fff",
+//             top: -22,
+//             justifyContent: "center",
+//             alignItems: "center",
+//             paddingVertical: 10,
+//           }}
+//         >
+//           {children}
+//         </TouchableOpacity>
+//       </View>
+//     );
+//   } else {
+//     return (
+//       <View {...props}>
+//         <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>
+//       </View>
+//     );
+//   }
+// };
 
 function TabBarIcon(props: { name: string; color: string }) {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
@@ -279,8 +266,6 @@ const ChatNavigator = () => {
 };
 const ProfileStack = createStackNavigator<ProfileStackPramList>();
 const ProfileNavigator = () => {
-  const color = useThemeColor({}, "text");
-
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen

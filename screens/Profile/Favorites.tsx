@@ -1,61 +1,58 @@
 import * as React from "react";
-import { Image, ListRenderItem } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import { CardView, Text, TextSec, View } from "../../components/Themed";
+import { Image } from "react-native";
+import { CardView, Text, TextSec } from "../../components/Theme";
 import { tintColorLight } from "../../constants/Colors";
-import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
-import { product } from "../../types/Product";
-import { products } from "../home/Home";
+import { Product } from "../../types/Product";
+import Button from "../../components/button/Button";
+import ListFlat from "../../components/list/ListFlat";
+import { useProductContext } from "../../context/ProductContext";
 
-const { width, height } = Layout.window;
-const padding = Sizes.base;
+const spacing = Sizes.base;
 
 interface IFavoritesProps {}
 
 const Favorites = ({}: IFavoritesProps) => {
-  const FavoriteItem: ListRenderItem<product> = ({ item }) => {
+  const { products } = useProductContext();
+
+  const FavoriteItem = ({ item }: { item: Product }) => {
     return (
-      <TouchableOpacity style={{ flexDirection: "row", marginBottom: padding }}>
+      <Button style={{ flexDirection: "row", marginBottom: spacing }}>
         <Image
           source={{ uri: item.images[0] }}
           style={{
             height: 150,
             width: 150,
             resizeMode: "cover",
-            borderRadius: padding,
+            borderRadius: spacing,
           }}
         />
-        <CardView style={{ flex: 1, padding }}>
+        <CardView style={{ flex: 1, padding: spacing }}>
           <Text numberOfLines={2} style={Fonts.body2}>
             {item.title}
           </Text>
-          <TextSec style={{ marginTop: padding * 0.5, ...Fonts.body3 }}>
+          <TextSec style={{ marginTop: spacing * 0.5, ...Fonts.body3 }}>
             100 people liked
           </TextSec>
           <TextSec
             style={{
               ...Fonts.h3,
               color: tintColorLight,
-              marginTop: padding * 1.5,
+              marginTop: spacing * 1.5,
             }}
           >
             ${item.price}
           </TextSec>
         </CardView>
-      </TouchableOpacity>
+      </Button>
     );
   };
 
   return (
-    <CardView style={{ padding }}>
-      <FlatList
-        bounces={false}
-        showsVerticalScrollIndicator={false}
-        data={products}
-        renderItem={FavoriteItem}
-        keyExtractor={(_, index) => index.toString()}
-      />
+    <CardView style={{ padding: spacing }}>
+      <ListFlat data={products}>
+        {({ item }) => <FavoriteItem item={item} />}
+      </ListFlat>
     </CardView>
   );
 };

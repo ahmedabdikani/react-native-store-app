@@ -1,39 +1,28 @@
+import * as React from "react";
 import {
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
-import * as React from "react";
-import { useState } from "react";
 import { Image } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-import Avatar from "../../components/Avatar";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import {
-  CardView,
-  Text,
-  useThemeColor,
-  View,
-  TextSec,
-  setTheme,
-} from "../../components/Themed";
-import Colors, { lightBlue, tintColorLight } from "../../constants/Colors";
+import Avatar from "../../components/Avatar";
+import { CardView, Text, View, TextSec } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
+import { lightBlue, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";
 import { useAuthContext } from "../../context/AuthContext";
-import user from "../../types/User";
+import User from "../../types/User";
+import { ProfileScreenProps } from "types/Profile";
+import Button from "../../components/button/Button";
+import { useNavigation } from "@react-navigation/core";
 
-const { width, height } = Layout.window;
+const { width } = Layout.window;
 const padding = Sizes.base;
 
-interface IProfileProps {
-  navigation;
-}
+interface ProfileProps extends ProfileScreenProps<"Profile"> {}
 
 const colors = [
   "#213970",
@@ -44,14 +33,11 @@ const colors = [
   "#ed33f5",
 ];
 
-const Profile = ({ navigation }: IProfileProps) => {
-  const color = useThemeColor({}, "text");
-  const backgroundColor = useThemeColor({}, "background");
+const Profile: React.FC<ProfileProps> = ({ navigation }) => {
   const card = useThemeColor({}, "card");
-  const colorSec = useThemeColor({}, "textSecondary");
   const { top } = useSafeAreaInsets();
   const { user } = useAuthContext();
-  const [openTheme, setOpenTheme] = useState(false);
+  const [openTheme, setOpenTheme] = React.useState(false);
 
   const renderThemeOptions = () => {
     return (
@@ -93,10 +79,8 @@ const Profile = ({ navigation }: IProfileProps) => {
         >
           {colors.map((color, index) => {
             return (
-              <TouchableOpacity
-                onPress={() => {
-                  // setTheme({ backgroundColor: color });
-                }}
+              <Button
+                onPress={() => null}
                 key={index}
                 style={{
                   backgroundColor: color,
@@ -106,7 +90,7 @@ const Profile = ({ navigation }: IProfileProps) => {
                   marginBottom: padding,
                   borderRadius: padding,
                 }}
-              ></TouchableOpacity>
+              ></Button>
             );
           })}
         </CardView>
@@ -119,20 +103,19 @@ const Profile = ({ navigation }: IProfileProps) => {
   }
 
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <View style={{ height: top, width }} />
-      <View style={{ padding, flex: 1 }}>
-        {renderHeader({ color, colorSec, user, navigation, setOpenTheme })}
-        {openTheme && renderThemeOptions()}
-        {renderSelection(navigation)}
-        {renderMyOrders()}
-        {renderPaymentMethods()}
-      </View>
-    </SafeAreaProvider>
+    <View style={{ padding, paddingTop: top, flex: 1 }}>
+      {renderHeader({ user, setOpenTheme })}
+      {openTheme && renderThemeOptions()}
+      {renderSelection()}
+      {renderMyOrders()}
+      {renderPaymentMethods()}
+    </View>
   );
 };
 
-const renderSelection = (navigation) => {
+const renderSelection = () => {
+  const navigation = useNavigation();
+
   return (
     <View
       style={{
@@ -142,20 +125,20 @@ const renderSelection = (navigation) => {
         alignItems: "center",
       }}
     >
-      <TouchableOpacity
+      <Button
         onPress={() => navigation.navigate("Favorite")}
         style={{ justifyContent: "center", alignItems: "center" }}
       >
         <Text>308</Text>
         <TextSec>stars</TextSec>
-      </TouchableOpacity>
-      <TouchableOpacity
+      </Button>
+      <Button
         onPress={() => navigation.navigate("FollowedStores")}
         style={{ justifyContent: "center", alignItems: "center" }}
       >
         <Text>10</Text>
         <TextSec>Follwed stores</TextSec>
-      </TouchableOpacity>
+      </Button>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <Text>236</Text>
         <TextSec>Recently seen</TextSec>
@@ -276,18 +259,15 @@ const renderMyOrders = () => {
 };
 
 const renderHeader = ({
-  color,
-  colorSec,
   user,
-  navigation,
   setOpenTheme,
 }: {
-  setOpenTheme;
-  navigation: any;
-  user: user;
-  color: string;
-  colorSec: string;
+  setOpenTheme: React.Dispatch<React.SetStateAction<boolean>>;
+  user: User;
 }) => {
+  const color = useThemeColor({}, "text");
+  const navigation = useNavigation();
+
   return (
     <View>
       <View
@@ -301,18 +281,16 @@ const renderHeader = ({
         }}
       >
         <Ionicons name="person-outline" size={24} color={color} />
-        <TouchableOpacity
-          onPress={() => setOpenTheme((openTheme) => !openTheme)}
-        >
+        <Button onPress={() => setOpenTheme((openTheme) => !openTheme)}>
           <Ionicons name="color-palette-outline" size={24} color={color} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+        </Button>
+        <Button onPress={() => navigation.navigate("Settings")}>
           <Ionicons name="settings-outline" size={24} color={color} />
-        </TouchableOpacity>
+        </Button>
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CardView style={{ padding: padding * 0.2, borderRadius: 100 }}>
-          <Avatar imageUri={user.photo} initial={user.name} />
+          <Avatar imageUri={user.photoUrl} initial={user.name} />
         </CardView>
         <View style={{ marginLeft: padding, flexDirection: "row" }}>
           {/* <TextSec style={Fonts.h3}>User id:</TextSec> */}
@@ -333,7 +311,7 @@ const renderPaymentMethods = () => {
         minHeight: 200,
       }}
     >
-      <Text style={[Fonts.h4]}>Payment Methods</Text>
+      <Text style={Fonts.h4}>Payment Methods</Text>
       <CardView
         style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
       >

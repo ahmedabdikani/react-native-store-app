@@ -1,88 +1,91 @@
+import * as React from "react";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import React from "react";
-import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   tintColorLight,
   lightBlue,
   lightRed,
   lightGreen,
 } from "../constants/Colors";
-import Layout from "../constants/Layout";
 import MiniAppItem from "./MiniAppItem";
-import { View } from "./Themed";
+import { View } from "./Theme";
+import { Sizes } from "../constants/Styles";
+import ListSmall from "./list/ListSmall";
 
-const { height, width } = Layout.window;
-const miniAppWidth = (width - 60) / 4;
 const miniApps = [
   {
-    appIcon: "hotel",
-    name: "FontAwesome5",
-    appName: "Hotels",
+    icon: "hotel",
+    type: "FontAwesome5",
+    name: "Hotels",
     color: lightBlue,
   },
   {
-    name: "FontAwesome5",
-    appIcon: "plane",
-    appName: "Tickets",
+    type: "FontAwesome5",
+    icon: "plane",
+    name: "Tickets",
     color: tintColorLight,
   },
   {
-    name: "FontAwesome",
-    appIcon: "bank",
-    appName: "Bank",
+    type: "FontAwesome",
+    icon: "bank",
+    name: "Bank",
     color: lightGreen,
   },
   {
-    name: "FontAwesome",
-    appIcon: "mobile-phone",
-    appName: "Phone Recharge",
+    type: "FontAwesome",
+    icon: "mobile-phone",
+    name: "Phone Recharge",
     color: lightRed,
   },
 ];
+const spacing = Sizes.base;
 
-interface IMiniAppList {}
+interface MiniAppListProps {}
 
-const MiniAppList: React.FC<IMiniAppList> = ({}) => {
+const MiniAppList: React.FC<MiniAppListProps> = ({}) => {
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 20 }}>
-      {miniApps.map((item, index) => {
-        return (
-          <TouchableOpacity
+    <View style={styles.constainer}>
+      <ListSmall data={miniApps}>
+        {({ item, index }) => (
+          <MiniAppItem
             key={index}
-            style={{ marginRight: 10, marginBottom: 10 }}
-          >
-            <MiniAppItem
-              width={miniAppWidth}
-              color={item.color}
-              appName={item.appName}
-              appIcon={() => {
-                switch (item.name) {
-                  case "FontAwesome":
-                    return (
-                      <FontAwesome
-                        name={item.appIcon}
-                        size={30}
-                        color={item.color}
-                      />
-                    );
-                    break;
-                  case "FontAwesome5":
-                    return (
-                      <FontAwesome5
-                        color={item.color}
-                        name={item.appIcon}
-                        size={24}
-                      />
-                    );
-                    break;
-                }
-              }}
-            />
-          </TouchableOpacity>
-        );
-      })}
+            color={item.color}
+            appName={item.name}
+            appIcon={() => {
+              switch (item.type) {
+                case "FontAwesome":
+                  return (
+                    <FontAwesome
+                      name={item.icon}
+                      size={30}
+                      color={item.color}
+                    />
+                  );
+                  break;
+                default:
+                  return (
+                    <FontAwesome5
+                      color={item.color}
+                      name={item.icon}
+                      size={24}
+                    />
+                  );
+                  break;
+              }
+            }}
+          />
+        )}
+      </ListSmall>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  constainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginVertical: spacing,
+  },
+});
 
 export default MiniAppList;

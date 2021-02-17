@@ -11,11 +11,8 @@ export type HomeStackPramList = {
   };
 };
 
-export type HomeNavigationProp <T extends keyof HomeStackPramList> = {
+export type HomeNavigationProps <T extends keyof HomeStackPramList> = {
   navigation: NavigationProp<HomeStackPramList, T>;
-
-};
-export type HomeRouteProp <T extends keyof HomeStackPramList> = {
   route: RouteProp<HomeStackPramList, T>;
 
 };

@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native"
 
 
+
 const Sizes = {
   //global sizes
 
@@ -12,68 +13,61 @@ const Sizes = {
 
   // fontSize
 
-  largeTitle:30,
-  h1:24,
-  h2:20,
-  h3:18,
-  h4:16, 
+  h1:30,
+  h2:27,
+  h3:24,
+  h4:20,
+  subtitle:18, 
   body1:20,
-  body2:16,
-  body3:14,
-  body4:12,
-
-  
-
+  body2:18,
+  body3:16,
+  caption:18,
 
 }
 
 const Fonts = StyleSheet.create({
-  largeTitle:{
-    fontWeight:"normal",
-    fontSize:Sizes.largeTitle,
-    lineHeight:30,
-  },
   h1:{
     fontWeight:"bold",
     fontSize:Sizes.h1,
-    lineHeight:24,
+    lineHeight:30,
   },
   h2:{
     fontWeight:"bold",
     fontSize:Sizes.h2,
-    lineHeight:22,
+    lineHeight:27,
   },
   h3:{
     fontWeight:"bold",
     fontSize:Sizes.h3,
-    lineHeight:20,
-  }
-  ,
+    lineHeight:24,
+  },
   h4:{
     fontWeight:"bold",
     fontSize:Sizes.h4,
+    lineHeight:20,
+  }
+  ,
+  subtitle:{
+    fontWeight:"bold",
+    fontSize:Sizes.subtitle,
     lineHeight:18,
   }
   ,
   body1:{
-    fontWeight:"normal",
     fontSize:Sizes.body1,
-    lineHeight:30,
+    lineHeight:20,
   }
   ,
   body2:{
-    fontWeight:"normal",
     fontSize:Sizes.body2,
-    lineHeight:22,
+    lineHeight:18,
   },
   body3:{
-    fontWeight:"normal",
     fontSize:Sizes.body3,
-    lineHeight:22,
+    lineHeight:16,
   },
-  body4:{
-    fontWeight:"normal",
-    fontSize:Sizes.body4,
+  caption:{
+    fontSize:Sizes.caption,
   },
 
 });
@@ -97,8 +91,8 @@ const Styles =StyleSheet.create( {
   },
   container:{
     padding:Sizes.base
-  }
-
+  },
+  
 })
 
 export {Fonts, Sizes, Styles}

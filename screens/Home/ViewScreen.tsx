@@ -1,19 +1,18 @@
 import * as React from "react";
-import { Image, ImageBackground, Pressable } from "react-native";
+import { Image } from "react-native";
+import { HomeNavigationProps } from "types/Home";
 
-import { View } from "../../components/Themed";
+import Button from "../../components/button/Button";
+import { View } from "../../components/Theme";
 import Layout from "../../constants/Layout";
 
 const { width, height } = Layout.window;
 
-interface IViewScreenProps {
-  navigation;
-  route;
-}
+interface ViewScreenProps extends HomeNavigationProps<"ViewContent"> {}
 
-const ViewScreen = ({ navigation, route }: IViewScreenProps) => {
+const ViewScreen = ({ navigation, route }: ViewScreenProps) => {
   return (
-    <Pressable onPress={() => navigation.goBack()} style={{ flex: 1 }}>
+    <Button onPress={() => navigation.goBack()} style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
@@ -22,7 +21,7 @@ const ViewScreen = ({ navigation, route }: IViewScreenProps) => {
         }}
       >
         <Image
-          source={{ uri: route.params.uri }}
+          source={{ uri: route.params?.uri }}
           style={{
             width,
             height: height / 1.7,
@@ -30,7 +29,7 @@ const ViewScreen = ({ navigation, route }: IViewScreenProps) => {
           }}
         />
       </View>
-    </Pressable>
+    </Button>
   );
 };
 export default ViewScreen;

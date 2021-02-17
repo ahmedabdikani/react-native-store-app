@@ -4,14 +4,14 @@ import Animated from "react-native-reanimated";
 
 const _AnimatedList = Animated.createAnimatedComponent(FlatList);
 
-interface AnimatedListProps<T> extends Omit<FlatList["props"], "renderItem"> {
+interface ListAnimatedProps<T> extends Omit<FlatList["props"], "renderItem"> {
   data: T[];
   children: ListRenderItem<T>;
 }
 
-const AnimatedList = React.forwardRef(
+const ListAnimated = React.forwardRef(
   <T extends {}>(
-    { data, children, ...props }: AnimatedListProps<T>,
+    { data, children, ...props }: ListAnimatedProps<T>,
     ref: React.Ref<FlatList>
   ) => {
     return (
@@ -28,8 +28,8 @@ const AnimatedList = React.forwardRef(
     );
   }
 ) as <T extends {}>(
-  props: AnimatedListProps<T>,
+  props: ListAnimatedProps<T>,
   ref: React.Ref<FlatList>
 ) => JSX.Element;
 
-export default AnimatedList;
+export default ListAnimated;

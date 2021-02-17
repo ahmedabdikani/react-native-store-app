@@ -1,11 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
-import { Text, useThemeColor, View } from "../../components/Themed";
-import { tintColorLight } from "../../constants/Colors";
+import { Text, View } from "../../components/Theme";
 import { Fonts, Sizes } from "../../constants/Styles";
 import { useAuthContext } from "../../context/AuthContext";
+import useThemeColor from "../../hooks/useThemeColor";
+import Button from "../../components/button/Button";
 
 const padding = Sizes.base;
 
@@ -19,7 +18,7 @@ const Settings = ({}: ISettingsProps) => {
 
   return (
     <View style={{ flex: 1, justifyContent: "flex-end" }}>
-      <TouchableOpacity
+      <Button
         disabled={disabled}
         onPress={async () => {
           disabled = true;
@@ -34,7 +33,7 @@ const Settings = ({}: ISettingsProps) => {
         }}
       >
         <Text style={{ ...Fonts.h3 }}>Log out</Text>
-      </TouchableOpacity>
+      </Button>
     </View>
   );
 };

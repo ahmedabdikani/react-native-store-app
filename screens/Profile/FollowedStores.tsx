@@ -1,29 +1,24 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as React from "react";
-import { Image, ListRenderItem } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { Image } from "react-native";
 import Avatar from "../../components/Avatar";
-import {
-  CardView,
-  Text,
-  TextSec,
-  useThemeColor,
-  View,
-} from "../../components/Themed";
+import { CardView, Text, TextSec, View } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
 import { Fonts, Sizes } from "../../constants/Styles";
-import { product } from "../../types/Product";
-import { products } from "../home/Home";
+import { Product } from "../../types/Product";
+import ListFlat from "../../components/list/ListFlat";
+import { useProductContext } from "../../context/ProductContext";
+import Button from "../../components/button/Button";
 
 const padding = Sizes.base;
 
-interface IFollowedStoresProps {}
+interface FollowedStoresProps {}
 
-const FollowedStores = ({}: IFollowedStoresProps) => {
-  const textColor = useThemeColor({}, "text");
-  const StorePost: ListRenderItem<product> | null | undefined = ({
-    item,
-    index,
-  }) => {
+const FollowedStores = ({}: FollowedStoresProps) => {
+  const { products } = useProductContext();
+  const color = useThemeColor({}, "text");
+
+  const StorePost = ({ item, index }: { item: Product; index: number }) => {
     return (
       <CardView
         style={{
@@ -52,11 +47,11 @@ const FollowedStores = ({}: IFollowedStoresProps) => {
           >
             <CardView>
               <Text style={{ ...Fonts.h3 }}>Store{index + 1}</Text>
-              <TextSec style={{ ...Fonts.body4 }}>
+              <TextSec style={{ ...Fonts.body3 }}>
                 Followed {index + 1} month ago
               </TextSec>
             </CardView>
-            <MaterialIcons name="more-horiz" size={24} color={textColor} />
+            <MaterialIcons name="more-horiz" size={24} color={color} />
           </CardView>
 
           <CardView
@@ -64,7 +59,7 @@ const FollowedStores = ({}: IFollowedStoresProps) => {
           >
             {item.images.map((imageUri, index) => {
               return (
-                <TouchableOpacity key={index} style={{ marginRight: padding }}>
+                <Button key={index} style={{ marginRight: padding }}>
                   <Image
                     source={{ uri: imageUri }}
                     style={{
@@ -74,7 +69,7 @@ const FollowedStores = ({}: IFollowedStoresProps) => {
                       borderRadius: padding * 0.5,
                     }}
                   />
-                </TouchableOpacity>
+                </Button>
               );
             })}
           </CardView>
@@ -85,13 +80,7 @@ const FollowedStores = ({}: IFollowedStoresProps) => {
 
   return (
     <View style={{ flex: 1, padding }}>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        data={products}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={StorePost}
-      />
+      <ListFlat data={products}>{(props) => <StorePost {...props} />}</ListFlat>
     </View>
   );
 };

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { TextInput, TextInputProps } from "react-native";
 import { Fonts } from "../../constants/Styles";
-import { useThemeColor } from "../Themed";
+import useThemeColor from "../../hooks/useThemeColor";
 
-interface IInputProps extends TextInputProps {}
+interface InputProps extends TextInputProps {}
 
-const Input: React.FC<IInputProps> = ({ style, ...otherProps }) => {
+const Input: React.FC<InputProps> = ({ style, ...otherProps }) => {
   const color = useThemeColor({}, "text");
 
   return (

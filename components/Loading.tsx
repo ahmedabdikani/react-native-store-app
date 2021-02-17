@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ActivityIndicator } from "react-native";
 
-import { useThemeColor, View } from "./Themed";
+import { View } from "./Theme";
+import useThemeColor from "../hooks/useThemeColor";
 
 interface ILoadingProps {}
 

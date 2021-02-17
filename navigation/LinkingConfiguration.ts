@@ -11,7 +11,7 @@ export default {
               Home: 'home',
               Product:'product'
             },
-          },
+          }, 
 
 
         },

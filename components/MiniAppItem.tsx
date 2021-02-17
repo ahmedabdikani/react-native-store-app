@@ -1,41 +1,47 @@
-import { Entypo } from "@expo/vector-icons";
-import React, { ReactComponentElement } from "react";
+import * as React from "react";
 import { StyleSheet } from "react-native";
 
-import { tintColorLight } from "../constants/Colors";
-import { Text, useThemeColor, View } from "./Themed";
+import CardView from "./Theme/CardView";
+import Layout from "../constants/Layout";
+import Button from "./button/Button";
+import { Sizes, Styles } from "../constants/Styles";
+import Subtitle from "./typography/Subtitle";
 
-interface props {
+const { width } = Layout.window;
+const miniAppWidth = (width - 60) / 4;
+const spacing = Sizes.base;
+
+interface MiniAppItemProps {
   appName: string;
-  appIcon: any;
+  appIcon: () => JSX.Element;
   color: string;
-  width: number;
 }
 
-const MiniAppCard = ({ appName, appIcon, color, width }: props) => {
-  const bg = useThemeColor({}, "card");
-
+const MiniAppItem = ({ appName, appIcon, color }: MiniAppItemProps) => {
   return (
-    <View style={[styles.card, { width, height: width, backgroundColor: bg }]}>
-      {appIcon()}
-      <Text numberOfLines={1} style={styles.cardText}>
-        {appName}
-      </Text>
-    </View>
+    <Button>
+      <CardView style={styles.card}>
+        {appIcon()}
+        <Subtitle numberOfLines={1} style={styles.cardText}>
+          {appName}
+        </Subtitle>
+      </CardView>
+    </Button>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
+    width: miniAppWidth,
+    height: miniAppWidth,
+    padding: spacing,
+    borderRadius: spacing,
+    marginRight: spacing,
+    ...Styles.centerHV,
   },
   cardText: {
     marginTop: 10,
-    fontWeight: "bold",
   },
 });
 
-export default MiniAppCard;
+export default MiniAppItem;

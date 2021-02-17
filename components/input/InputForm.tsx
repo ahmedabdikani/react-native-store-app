@@ -1,7 +1,8 @@
-import { CardView, View } from "components/Themed";
-import { Sizes, Styles } from "constants/Styles";
 import * as React from "react";
 import { StyleSheet } from "react-native";
+
+import CardView from "../Theme/CardView";
+import { Sizes, Styles } from "../../constants/Styles";
 import InputControlled, { InputControlledProps } from "./InputControlled";
 
 const spacing = Sizes.base;

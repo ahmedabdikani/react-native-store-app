@@ -2,7 +2,8 @@ import * as React from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Avatar from "../../components/Avatar";
-import { CardView, Text, useThemeColor, View } from "../../components/Themed";
+import { CardView, Text, View } from "../../components/Theme";
+import useThemeColor from "../../hooks/useThemeColor";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes } from "../../constants/Styles";

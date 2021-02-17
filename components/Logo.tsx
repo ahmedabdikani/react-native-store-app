@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { tintColorLight } from "../constants/Colors";
 import { Sizes } from "../constants/Styles";
-import { Text, View } from "./Themed";
+import { Text, View } from "./Theme";
 
 const padding = Sizes.base;
 const sizes = {
