@@ -1,16 +1,12 @@
-import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "react-query";
 
-import useCachedResources from "./hooks/useCachedResources";
-import useColorScheme from "./hooks/useColorScheme";
-import Navigation from "./navigation";
-import { AuthProvider } from "./context/AuthContext";
-import { ChatProvier } from "./context/ChatContext";
-import { ProductProvider } from "./context/ProductContext";
-import { CartProvider } from "./context/CartContext";
+import useCachedResources from "./src/hooks/useCachedResources";
+import useColorScheme from "./src/hooks/useColorScheme";
+import Navigation from "./src/navigation";
+import ContextProviders from "./src/context/Providers";
 
 const client = new QueryClient();
 
@@ -25,15 +21,9 @@ export default function App() {
       <SafeAreaProvider>
         <StatusBar style={"auto"} />
         <QueryClientProvider client={client}>
-          <AuthProvider>
-            <ChatProvier>
-              <ProductProvider>
-                <CartProvider>
-                  <Navigation colorScheme={colorScheme} />
-                </CartProvider>
-              </ProductProvider>
-            </ChatProvier>
-          </AuthProvider>
+          <ContextProviders>
+            <Navigation colorScheme={colorScheme} />
+          </ContextProviders>
         </QueryClientProvider>
       </SafeAreaProvider>
     );
