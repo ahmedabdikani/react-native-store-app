@@ -15,52 +15,50 @@ const Sizes = {
   h1: 48,
   h2 : 32,
   h3 : 20,
-  h4 : 18,
+  h4 : 16,
   subtitle:18, 
-  body1:18,
-  body2:16,
-  caption:18,
+  body1:16,
+  body2:14,
 }
 
 const Fonts = StyleSheet.create({
   h1:{
     fontWeight:"bold",
     fontSize:Sizes.h1,
-    lineHeight:30,
+    marginTop: Sizes.base,
+    marginHorizontal: Sizes.base,
   },
   h2:{
     fontWeight:"bold",
     fontSize:Sizes.h2,
-    lineHeight:27,
+    marginTop: Sizes.base,
+    marginHorizontal: Sizes.base,
+    
   },
   h3:{
     fontWeight:"bold",
     fontSize:Sizes.h3,
-    lineHeight:24,
+    marginTop: Sizes.base,
+    marginHorizontal: Sizes.base,
+
   },
   h4:{
     fontWeight:"bold",
     fontSize:Sizes.h4,
-    lineHeight:20,
+    margin: Sizes.base,
   }
   ,
   subtitle:{
     fontWeight:"bold",
     fontSize:Sizes.subtitle,
-    lineHeight:18,
   }
   ,
   body1:{
     fontSize:Sizes.body1,
-    lineHeight:20,
   }
   ,
   body2:{
     fontSize:Sizes.body2,
-    lineHeight:18,
-  },
-  caption:{
-    fontSize:Sizes.caption,
   },
 
 });

@@ -1,10 +1,12 @@
 import * as React from "react";
 import { Ionicons } from "@expo/vector-icons";
+
 import Button from "./Button";
+import { SetState } from "../../screens/chat/Chats";
 
 interface ButtonSecureTextProps {
   secureTextEntry: boolean;
-  setSecureTextEntry: React.Dispatch<React.SetStateAction<boolean>>;
+  setSecureTextEntry: SetState<Boolean>;
 }
 
 const ButtonSecureText: React.FC<ButtonSecureTextProps> = ({

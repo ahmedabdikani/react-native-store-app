@@ -2,9 +2,9 @@ import * as React from "react";
 
 import { tintColorLight } from "../constants/Colors";
 import { Sizes } from "../constants/Styles";
-import { Text, View } from "./theme";
+import { Text } from "./theme";
 
-const padding = Sizes.base;
+const spacing = Sizes.base;
 const sizes = {
   l: 1,
   m: 0.6,
@@ -19,7 +19,7 @@ const Logo: React.FC<ILogoProps> = ({ size = "l" }) => {
   const ratio = sizes[size];
 
   return (
-    <View style={{ marginBottom: padding * 10 * ratio }}>
+    <>
       <Text
         style={{
           fontSize: 60 * ratio,
@@ -41,7 +41,7 @@ const Logo: React.FC<ILogoProps> = ({ size = "l" }) => {
       >
         Life made easier
       </Text>
-    </View>
+    </>
   );
 };
 export default Logo;

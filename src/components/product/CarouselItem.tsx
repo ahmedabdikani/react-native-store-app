@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useNavigation } from "@react-navigation/core";
-import Animated from "react-native-reanimated";
+import { Image } from "react-native";
 
 import Button from "../../components/button/Button";
 
@@ -8,14 +7,13 @@ interface CarouselItemProps {
   uri: string;
   width: number;
   height: number;
+  openModel: (uri: string) => void;
 }
 
-const CarouselItem = ({ uri, height, width }: CarouselItemProps) => {
-  const navigation = useNavigation();
-
+const CarouselItem = ({ uri, height, width, openModel }: CarouselItemProps) => {
   return (
-    <Button onPress={() => navigation.navigate("ViewContent", { uri })}>
-      <Animated.Image style={[{ width, height }]} source={{ uri }} />
+    <Button style={{ opacity: 1 }} onPress={() => openModel(uri)}>
+      <Image style={[{ width, height }]} source={{ uri }} />
     </Button>
   );
 };

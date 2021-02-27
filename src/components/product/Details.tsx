@@ -4,7 +4,7 @@ import { Image } from "react-native";
 import { Product } from "../../types/Product";
 import Layout from "../../constants/Layout";
 import { Sizes } from "../../constants/Styles";
-import TextTintColored from "../theme/TextTintColored";
+import TextTintColored from "../typography/TextPrimary";
 import Card from "../theme/Card";
 import Body1 from "../typography/Body1";
 import Body2 from "../typography/Body2";

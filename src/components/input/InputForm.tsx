@@ -1,34 +1,54 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
+import { FieldError } from "react-hook-form";
 
-import CardView from "../theme/Card";
 import { Sizes, Styles } from "../../constants/Styles";
 import InputControlled, { InputControlledProps } from "./InputControlled";
+import Error from "../Error";
+import View from "../theme/View";
+import Transparent from "../theme/Transparent";
 
 const spacing = Sizes.base;
 
 interface InputFormProps extends InputControlledProps {
   left?: () => JSX.Element;
   right?: () => JSX.Element;
+  error: FieldError | undefined;
 }
 
-const InputForm: React.FC<InputFormProps> = ({ left, right, ...props }) => {
+const InputForm: React.FC<InputFormProps> = ({
+  error,
+  left,
+  right,
+  ...props
+}) => {
   return (
-    <CardView style={styles.inputContainer}>
-      {left && left()}
-      <InputControlled {...props} />
-      {right && right()}
-    </CardView>
+    <Transparent style={{ marginVertical: spacing }}>
+      <View
+        style={[
+          styles.inputContainer,
+          {
+            borderColor: "#df4759",
+            borderWidth: error ? 1 : 0,
+          },
+        ]}
+      >
+        {left && left()}
+        <InputControlled {...props} />
+        {right && right()}
+      </View>
+      <Transparent style={{ marginLeft: spacing }}>
+        <Error error={error?.message} />
+      </Transparent>
+    </Transparent>
   );
 };
 
 const styles = StyleSheet.create({
   inputContainer: {
-    elevation: 10,
+    // elevation: 10,
     padding: spacing,
-    marginBottom: spacing,
-    paddingVertical: spacing * 1.2,
-    borderRadius: spacing * 3,
+    borderRadius: spacing * 2,
     paddingLeft: spacing * 2,
     ...Styles.centerH,
     ...Styles.fRow,

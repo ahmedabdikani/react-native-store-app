@@ -1,11 +1,8 @@
 import styled from "styled-components";
 
+import { Fonts } from "../../constants/Styles";
 import Text from "../theme/Text";
 
-const H1 = styled(Text)`
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 28px;
-`;
+const H2 = styled(Text)(Fonts.h2);
 
-export default H1;
+export default H2;

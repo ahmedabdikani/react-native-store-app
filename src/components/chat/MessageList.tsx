@@ -12,8 +12,9 @@ const MessageList = ({ chats, member }) => {
   return (
     <ListFlat data={chats}>
       {({ item, index }) => {
-        const reverse = !(item?.sentBy === user?.id);
-        const sender = item?.sentBy == user?.id ? user : member;
+        console.log(item);
+        const reverse = item?.sentBy === user?.id;
+        const sender = reverse ? user : member;
         switch (item?.message?.type) {
           case "text":
             return (

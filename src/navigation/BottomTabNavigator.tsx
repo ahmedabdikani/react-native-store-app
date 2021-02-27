@@ -15,7 +15,6 @@ import useThemeColor from "../hooks/useThemeColor";
 import { Text, View } from "../components/theme";
 import HearBeat from "../Icons/HearBeat";
 import Cart from "../screens/cart/Cart";
-import ViewScreen from "../screens/home/ViewScreen";
 import Profile from "../screens/profile/Profile";
 import Rooms from "../screens/chat/Rooms";
 import Chats from "../screens/chat/Chats";
@@ -26,12 +25,13 @@ import { Fonts } from "../constants/Styles";
 import FollowedStores from "../screens/profile/FollowedStores";
 import AddContact from "../screens/chat/Contacts";
 import { CartStackPramList } from "../types/Cart";
-import { BackButtonNative } from "../components/button/BackButton";
+import BackButtonNative from "../components/button/BackButtonNative";
 import { ChatStackPramList } from "../types/Chat";
 import { BottomTabParamList } from "../types/BottomTab";
 import { HomeStackPramList } from "../types/Home";
 import { ProfileStackPramList } from "../types/Profile";
 import Camera from "../screens/chat/Camera";
+import Body2 from "../components/typography/Body2";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -40,14 +40,19 @@ export default function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="HomeStack"
       tabBarOptions={{
-        showLabel: false,
+        showLabel: true,
       }}
+      screenOptions={({ route }) => ({
+        tabBarLabel: ({ focused, color }) =>
+          focused ? (
+            <Body2 style={{ color }}>{route.name.split("Stack")[0]}</Body2>
+          ) : null,
+      })}
     >
       <BottomTab.Screen
         name="HomeStack"
         component={HomeNavigator}
         options={{
-          tabBarLabel: "Home",
           tabBarIcon: ({ color, focused }) => {
             if (focused) {
               return (
@@ -189,11 +194,6 @@ const HomeNavigator = () => {
       <HomeStack.Screen
         name="Home"
         component={Home}
-        options={{ headerTitle: "Home", headerShown: false }}
-      />
-      <HomeStack.Screen
-        name="ViewContent"
-        component={ViewScreen}
         options={{ headerTitle: "Home", headerShown: false }}
       />
       <HomeStack.Screen

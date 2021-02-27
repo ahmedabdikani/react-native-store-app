@@ -5,16 +5,22 @@ import useThemeColor from "../../hooks/useThemeColor";
 
 const spacing = Sizes.base;
 
-interface InputProps extends TextInputProps {}
-
-const Input: React.FC<InputProps> = ({ style, ...otherProps }) => {
+const Input: React.FC<TextInputProps> = ({ style, ...otherProps }) => {
   const color = useThemeColor({}, "text");
 
   return (
     <TextInput
       {...otherProps}
       placeholderTextColor={color}
-      style={[{ paddingLeft: spacing, color, ...Fonts.body2, flex: 1 }, style]}
+      style={[
+        {
+          paddingLeft: spacing,
+          color,
+          ...Fonts.body2,
+          flex: 1,
+        },
+        style,
+      ]}
     />
   );
 };

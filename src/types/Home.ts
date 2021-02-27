@@ -6,9 +6,6 @@ export type HomeStackPramList = {
   Product: {
     product: Product;
   };
-  ViewContent: {
-    uri: string;
-  };
 };
 
 export type HomeNavigationProps <T extends keyof HomeStackPramList> = {
