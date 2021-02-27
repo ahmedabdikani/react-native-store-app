@@ -4,6 +4,7 @@ export type AuthStackPramList = {
   Intro: undefined
   SignIn: undefined
   SignUp:undefined
+  BottomTab: undefined
 }
 
 export type AuthNavigationProp <T extends keyof AuthStackPramList> = {

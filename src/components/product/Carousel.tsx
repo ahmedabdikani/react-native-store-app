@@ -22,7 +22,7 @@ interface CarouselProps {
 
 const Carousel = ({ images }: CarouselProps) => {
   const x = useSharedValue<number>(0);
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
   const [imgUri, setImgUri] = React.useState(images[0]);
   const onScroll = useAnimatedScrollHandler({
     onMomentumEnd: ({ contentOffset }) => {
@@ -40,7 +40,7 @@ const Carousel = ({ images }: CarouselProps) => {
       {visible && (
         <Modal visible={visible} setVisible={setVisible}>
           <Image
-            style={{ width: width, height: height / 2 }}
+            style={{ width: width, height: height / 1.5 }}
             source={{ uri: imgUri }}
           />
         </Modal>

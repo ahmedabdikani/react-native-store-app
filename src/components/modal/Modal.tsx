@@ -33,6 +33,7 @@ const Container = styled(Button)({
   position: "absolute",
   width: "100%",
   height: "100%",
+  justifyContent: "center",
 });
 
 export default Modal;

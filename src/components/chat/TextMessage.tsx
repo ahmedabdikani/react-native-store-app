@@ -11,6 +11,7 @@ const spacing = Sizes.base;
 interface TextMessageProps {
   reverse?: boolean;
   message: any;
+  sender;
 }
 
 const TextMessage = ({ reverse, message, sender }: TextMessageProps) => {

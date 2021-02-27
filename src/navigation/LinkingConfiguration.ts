@@ -4,27 +4,9 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
-      BottomTab: {
+      Root: {
         screens: {
-          HomeStack:{
-            screens: {
-              Home: "Home",
-              Product:"Product"
-            },
-          ChatStack:{
-            screens: {
-              Rooms:"Rooms"
-            }
-          }
-          }, 
         },
-      },
-      Auth:{
-        screens: {
-          Intro:"Intro",
-          SignIn:"SignIn",
-          SignUp:"SignUp"
-        }
       },
       NotFound: '*',
     },

@@ -11,6 +11,7 @@ import Button from "../../components/button/Button";
 import { Body2, H2, H4 } from "../../components/typography";
 import ButtonPrimary from "../../components/button/ButtonPrimary";
 import { SetState } from "../chat/Chats";
+import Shadow from "../../components/shadow/Shadow";
 
 const spacing = 10;
 
@@ -19,12 +20,11 @@ interface ICartProps
     CartRouteProp<"Cart"> {}
 
 const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
-  const { top } = useSafeAreaInsets();
   const [openMore, setOpenMore] = React.useState(false);
   const { cartItems, total } = useCartContext();
 
   return (
-    <Card style={{ flex: 1, paddingTop: top }}>
+    <Card style={{ flex: 1 }}>
       <Header
         length={cartItems.length}
         setOpenMore={setOpenMore}
@@ -45,10 +45,13 @@ interface HeaderProps {
 }
 
 const Header = ({ length, setOpenMore, openMore }: HeaderProps) => {
+  const { top } = useSafeAreaInsets();
+
   return (
-    <>
+    <Shadow>
       <Card
         style={{
+          paddingTop: top,
           flexDirection: "row",
           justifyContent: "space-between",
         }}
@@ -61,7 +64,7 @@ const Header = ({ length, setOpenMore, openMore }: HeaderProps) => {
       <Card>
         <H4> Items ({length})</H4>
       </Card>
-    </>
+    </Shadow>
   );
 };
 
