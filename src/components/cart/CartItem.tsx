@@ -2,13 +2,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as React from "react";
 import { Image } from "react-native";
 
-import { tintColorLight } from "../../constants/Colors";
 import { Sizes } from "../../constants/Styles";
 import { useCartContext } from "../../context/CartContext";
 import { CartItem as ItemType } from "../../types/Cart";
 import Button from "../button/Button";
 import { Card, Text } from "../theme";
 import useThemeColor from "../../hooks/useThemeColor";
+import { Body1, H3, H4 } from "../typography";
 
 const padding = Sizes.base;
 
@@ -27,15 +27,7 @@ const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
       }}
     >
       <Card style={{ flexDirection: "row" }}>
-        <Text
-          style={{
-            marginBottom: padding,
-            fontSize: 16,
-            fontWeight: "bold",
-          }}
-        >
-          Furniture Store
-        </Text>
+        <H3>Furniture Store</H3>
       </Card>
       <Card style={{ flexDirection: "row" }}>
         <Image
@@ -44,6 +36,7 @@ const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
             height: 90,
             width: 90,
             resizeMode: "cover",
+            marginLeft: padding,
             marginBottom: padding,
           }}
         />
@@ -62,15 +55,7 @@ const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
               marginRight: padding * 4,
             }}
           >
-            <Text
-              style={{
-                fontWeight: "bold",
-                color: tintColorLight,
-                fontSize: 18,
-              }}
-            >
-              ${cartItem.product.price}
-            </Text>
+            <Body1 primary>${cartItem.product.price}</Body1>
 
             {openMore ? (
               <Trash id={cartItem.product.id} />

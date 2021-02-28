@@ -16,20 +16,11 @@ import Button from "../../components/button/Button";
 import FlatList from "../../components/list/ListFlat";
 import Gradient from "../../components/Gradient";
 import { useProductContext } from "../../context/ProductContext";
-import Body2 from "../../components/typography/Body2";
-import H4 from "../../components/typography/H4";
+import { Body2, H4 } from "../../components/typography";
 
 const { width } = Layout.window;
 const spacing = Sizes.base;
 const searchHeight = 40;
-
-// const fetchProducts = async () => {
-//   const { data, status } = await axios.get("https://fakestoreapi.com/products");
-//   if (status !== 200) {
-//     throw new Error("Error: "status)
-//   }
-//    return data;
-// };
 
 interface IHomeProps extends HomeNavigationProps<"Home"> {}
 
@@ -63,6 +54,7 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
 
 const Header = () => {
   const { top } = useSafeAreaInsets();
+  const color = useThemeColor({}, "text");
 
   return (
     <View
@@ -74,8 +66,8 @@ const Header = () => {
     >
       <View style={styles.searchArea}>
         <TextInput
-          style={{ flex: 1, color: useThemeColor({}, "text") }}
-          placeholderTextColor={useThemeColor({}, "text")}
+          style={{ flex: 1, color }}
+          placeholderTextColor={color}
           placeholder={"Search here"}
         />
         <Ionicons

@@ -6,7 +6,6 @@ import { Sizes, Styles } from "../../constants/Styles";
 import InputControlled, { InputControlledProps } from "./InputControlled";
 import Error from "../Error";
 import View from "../theme/View";
-import Transparent from "../theme/Transparent";
 
 const spacing = Sizes.base;
 
@@ -23,7 +22,7 @@ const InputForm: React.FC<InputFormProps> = ({
   ...props
 }) => {
   return (
-    <Transparent style={{ marginVertical: spacing }}>
+    <View transparent style={{ marginVertical: spacing }}>
       <View
         style={[
           styles.inputContainer,
@@ -37,10 +36,10 @@ const InputForm: React.FC<InputFormProps> = ({
         <InputControlled {...props} />
         {right && right()}
       </View>
-      <Transparent style={{ marginLeft: spacing }}>
+      <View transparent style={{ marginLeft: spacing }}>
         <Error error={error?.message} />
-      </Transparent>
-    </Transparent>
+      </View>
+    </View>
   );
 };
 

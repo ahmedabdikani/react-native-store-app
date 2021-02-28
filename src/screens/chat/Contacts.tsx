@@ -3,16 +3,15 @@ import { useNavigation } from "@react-navigation/core";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Input from "../../components/input/Input";
-import TextButton from "../../components/typography/TextButton";
+
 import Button from "../../components/button/Button";
 import Container from "../../components/container/Container";
-import View from "../../components/theme/View";
 import Card from "../../components/theme/Card";
 import { Sizes } from "../../constants/Styles";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
 import { useChatContext } from "../../context/ChatContext";
-import { useAuthContext } from "../../context/AuthContext";
 import ListFlat from "../../components/list/ListFlat";
+import { H3 } from "../../components/typography";
 
 const spacing = Sizes.base;
 
@@ -22,7 +21,6 @@ const Contacts: React.FC<ContactProps> = ({}) => {
   const { top } = useSafeAreaInsets();
   const navigation = useNavigation();
   const { searchUser, createRoom } = useChatContext();
-  const { user } = useAuthContext();
   const [value, setValue] = React.useState("");
   const [result, setResult] = React.useState([]);
 
@@ -56,7 +54,7 @@ const Contacts: React.FC<ContactProps> = ({}) => {
             setResult(result);
           }}
         >
-          <TextButton>Search</TextButton>
+          <H3>Search</H3>
         </Button>
       </Card>
 
@@ -68,7 +66,7 @@ const Contacts: React.FC<ContactProps> = ({}) => {
                 createRoom(item);
               }}
             >
-              <TextButton style={{ margin: 20 }}>{item.name}</TextButton>
+              <H3 style={{ margin: 20 }}>{item.name}</H3>
             </Button>
           );
         }}

@@ -8,7 +8,7 @@ import { Image, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Avatar from "../../components/Avatar";
-import { Card, Text, View, TextSec } from "../../components/theme";
+import { Card, Text, View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { lightBlue, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
@@ -95,7 +95,7 @@ const Profile: React.FC<ProfileProps> = ({ navigation }) => {
                   marginBottom: padding,
                   borderRadius: padding,
                 }}
-              ></Button>
+              />
             );
           })}
         </Card>
@@ -131,22 +131,22 @@ const renderSelection = () => {
         style={Styles.centerHV}
       >
         <Text>308</Text>
-        <TextSec>stars</TextSec>
+        <Text secondary>stars</Text>
       </Button>
       <Button
         onPress={() => navigation.navigate("FollowedStores")}
         style={Styles.centerHV}
       >
         <Text>10</Text>
-        <TextSec>Follwed stores</TextSec>
+        <Text secondary>Follwed stores</Text>
       </Button>
       <View style={Styles.centerHV}>
         <Text>236</Text>
-        <TextSec>Recently seen</TextSec>
+        <Text secondary>Recently seen</Text>
       </View>
       <View style={Styles.centerHV}>
         <Body2>0</Body2>
-        <TextSec>Red Backets</TextSec>
+        <Text secondary>Red Backets</Text>
       </View>
     </View>
   );
@@ -168,7 +168,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <TextSec style={Fonts.body2}>Paying</TextSec>
+          <Text secondary style={Fonts.body2}>
+            Paying
+          </Text>
         </Card>
         <Card style={styles.selection_item}>
           <MaterialIcons
@@ -176,7 +178,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <TextSec style={Fonts.body2}>Shiping</TextSec>
+          <Text secondary style={Fonts.body2}>
+            Shiping
+          </Text>
         </Card>
 
         <Card style={styles.selection_item}>
@@ -185,7 +189,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <TextSec style={Fonts.body2}>delivering</TextSec>
+          <Text secondary style={Fonts.body2}>
+            delivering
+          </Text>
         </Card>
         <Card style={styles.selection_item}>
           <MaterialCommunityIcons
@@ -193,7 +199,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <TextSec style={Fonts.body2}>Feedback</TextSec>
+          <Text secondary style={Fonts.body2}>
+            Feedback
+          </Text>
         </Card>
         <Card style={styles.selection_item}>
           <MaterialCommunityIcons
@@ -201,7 +209,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <TextSec style={Fonts.body2}>Refund</TextSec>
+          <Text secondary style={Fonts.body2}>
+            Refund
+          </Text>
         </Card>
       </Card>
       <View style={{ padding, borderRadius: padding }}>
@@ -223,11 +233,11 @@ const renderMyOrders = () => {
               name={"truck-delivery-outline"}
               color={lightBlue}
             />
-            <TextSec numberOfLines={1}>
+            <Text secondary numberOfLines={1}>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error
               nisi reprehenderit sequi commodi laborum reiciendis aliquid
               corporis laboriosam
-            </TextSec>
+            </Text>
           </View>
         </View>
       </View>
@@ -270,7 +280,9 @@ const renderHeader = ({
           <Avatar imageUri={user.photoUrl} initial={user.name} />
         </Card>
         <View style={{ marginLeft: padding, flexDirection: "row" }}>
-          <TextSec style={Fonts.h3}>User id:</TextSec>
+          <Text secondary style={Fonts.h3}>
+            User id:
+          </Text>
           <H3>{user.name}</H3>
         </View>
       </View>

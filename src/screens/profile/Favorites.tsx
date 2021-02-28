@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Image } from "react-native";
-import { Card, Text, TextSec } from "../../components/theme";
-import { tintColorLight } from "../../constants/Colors";
-import { Fonts, Sizes } from "../../constants/Styles";
+
+import { Card } from "../../components/theme";
+import { Sizes } from "../../constants/Styles";
 import { Product } from "../../types/Product";
 import Button from "../../components/button/Button";
 import ListFlat from "../../components/list/ListFlat";
 import { useProductContext } from "../../context/ProductContext";
+import { Body2, H3 } from "../../components/typography";
 
+const itemHight = 150;
 const spacing = Sizes.base;
 
 interface IFavoritesProps {}
@@ -21,28 +23,26 @@ const Favorites = ({}: IFavoritesProps) => {
         <Image
           source={{ uri: item.images[0] }}
           style={{
-            height: 150,
-            width: 150,
+            height: itemHight,
+            width: itemHight,
             resizeMode: "cover",
             borderRadius: spacing,
           }}
         />
         <Card style={{ flex: 1, padding: spacing }}>
-          <Text numberOfLines={2} style={Fonts.body2}>
-            {item.title}
-          </Text>
-          <TextSec style={{ marginTop: spacing * 0.5, ...Fonts.body3 }}>
+          <Body2 numberOfLines={2}>{item.title}</Body2>
+          <Body2 secondary style={{ marginTop: spacing }}>
             100 people liked
-          </TextSec>
-          <TextSec
+          </Body2>
+          <H3
+            secondary
+            primary
             style={{
-              ...Fonts.h3,
-              color: tintColorLight,
-              marginTop: spacing * 1.5,
+              marginTop: spacing,
             }}
           >
             ${item.price}
-          </TextSec>
+          </H3>
         </Card>
       </Button>
     );

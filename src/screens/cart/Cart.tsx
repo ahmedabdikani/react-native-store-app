@@ -2,14 +2,13 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { View, Text, Card, Transparent } from "../../components/theme";
+import { View, Text, Card } from "../../components/theme";
 import { CartNavigationProp, CartRouteProp } from "../../types/Cart";
 import { useCartContext } from "../../context/CartContext";
 import CartList from "../../components/cart/CartList";
 import useThemeColor from "../../hooks/useThemeColor";
 import Button from "../../components/button/Button";
 import { Body2, H2, H4 } from "../../components/typography";
-import ButtonPrimary from "../../components/button/ButtonPrimary";
 import { SetState } from "../chat/Chats";
 import Shadow from "../../components/shadow/Shadow";
 
@@ -82,17 +81,18 @@ const Footer = ({ total }: { total: number }) => {
       }}
     >
       <Text>Sellect all</Text>
-      <Transparent
+      <View
+        transparent
         style={{
           alignItems: "center",
           flexDirection: "row",
         }}
       >
         <Text>Total ${total}</Text>
-        <ButtonPrimary style={styles.btn}>
+        <Button primary style={styles.btn}>
           <Body2 style={{ color: "#fff" }}>Checkout</Body2>
-        </ButtonPrimary>
-      </Transparent>
+        </Button>
+      </View>
     </Card>
   );
 };

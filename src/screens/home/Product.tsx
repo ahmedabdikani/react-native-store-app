@@ -11,8 +11,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Button from "../../components/button/Button";
-import SmallList from "../../components/list/ListSmall";
-import { Card, Text, TextSec, View } from "../../components/theme";
+import { Card, View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
@@ -22,15 +21,14 @@ import { HomeNavigationProps } from "../../types/Home";
 import { Product } from "../../types/Product";
 import AnimatedList from "../../components/list/ListAnimated";
 import { useProductContext } from "../../context/ProductContext";
-import Body2 from "../../components/typography/Body2";
-import H3 from "../../components/typography/H3";
-import H4 from "../../components/typography/H4";
-import TextTintColored from "../../components/typography/TextPrimary";
-import TextUnderline from "../../components/theme/TextUnderline";
+import { Body2, H3, H4 } from "../../components/typography";
+
 import Center from "../../components/theme/Center";
 import Carousel from "../../components/product/Carousel";
 import { Details, MoreDetails } from "../../components/product/Details";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
+import CommentList from "../../components/comment/CommentList";
+import { SharedElement } from "react-navigation-shared-element";
 
 const { width, height } = Layout.window;
 const spacing = Sizes.base;
@@ -48,9 +46,9 @@ const comments = Array.from({ length: 3 }, (_, index) => {
   };
 });
 
-interface IProductProps extends HomeNavigationProps<"Product"> {}
+interface ProductProps extends HomeNavigationProps<"Product"> {}
 
-const ProductScreen = ({ navigation, route }: IProductProps) => {
+const ProductScreen = ({ navigation, route }: ProductProps) => {
   const { products } = useProductContext();
   const similarProduts = Array.from(
     { length: 6 },
@@ -82,10 +80,8 @@ const ProductScreen = ({ navigation, route }: IProductProps) => {
           <H3>Furniture Store</H3>
           <Button>
             <Button>
-              <H4>
-                <TextUnderline>
-                  <TextTintColored>See more</TextTintColored>
-                </TextUnderline>
+              <H4 underline primary>
+                See more
               </H4>
             </Button>
           </Button>
@@ -117,9 +113,7 @@ const ProductScreen = ({ navigation, route }: IProductProps) => {
           <Body2 numberOfLines={2} style={{ marginVertical: spacing * 0.5 }}>
             {item.title}
           </Body2>
-          <Body2>
-            <TextTintColored>${item.price}</TextTintColored>
-          </Body2>
+          <Body2 primary>${item.price}</Body2>
         </Card>
       </Button>
     );
@@ -132,9 +126,11 @@ const ProductScreen = ({ navigation, route }: IProductProps) => {
         {() => {
           return (
             <View style={{ flex: 1 }}>
-              <Carousel images={product.images} />
+              <SharedElement id={product.id.toString()}>
+                <Carousel images={product.images} />
+              </SharedElement>
               <Details product={product} />
-              <CommentList data={comments} />
+              <CommentList comments={comments} />
               {SimilarProduts()}
               <MoreDetails product={product} />
             </View>
@@ -146,60 +142,6 @@ const ProductScreen = ({ navigation, route }: IProductProps) => {
   );
 };
 
-const CommentItem = ({ comment }: { comment: typeof comments[number] }) => {
-  return (
-    <Card style={{ marginTop: spacing }}>
-      <Card style={{ flexDirection: "row" }}>
-        <Image
-          source={{ uri: comment.user.photo }}
-          style={{
-            width: 50,
-            height: 50,
-            resizeMode: "cover",
-            borderRadius: 50,
-          }}
-        />
-        <Card style={{ marginLeft: spacing * 0.5 }}>
-          <Text style={{ fontWeight: "bold" }}>{comment.user.name}</Text>
-          <Text>5 days ago</Text>
-        </Card>
-      </Card>
-      <Card
-        style={{ marginVertical: spacing * 0.5, marginHorizontal: spacing }}
-      >
-        <TextSec numberOfLines={2} style={{ fontSize: 15 }}>
-          {comment.title}
-        </TextSec>
-      </Card>
-    </Card>
-  );
-};
-
-const CommentList = ({ data }: { data: typeof comments }) => {
-  return (
-    <Card
-      style={{
-        padding: spacing,
-        borderRadius: spacing,
-        marginHorizontal: spacing,
-      }}
-    >
-      <Card style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <H3>Comments</H3>
-        <Button>
-          <H4>
-            <TextUnderline>
-              <TextTintColored>See more</TextTintColored>
-            </TextUnderline>
-          </H4>
-        </Button>
-      </Card>
-      <SmallList data={data}>
-        {({ item, index }) => <CommentItem comment={item} key={index} />}
-      </SmallList>
-    </Card>
-  );
-};
 const Header = ({
   y,
   top,
@@ -300,6 +242,17 @@ const Footer = ({ product }: { product: Product }) => {
       </Card>
     </Card>
   );
+};
+
+ProductScreen.sharedElements = (route) => {
+  const { product } = route.params;
+  return [
+    {
+      id: product.id.toString(),
+      animation: "fade",
+      resize: "clip",
+    },
+  ];
 };
 
 export default ProductScreen;

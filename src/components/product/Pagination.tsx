@@ -1,11 +1,10 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { StyleSheet, TextInput } from "react-native";
+
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 
-import View from "../theme/View";
-import Center from "../theme/Center";
-import Layout from "../../constants/Layout";
+import { View, Center } from "../theme";
+
 import { Sizes } from "../../constants/Styles";
 
 Animated.addWhitelistedUIProps({

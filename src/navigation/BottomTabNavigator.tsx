@@ -7,7 +7,7 @@ import {
 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { tintColorLight } from "../constants/Colors";
 import Home from "../screens/home/Home";
 import Product from "../screens/home/Product";
@@ -174,7 +174,7 @@ function TabBarIcon(props: { name: string; color: string }) {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
-const HomeStack = createStackNavigator<HomeStackPramList>();
+const HomeStack = createSharedElementStackNavigator<HomeStackPramList>();
 const HomeNavigator = () => {
   const backgroundColor = useThemeColor({}, "background");
   return (
@@ -215,6 +215,14 @@ const HomeNavigator = () => {
           headerTitle: "Product",
           headerTitleStyle: { display: "none" },
           headerTintColor: "#fff",
+          headerBackTitleVisible: false,
+          cardStyleInterpolator: ({ current: { progress } }) => {
+            return {
+              cardStyle: {
+                opacity: progress,
+              },
+            };
+          },
         }}
       />
     </HomeStack.Navigator>
@@ -293,7 +301,6 @@ const ProfileNavigator = () => {
         options={{
           headerShown: true,
           headerTitleAlign: "center",
-          // title: "Favorites",
           headerTitle: ({ style, allowFontScaling }) => (
             <View
               style={{

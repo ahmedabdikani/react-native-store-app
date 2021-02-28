@@ -4,10 +4,10 @@ import { Image } from "react-native";
 import { Product } from "../../types/Product";
 import Layout from "../../constants/Layout";
 import { Sizes } from "../../constants/Styles";
-import TextTintColored from "../typography/TextPrimary";
 import Card from "../theme/Card";
 import Body1 from "../typography/Body1";
 import Body2 from "../typography/Body2";
+import { Text } from "../theme";
 
 const { width } = Layout.window;
 const spacing = Sizes.base;
@@ -21,10 +21,8 @@ const Details = ({ product }: { product: Product }) => {
         borderRadius: spacing,
       }}
     >
-      <TextTintColored>Price</TextTintColored>
-      <Body1>
-        <TextTintColored>{product?.price}$</TextTintColored>
-      </Body1>
+      <Text primary>Price</Text>
+      <Body1 primary>{product?.price}$</Body1>
       <Body2
         style={{
           marginTop: spacing,

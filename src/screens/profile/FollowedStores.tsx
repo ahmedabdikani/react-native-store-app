@@ -1,14 +1,16 @@
-import { MaterialIcons } from "@expo/vector-icons";
 import * as React from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Image } from "react-native";
+
 import Avatar from "../../components/Avatar";
-import { Card, Text, TextSec, View } from "../../components/theme";
+import { Card, View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
-import { Fonts, Sizes } from "../../constants/Styles";
+import { Sizes } from "../../constants/Styles";
 import { Product } from "../../types/Product";
 import ListFlat from "../../components/list/ListFlat";
 import { useProductContext } from "../../context/ProductContext";
 import Button from "../../components/button/Button";
+import { Body2, H3 } from "../../components/typography";
 
 const padding = Sizes.base;
 
@@ -46,10 +48,8 @@ const FollowedStores = ({}: FollowedStoresProps) => {
             }}
           >
             <Card>
-              <Text style={{ ...Fonts.h3 }}>Store{index + 1}</Text>
-              <TextSec style={{ ...Fonts.body3 }}>
-                Followed {index + 1} month ago
-              </TextSec>
+              <H3>Store{index + 1}</H3>
+              <Body2>Followed {index + 1} month ago</Body2>
             </Card>
             <MaterialIcons name="more-horiz" size={24} color={color} />
           </Card>

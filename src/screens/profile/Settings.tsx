@@ -17,6 +17,10 @@ const Settings = ({}: ISettingsProps) => {
 
   return (
     <View style={{ flex: 1, justifyContent: "flex-end" }}>
+      <H3>Do not Disturb</H3>
+      <H3>General</H3>
+      <H3>About</H3>
+      <H3>Language: english</H3>
       <Button
         onPress={async () => {
           signOut();

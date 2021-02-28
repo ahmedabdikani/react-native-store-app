@@ -25,21 +25,20 @@ const Fonts = StyleSheet.create({
   h1:{
     fontWeight:"bold",
     fontSize:Sizes.h1,
-    marginTop: Sizes.base,
-    marginHorizontal: Sizes.base,
+    margin: Sizes.base,
   },
   h2:{
     fontWeight:"bold",
     fontSize:Sizes.h2,
-    marginTop: Sizes.base,
-    marginHorizontal: Sizes.base,
+    margin: Sizes.base,
+
     
   },
   h3:{
     fontWeight:"bold",
     fontSize:Sizes.h3,
-    marginTop: Sizes.base,
-    marginHorizontal: Sizes.base,
+    margin: Sizes.base,
+
 
   },
   h4:{
