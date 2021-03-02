@@ -8,7 +8,7 @@ import { Image, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Avatar from "../../components/Avatar";
-import { Card, Text, View } from "../../components/theme";
+import { Card, View, Center } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { lightBlue, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
@@ -18,7 +18,7 @@ import User from "../../types/User";
 import { ProfileScreenProps } from "../../types/Profile";
 import Button from "../../components/button/Button";
 import { useNavigation } from "@react-navigation/core";
-import { Body2, H3, H4 } from "../../components/typography";
+import { Body1, Body2, Subtitle1 } from "../../components/typography";
 
 const { width } = Layout.window;
 const padding = Sizes.base;
@@ -118,35 +118,28 @@ const renderSelection = () => {
   const navigation = useNavigation();
 
   return (
-    <View
-      style={{
-        marginTop: padding * 2,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
+    <View style={styles.selectionContainer}>
       <Button
         onPress={() => navigation.navigate("Favorite")}
         style={Styles.centerHV}
       >
-        <Text>308</Text>
-        <Text secondary>stars</Text>
+        <Body2>308</Body2>
+        <Body2 secondary>stars</Body2>
       </Button>
       <Button
         onPress={() => navigation.navigate("FollowedStores")}
         style={Styles.centerHV}
       >
-        <Text>10</Text>
-        <Text secondary>Follwed stores</Text>
+        <Body2>10</Body2>
+        <Body2 secondary>Follwed stores</Body2>
       </Button>
       <View style={Styles.centerHV}>
-        <Text>236</Text>
-        <Text secondary>Recently seen</Text>
+        <Body2>236</Body2>
+        <Body2 secondary>Recently seen</Body2>
       </View>
       <View style={Styles.centerHV}>
         <Body2>0</Body2>
-        <Text secondary>Red Backets</Text>
+        <Body2 secondary>Red Backets</Body2>
       </View>
     </View>
   );
@@ -155,7 +148,7 @@ const renderSelection = () => {
 const renderMyOrders = () => {
   return (
     <Card style={{ marginTop: padding * 2, padding, borderRadius: padding }}>
-      <H3>My orders</H3>
+      <Subtitle1>My orders</Subtitle1>
       <Card
         style={{
           marginVertical: padding,
@@ -168,9 +161,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <Text secondary style={Fonts.body2}>
+          <Body2 secondary style={Fonts.body2}>
             Paying
-          </Text>
+          </Body2>
         </Card>
         <Card style={styles.selection_item}>
           <MaterialIcons
@@ -178,9 +171,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <Text secondary style={Fonts.body2}>
+          <Body2 secondary style={Fonts.body2}>
             Shiping
-          </Text>
+          </Body2>
         </Card>
 
         <Card style={styles.selection_item}>
@@ -189,9 +182,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <Text secondary style={Fonts.body2}>
+          <Body2 secondary style={Fonts.body2}>
             delivering
-          </Text>
+          </Body2>
         </Card>
         <Card style={styles.selection_item}>
           <MaterialCommunityIcons
@@ -199,9 +192,9 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <Text secondary style={Fonts.body2}>
+          <Body2 secondary style={Fonts.body2}>
             Feedback
-          </Text>
+          </Body2>
         </Card>
         <Card style={styles.selection_item}>
           <MaterialCommunityIcons
@@ -209,15 +202,15 @@ const renderMyOrders = () => {
             size={24}
             color={tintColorLight}
           />
-          <Text secondary style={Fonts.body2}>
+          <Body2 secondary style={Fonts.body2}>
             Refund
-          </Text>
+          </Body2>
         </Card>
       </Card>
       <View style={{ padding, borderRadius: padding }}>
-        <Text style={{ marginBottom: padding * 0.5, ...Fonts.body2 }}>
+        <Body2 style={{ marginBottom: padding * 0.5, ...Fonts.body2 }}>
           Recent order
-        </Text>
+        </Body2>
         <View style={{ flexDirection: "row" }}>
           <Image
             style={{
@@ -233,11 +226,11 @@ const renderMyOrders = () => {
               name={"truck-delivery-outline"}
               color={lightBlue}
             />
-            <Text secondary numberOfLines={1}>
+            <Body2 secondary numberOfLines={1}>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error
               nisi reprehenderit sequi commodi laborum reiciendis aliquid
               corporis laboriosam
-            </Text>
+            </Body2>
           </View>
         </View>
       </View>
@@ -256,17 +249,8 @@ const renderHeader = ({
   const navigation = useNavigation();
 
   return (
-    <View>
-      <View
-        style={{
-          alignSelf: "flex-end",
-          width: "40%",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          marginBottom: Sizes.base,
-        }}
-      >
+    <>
+      <View style={styles.headerContainer}>
         <Ionicons name="person-outline" size={24} color={color} />
         <Button onPress={() => setOpenTheme((openTheme) => !openTheme)}>
           <Ionicons name="color-palette-outline" size={24} color={color} />
@@ -280,13 +264,11 @@ const renderHeader = ({
           <Avatar imageUri={user.photoUrl} initial={user.name} />
         </Card>
         <View style={{ marginLeft: padding, flexDirection: "row" }}>
-          <Text secondary style={Fonts.h3}>
-            User id:
-          </Text>
-          <H3>{user.name}</H3>
+          <Subtitle1 secondary>User id: </Subtitle1>
+          <Subtitle1>{user.name}</Subtitle1>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -300,15 +282,31 @@ const renderPaymentMethods = () => {
         minHeight: 200,
       }}
     >
-      <H4>Payment Methods</H4>
-      <Card style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
-        <Body2>Currently no payment method is available</Body2>
+      <Subtitle1>Payment Methods</Subtitle1>
+      <Card style={Styles.flex}>
+        <Center>
+          <Body1 secondary>Currently no payment method is available</Body1>
+        </Center>
       </Card>
     </Card>
   );
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    alignSelf: "flex-end",
+    width: "40%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: Sizes.base,
+  },
+  selectionContainer: {
+    marginTop: padding * 2,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   selection_item: {
     width: "20%",
     justifyContent: "center",

@@ -33,11 +33,7 @@ const ProductList: React.FC<IProductListProps> = ({ products }) => {
       columnWrapperStyle={{ marginBottom: spacing }}
     >
       {({ item, index }) => (
-        <ProductItem
-          key={index}
-          product={item}
-          navigationToProduct={navigationToProduct}
-        />
+        <ProductItem product={item} navigationToProduct={navigationToProduct} />
       )}
     </FlatList>
   );

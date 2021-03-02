@@ -14,10 +14,9 @@ import { Control, SubmitHandler, useForm } from "react-hook-form";
 import Logo from "../../components/Logo";
 import { tintColorLight } from "../../constants/Colors";
 import BackButtonNative from "../../components/button/BackButtonNative";
-import Error from "../../components/Error";
 import InputForm from "../../components/input/InputForm";
 import ButtonSecureText from "../../components/button/ButtonSecureText";
-import { Body2, H3 } from "../../components/typography";
+import { Body2, ButtonText, H2, Subtitle1 } from "../../components/typography";
 
 const padding = Sizes.base;
 
@@ -64,15 +63,14 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
         <BackButtonNative />
       </View>
       <Logo size={"m"} />
-      <Text
+      <H2
         style={{
           alignSelf: "center",
-          ...Fonts.h2,
           marginVertical: padding * 2,
         }}
       >
         SIGN UP
-      </Text>
+      </H2>
       <Form
         control={control}
         onPress={handleSubmit(onSubmit)}
@@ -80,19 +78,13 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
         secureTextEntry={secureTextEntry}
         setSecureTextEntry={setSecureTextEntry}
       />
-      <View style={Styles.centerHV}>
-        <Error error={signUpError as string | undefined} />
-        <Error error={errors.name?.message} />
-        <Error error={errors.email?.message} />
-        <Error error={errors.password?.message} />
-        <Error error={errors.passwordConform?.message} />
-      </View>
-
+      <View style={Styles.flex} />
       <View style={Styles.centerSelf}>
         <View
           style={{
             flexDirection: "row",
             margin: padding,
+            alignItems: "center",
           }}
         >
           <Body2 secondary>Already have an account?</Body2>
@@ -101,7 +93,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
             onPress={() => navigation.navigate("SignIn")}
             style={Styles.fRow}
           >
-            <H3 primary> Sign In</H3>
+            <Subtitle1 primary> Sign In</Subtitle1>
           </Button>
         </View>
       </View>
@@ -176,7 +168,7 @@ const Form = ({
       />
 
       <Button onPress={onPress} style={styles.loginBtn}>
-        <Text style={styles.loginBtnText}>sign up</Text>
+        <ButtonText style={styles.loginBtnText}>sign up</ButtonText>
       </Button>
     </View>
   );
@@ -200,7 +192,7 @@ const styles = StyleSheet.create({
     width: 200,
     backgroundColor: tintColorLight,
     alignItems: "center",
-    paddingVertical: padding * 1.5,
+    paddingVertical: padding * 0.5,
     borderRadius: padding * 4,
     elevation: 10,
     justifyContent: "center",
@@ -208,7 +200,7 @@ const styles = StyleSheet.create({
     marginTop: padding * 2,
     marginBottom: padding * 2,
   },
-  loginBtnText: { ...Fonts.h3, color: "#fff", textTransform: "uppercase" },
+  loginBtnText: { color: "#fff", paddingVertical: padding },
 });
 
 export default SignUp;

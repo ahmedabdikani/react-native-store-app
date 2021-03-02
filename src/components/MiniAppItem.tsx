@@ -1,11 +1,12 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
-import CardView from "./theme/Card";
 import Layout from "../constants/Layout";
 import Button from "./button/Button";
-import { Sizes, Styles } from "../constants/Styles";
-import Subtitle from "./typography/Subtitle";
+import { Sizes } from "../constants/Styles";
+import Subtitle1 from "./typography/Subtitle1";
+import Center from "./theme/Center";
+import useThemeColor from "../hooks/useThemeColor";
 
 const { width } = Layout.window;
 const miniAppWidth = (width - 60) / 4;
@@ -18,14 +19,16 @@ interface MiniAppItemProps {
 }
 
 const MiniAppItem = ({ appName, appIcon, color }: MiniAppItemProps) => {
+  const backgroundColor = useThemeColor({}, "card");
+
   return (
-    <Button>
-      <CardView style={styles.card}>
+    <Button style={[styles.card, { backgroundColor }]}>
+      <Center>
         {appIcon()}
-        <Subtitle numberOfLines={1} style={styles.cardText}>
+        <Subtitle1 numberOfLines={1} style={styles.cardText}>
           {appName}
-        </Subtitle>
-      </CardView>
+        </Subtitle1>
+      </Center>
     </Button>
   );
 };
@@ -37,7 +40,6 @@ const styles = StyleSheet.create({
     padding: spacing,
     borderRadius: spacing,
     marginRight: spacing,
-    ...Styles.centerHV,
   },
   cardText: {
     marginTop: 10,

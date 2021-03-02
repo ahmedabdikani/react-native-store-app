@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import * as React from "react";
-import { Image } from "react-native";
+import { Image, StyleSheet } from "react-native";
 
 import { Sizes } from "../../constants/Styles";
 import { useCartContext } from "../../context/CartContext";
@@ -8,9 +8,10 @@ import { CartItem as ItemType } from "../../types/Cart";
 import Button from "../button/Button";
 import { Card, Text } from "../theme";
 import useThemeColor from "../../hooks/useThemeColor";
-import { Body1, H3, H4 } from "../typography";
+import { Body1, Body2, H1, H3, H4, H6, Subtitle1 } from "../typography";
 
 const padding = Sizes.base;
+const imageHeight = 90;
 
 interface ICartItemProps {
   cartItem: ItemType;
@@ -19,26 +20,14 @@ interface ICartItemProps {
 
 const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
   return (
-    <Card
-      style={{
-        marginBottom: padding,
-        borderRadius: padding,
-        padding,
-      }}
-    >
+    <Card style={styles.container}>
       <Card style={{ flexDirection: "row" }}>
-        <H3>Furniture Store</H3>
+        <Subtitle1 style={{ marginBottom: padding }}>Furniture Store</Subtitle1>
       </Card>
       <Card style={{ flexDirection: "row" }}>
         <Image
           source={{ uri: cartItem.product.images[0] }}
-          style={{
-            height: 90,
-            width: 90,
-            resizeMode: "cover",
-            marginLeft: padding,
-            marginBottom: padding,
-          }}
+          style={styles.img}
         />
         <Card
           style={{
@@ -47,12 +36,11 @@ const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
             justifyContent: "space-between",
           }}
         >
-          <Text numberOfLines={2}>{cartItem.product.title}</Text>
+          <Body2 numberOfLines={2}>{cartItem.product.title}</Body2>
           <Card
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              marginRight: padding * 4,
             }}
           >
             <Body1 primary>${cartItem.product.price}</Body1>
@@ -93,45 +81,53 @@ interface IAmountProp {
 
 const Amount = ({ cartItem }: IAmountProp) => {
   const { removeProductFromCart, addProductToCart } = useCartContext();
-  const color = useThemeColor({}, "text");
+  const borderColor = useThemeColor({}, "text");
   const disabled = cartItem.amount <= 1;
 
   return (
-    <Card
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        borderColor: color,
-        borderRadius: padding,
-        borderWidth: 1,
-      }}
-    >
+    <Card style={[styles.amountContainer, { borderColor }]}>
       <Button
         disabled={disabled}
         onPress={() => removeProductFromCart(cartItem.product.id)}
-        style={{
-          paddingHorizontal: padding * 0.5,
-          borderColor: color,
-          borderRightWidth: 1,
-        }}
+        style={[styles.amountBtn, { borderColor, borderRightWidth: 2 }]}
       >
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>-</Text>
+        <Subtitle1>-</Subtitle1>
       </Button>
       <Card style={{ paddingHorizontal: padding }}>
-        <Text style={{ fontSize: 16 }}>{cartItem.amount}</Text>
+        <Body2>{cartItem.amount}</Body2>
       </Card>
       <Button
         onPress={() => addProductToCart(cartItem.product)}
-        style={{
-          borderColor: color,
-          paddingHorizontal: padding * 0.5,
-          borderLeftWidth: 1,
-        }}
+        style={[styles.amountBtn, { borderColor, borderLeftWidth: 1 }]}
       >
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>+</Text>
+        <Subtitle1>+</Subtitle1>
       </Button>
     </Card>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: padding,
+    borderRadius: padding,
+    paddingVertical: padding,
+    paddingHorizontal: padding * 2,
+  },
+  amountContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: padding,
+    borderWidth: 1,
+  },
+  amountBtn: {
+    paddingHorizontal: padding * 0.5,
+  },
+  img: {
+    height: imageHeight,
+    width: imageHeight,
+    resizeMode: "cover",
+    marginBottom: padding,
+  },
+});
 
 export default CartItem;

@@ -11,10 +11,11 @@ import Animated, {
 
 import { lightBlue, lightRed, tintColorLight } from "../constants/Colors";
 import Layout from "../constants/Layout";
-import { Fonts, Sizes } from "../constants/Styles";
+import { Sizes, Styles } from "../constants/Styles";
 import Button from "./button/Button";
 import AnimatedList from "./list/ListAnimated";
-import { Card, Text, View } from "./theme";
+import { Card, View } from "./theme";
+import { Subtitle1 } from "./typography";
 
 const img0 = require("../assets/images/carosel4.png");
 const img1 = require("../assets/images/carosel1.png");
@@ -74,11 +75,7 @@ const Advertisment = ({}: IAdvertismentProps) => {
 
   return (
     <View>
-      <View
-        style={{
-          flexDirection: "row",
-        }}
-      >
+      <View style={Styles.fRow}>
         <View
           style={{
             width: cardWidth,
@@ -170,18 +167,19 @@ const CarouselItem = ({ item }: { item: typeof carousel[number] }) => {
   return (
     <Button>
       <Card
-        style={{
-          alignItems: "center",
-          height: cardHeight,
-          justifyContent: "center",
-        }}
+        style={[
+          Styles.centerHV,
+          {
+            height: cardHeight,
+          },
+        ]}
       >
         <Card
           style={{
             backgroundColor: "pink",
             height: cardHeight / 1.8,
-            position: "absolute",
             width: cardHeight / 1.8,
+            position: "absolute",
             borderRadius: cardWidth,
           }}
         />
@@ -194,16 +192,15 @@ const CarouselItem = ({ item }: { item: typeof carousel[number] }) => {
             resizeMode: "contain",
           }}
         />
-        <Text
+        <Subtitle1
           style={{
             position: "absolute",
             bottom: 30,
-            ...Fonts.body1,
             fontFamily: "lobster",
           }}
         >
           {item.name}
-        </Text>
+        </Subtitle1>
       </Card>
     </Button>
   );
@@ -219,16 +216,15 @@ const AdItem = ({ adItem }: { adItem: typeof ads[number] }) => {
         marginBottom: padding,
       }}
     >
-      <Text
+      <Subtitle1
         style={{
           fontFamily: "lobster",
-          ...Fonts.body2,
           color: adItem.color,
           marginLeft: padding,
         }}
       >
         {adItem.title}
-      </Text>
+      </Subtitle1>
       <Card
         style={{
           marginTop: padding,

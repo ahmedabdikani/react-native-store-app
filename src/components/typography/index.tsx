@@ -2,7 +2,28 @@ import H1 from "./H1";
 import H2 from "./H2";
 import H3 from "./H3";
 import H4 from "./H4";
+import H5 from "./H5";
+import H6 from "./H6";
+import Subtitle1 from "./Subtitle1";
+import Subtitle2 from "./Subtitle2";
 import Body1 from "./Body1";
 import Body2 from "./Body2";
+import ButtonText from "./ButtonText";
+import Caption from "./Caption";
+import Overline from "./Overline";
 
-export { H1, H2, H3, H4, Body1, Body2 };
+export {
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  Subtitle1,
+  Subtitle2,
+  Body1,
+  Body2,
+  ButtonText,
+  Caption,
+  Overline,
+};

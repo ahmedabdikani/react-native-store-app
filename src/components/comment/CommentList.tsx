@@ -4,7 +4,7 @@ import { Sizes } from "../../constants/Styles";
 import Button from "../button/Button";
 import ListSmall from "../list/ListSmall";
 import { Card } from "../theme";
-import { H4, H3 } from "../typography";
+import { Subtitle1, Subtitle2 } from "../typography";
 import CommentItem from "./CommentItem";
 
 const spacing = Sizes.base;
@@ -18,12 +18,18 @@ const CommentList = ({ comments }: { comments: any }) => {
         marginHorizontal: spacing,
       }}
     >
-      <Card style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <H3>Comments</H3>
+      <Card
+        style={{
+          padding: spacing,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Subtitle1>Comments</Subtitle1>
         <Button>
-          <H4 primary underline>
+          <Subtitle2 primary underline>
             See more
-          </H4>
+          </Subtitle2>
         </Button>
       </Card>
       <ListSmall data={comments}>

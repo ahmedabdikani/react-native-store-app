@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import { Image } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -21,7 +21,17 @@ import { HomeNavigationProps } from "../../types/Home";
 import { Product } from "../../types/Product";
 import AnimatedList from "../../components/list/ListAnimated";
 import { useProductContext } from "../../context/ProductContext";
-import { Body2, H3, H4 } from "../../components/typography";
+import {
+  Body2,
+  ButtonText,
+  Caption,
+  H3,
+  H4,
+  H5,
+  H6,
+  Subtitle1,
+  Subtitle2,
+} from "../../components/typography";
 
 import Center from "../../components/theme/Center";
 import Carousel from "../../components/product/Carousel";
@@ -77,16 +87,20 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
         style={{ margin: spacing, padding: spacing, borderRadius: spacing }}
       >
         <Card style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <H3>Furniture Store</H3>
+          <Subtitle1>Furniture Store</Subtitle1>
           <Button>
-            <Button>
-              <H4 underline primary>
-                See more
-              </H4>
-            </Button>
+            <Subtitle2 underline primary>
+              See more
+            </Subtitle2>
           </Button>
         </Card>
-        <Card style={{ flexDirection: "row", flexWrap: "wrap" }}>
+        <Card
+          style={{
+            justifyContent: "center",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
           {similarProduts.map(renderSimilarProductItem)}
         </Card>
       </Card>
@@ -110,9 +124,9 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
           }}
         />
         <Card style={{ width: 100 }}>
-          <Body2 numberOfLines={2} style={{ marginVertical: spacing * 0.5 }}>
+          <Caption numberOfLines={2} style={{ marginVertical: spacing * 0.5 }}>
             {item.title}
-          </Body2>
+          </Caption>
           <Body2 primary>${item.price}</Body2>
         </Card>
       </Button>
@@ -193,16 +207,9 @@ const Header = ({
 const Footer = ({ product }: { product: Product }) => {
   const { addProductToCart } = useCartContext();
   const textSecondary = useThemeColor({}, "textSecondary");
-
+  const color = "#fff";
   return (
-    <Card
-      style={{
-        flexDirection: "row",
-        paddingHorizontal: spacing,
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
+    <Card style={styles.footerContainer}>
       <FontAwesome5 name="store" color={tintColorLight} size={20} />
       <FontAwesome5 name="comment-dots" color={textSecondary} size={24} />
       <FontAwesome name="star" color={tintColorLight} size={24} />
@@ -214,29 +221,31 @@ const Footer = ({ product }: { product: Product }) => {
       >
         <Button
           onPress={() => addProductToCart(product)}
-          style={{
-            borderBottomLeftRadius: spacing * 3,
-            borderTopLeftRadius: spacing * 3,
-            height: 45,
-            width: 120,
-            backgroundColor: darkYellow,
-          }}
+          style={[
+            styles.footerBtn,
+            {
+              borderBottomLeftRadius: spacing * 3,
+              borderTopLeftRadius: spacing * 3,
+              backgroundColor: darkYellow,
+            },
+          ]}
         >
           <Center>
-            <H4 style={{ color: "#fff" }}>Send to cart</H4>
+            <ButtonText style={{ color }}>Send to cart</ButtonText>
           </Center>
         </Button>
         <Button
-          style={{
-            borderBottomRightRadius: spacing * 3,
-            borderTopRightRadius: spacing * 3,
-            height: 45,
-            width: 120,
-            backgroundColor: tintColorLight,
-          }}
+          style={[
+            styles.footerBtn,
+
+            {
+              borderBottomRightRadius: spacing * 3,
+              borderTopRightRadius: spacing * 3,
+            },
+          ]}
         >
           <Center>
-            <H4 style={{ color: "#fff" }}>Puy item</H4>
+            <ButtonText style={{ color }}>Puy item</ButtonText>
           </Center>
         </Button>
       </Card>
@@ -254,5 +263,15 @@ ProductScreen.sharedElements = (route) => {
     },
   ];
 };
+
+const styles = StyleSheet.create({
+  footerContainer: {
+    flexDirection: "row",
+    paddingHorizontal: spacing,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  footerBtn: { height: 45, width: 120, backgroundColor: tintColorLight },
+});
 
 export default ProductScreen;

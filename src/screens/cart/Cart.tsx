@@ -8,7 +8,12 @@ import { useCartContext } from "../../context/CartContext";
 import CartList from "../../components/cart/CartList";
 import useThemeColor from "../../hooks/useThemeColor";
 import Button from "../../components/button/Button";
-import { Body2, H2, H4 } from "../../components/typography";
+import {
+  ButtonText,
+  H6,
+  Subtitle1,
+  Subtitle2,
+} from "../../components/typography";
 import { SetState } from "../chat/Chats";
 import Shadow from "../../components/shadow/Shadow";
 
@@ -47,39 +52,37 @@ const Header = ({ length, setOpenMore, openMore }: HeaderProps) => {
   const { top } = useSafeAreaInsets();
 
   return (
-    <Shadow>
+    <Shadow
+      style={{
+        padding: spacing,
+        paddingTop: top,
+      }}
+    >
       <Card
         style={{
-          paddingTop: top,
           flexDirection: "row",
           justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <H2>Shopping Cart</H2>
+        <H6>Shopping Cart</H6>
         <Button onPress={() => setOpenMore((prev) => !prev)}>
-          <H4>{openMore ? "Hide" : "More"}</H4>
+          <Subtitle1 style={{ margin: spacing }}>
+            {openMore ? "Hide" : "More"}
+          </Subtitle1>
         </Button>
       </Card>
       <Card>
-        <H4> Items ({length})</H4>
+        <Subtitle2 style={{ marginLeft: spacing }}> Items ({length})</Subtitle2>
       </Card>
     </Shadow>
   );
 };
 
 const Footer = ({ total }: { total: number }) => {
-  const backgroundColor = useThemeColor({}, "background");
+  const borderColor = useThemeColor({}, "background");
   return (
-    <Card
-      style={{
-        padding: spacing,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        borderColor: backgroundColor,
-        borderBottomWidth: 2,
-      }}
-    >
+    <Card style={[styles.footerContainer, { borderColor }]}>
       <Text>Sellect all</Text>
       <View
         transparent
@@ -90,7 +93,9 @@ const Footer = ({ total }: { total: number }) => {
       >
         <Text>Total ${total}</Text>
         <Button primary style={styles.btn}>
-          <Body2 style={{ color: "#fff" }}>Checkout</Body2>
+          <ButtonText style={{ color: "#fff", padding: spacing }}>
+            Checkout
+          </ButtonText>
         </Button>
       </View>
     </Card>
@@ -104,8 +109,14 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginLeft: spacing,
-    alignItems: "center",
     borderRadius: spacing * 3,
+  },
+  footerContainer: {
+    padding: spacing,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottomWidth: 2,
   },
 });
 

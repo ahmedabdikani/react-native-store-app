@@ -1,29 +1,30 @@
 import * as React from "react";
 import { Image, StyleSheet } from "react-native";
 
-import { Fonts, Styles } from "../constants/Styles";
-import { Card, Text } from "./theme";
+import { Styles } from "../constants/Styles";
+import { Card } from "./theme";
 import useThemeColor from "../hooks/useThemeColor";
+import { Subtitle1 } from "./typography";
 
-interface IAvatarProps {
+interface AvatarProps {
   imageUri?: string;
   initial?: string;
   backgroundColor?: string;
 }
 
-const Avatar = ({
+const Avatar: React.FC<AvatarProps> = ({
   imageUri,
   initial,
   backgroundColor = useThemeColor({}, "card"),
-}: IAvatarProps) => {
+}) => {
   return (
     <Card style={[styles.container, { backgroundColor: backgroundColor }]}>
       {imageUri ? (
         <Image source={{ uri: imageUri }} style={styles.img} />
       ) : (
-        <Text style={Fonts.body1}>
-          {initial?.toLocaleUpperCase().trim().substr(0, 2)}
-        </Text>
+        <Subtitle1 style={{ textTransform: "uppercase" }}>
+          {initial?.trim().toUpperCase().substr(0, 2)}
+        </Subtitle1>
       )}
     </Card>
   );

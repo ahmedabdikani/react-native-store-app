@@ -2,11 +2,11 @@ import * as React from "react";
 import { Image, StyleSheet } from "react-native";
 import { SharedElement } from "react-navigation-shared-element";
 
-import { Card, Text } from "../theme";
+import { Card } from "../theme";
 import Layout from "../../constants/Layout";
 import { Product } from "../../types/Product";
 import Button from "../button/Button";
-import { Body1, Body2 } from "../typography";
+import { Body1, Body2, Caption } from "../typography";
 
 const { width } = Layout.window;
 const spacing = 10;
@@ -37,7 +37,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
             }}
           >
             <Body1 primary>{product.price}$</Body1>
-            <Text secondary>150 people liked</Text>
+            <Caption secondary>150 people liked</Caption>
           </Card>
         </Card>
       </Card>

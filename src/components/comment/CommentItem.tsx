@@ -2,15 +2,15 @@ import * as React from "react";
 import { Image } from "react-native";
 
 import { Sizes } from "../../constants/Styles";
-import { Card, Text } from "../theme";
-import { H4 } from "../typography";
+import { Card } from "../theme";
+import { Body2, Caption, Subtitle2 } from "../typography";
 
 const spacing = Sizes.base;
 
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment }: { comment: any }) => {
   return (
     <Card style={{ marginTop: spacing }}>
-      <Card style={{ flexDirection: "row" }}>
+      <Card style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
           source={{ uri: comment.user.photo }}
           style={{
@@ -21,16 +21,16 @@ const CommentItem = ({ comment }) => {
           }}
         />
         <Card style={{ marginLeft: spacing * 0.5 }}>
-          <H4>{comment.user.name}</H4>
-          <Text>5 days ago</Text>
+          <Subtitle2 style={{ marginBottom: 0 }}>{comment.user.name}</Subtitle2>
+          <Caption secondary>5 days ago</Caption>
         </Card>
       </Card>
       <Card
         style={{ marginVertical: spacing * 0.5, marginHorizontal: spacing }}
       >
-        <Text secondary numberOfLines={2}>
+        <Body2 secondary numberOfLines={2}>
           {comment.title}
-        </Text>
+        </Body2>
       </Card>
     </Card>
   );

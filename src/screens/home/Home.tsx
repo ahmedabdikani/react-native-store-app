@@ -1,10 +1,9 @@
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import * as React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import View from "../../components/theme/View";
-import useThemeColor from "../../hooks/useThemeColor";
 import { tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import Advertisment from "../../components/Advertisment";
@@ -16,7 +15,8 @@ import Button from "../../components/button/Button";
 import FlatList from "../../components/list/ListFlat";
 import Gradient from "../../components/Gradient";
 import { useProductContext } from "../../context/ProductContext";
-import { Body2, H4 } from "../../components/typography";
+import { Body1, ButtonText } from "../../components/typography";
+import Input from "../../components/input/Input";
 
 const { width } = Layout.window;
 const spacing = Sizes.base;
@@ -29,15 +29,7 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Header />
-      <FlatList
-        data={[0]}
-        contentContainerStyle={{
-          paddingLeft: spacing,
-          alignItems: "center",
-          borderRadius: spacing * 3,
-          overflow: "hidden",
-        }}
-      >
+      <FlatList data={[0]} contentContainerStyle={styles.listContainer}>
         {() => (
           <View>
             <MiniAppList />
@@ -54,22 +46,17 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
 
 const Header = () => {
   const { top } = useSafeAreaInsets();
-  const color = useThemeColor({}, "text");
 
   return (
     <View
       style={{
-        flexDirection: "row",
+        ...Styles.fRow,
         ...Styles.centerH,
         paddingTop: top + spacing * 3,
       }}
     >
       <View style={styles.searchArea}>
-        <TextInput
-          style={{ flex: 1, color }}
-          placeholderTextColor={color}
-          placeholder={"Search here"}
-        />
+        <Input placeholder={"Search here"} />
         <Ionicons
           style={{ alignSelf: "center" }}
           name="ios-camera-outline"
@@ -77,27 +64,22 @@ const Header = () => {
           color="#aaa"
         />
         <Button style={styles.searchButton}>
-          <Gradient
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <H4 style={{ color: "#fff" }}>Search</H4>
+          <Gradient>
+            <ButtonText style={{ color: "#fff", paddingHorizontal: spacing }}>
+              Search
+            </ButtonText>
           </Gradient>
         </Button>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          ...Styles.centerHV,
-        }}
-      >
-        <Body2
+      <View style={[Styles.fRow, Styles.centerHV]}>
+        <Body1
+          primary
           style={{
-            color: tintColorLight,
             paddingRight: spacing / 2,
           }}
         >
           沈阳
-        </Body2>
+        </Body1>
         <Button>
           <FontAwesome5
             name="map-marker-alt"
@@ -135,6 +117,12 @@ const styles = StyleSheet.create({
     backgroundColor: tintColorLight,
     borderRadius: searchHeight,
     margin: 2,
+  },
+  listContainer: {
+    paddingLeft: spacing,
+    alignItems: "center",
+    borderRadius: spacing * 3,
+    overflow: "hidden",
   },
 });
 
