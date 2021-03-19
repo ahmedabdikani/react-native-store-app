@@ -5,7 +5,7 @@ import Layout from "../constants/Layout";
 import Button from "./button/Button";
 import { Sizes } from "../constants/Styles";
 import Subtitle1 from "./typography/Subtitle1";
-import Center from "./theme/Center";
+import Center from "./center/Center";
 import useThemeColor from "../hooks/useThemeColor";
 
 const { width } = Layout.window;

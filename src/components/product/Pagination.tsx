@@ -3,14 +3,17 @@ import { StyleSheet, TextInput } from "react-native";
 
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 
-import { View, Center } from "../theme";
-
+import { View } from "../theme";
+import Center from "../center/Center";
 import { Sizes } from "../../constants/Styles";
 
 Animated.addWhitelistedUIProps({
   text: true,
   value: true,
 });
+
+Animated.addWhitelistedNativeProps({ text: true, value: true });
+
 const AnimatedText = Animated.createAnimatedComponent(TextInput);
 const spacing = Sizes.base;
 
@@ -19,6 +22,7 @@ interface PaginationProps {
   total: number;
   width: number;
 }
+
 const Pagination = ({ x, total, width }: PaginationProps) => {
   const animatedProps = useAnimatedProps(() => {
     return {

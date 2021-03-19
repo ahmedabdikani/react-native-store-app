@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-import Card from "../theme/Card";
+import { View } from "../theme";
 
-const Shadow = styled(Card)({
-  elevation: 10,
-  zIndex: 10,
-  shadowOpacity: 0.5,
-  shadowRadius: 5,
-  shadowColor: "#ddd",
-});
+const Shadow = styled(View).attrs((props) => ({ card: true }))`
+  elevation: 10;
+  z-index: 10;
+  shadow-opacity: 0.5;
+  shadow-radius: 5px;
+  shadow-color: #ddd;
+`;
 export default Shadow;

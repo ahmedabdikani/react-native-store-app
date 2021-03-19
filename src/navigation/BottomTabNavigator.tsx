@@ -13,16 +13,17 @@ import Home from "../screens/home/Home";
 import Product from "../screens/home/Product";
 import useThemeColor from "../hooks/useThemeColor";
 import { Text, View } from "../components/theme";
+import Center from "../components/center/Center";
 import HearBeat from "../Icons/HearBeat";
 import Cart from "../screens/cart/Cart";
-import Profile from "../screens/profile/Profile";
+import Me from "../screens/me/Me";
 import Rooms from "../screens/chat/Rooms";
 import Chats from "../screens/chat/Chats";
 import Playground from "../screens/Playground";
-import Settings from "../screens/profile/Settings";
-import Favorites from "../screens/profile/Favorites";
+import Settings from "../screens/me/Settings";
+import Favorites from "../screens/me/Favorites";
 import { Fonts } from "../constants/Styles";
-import FollowedStores from "../screens/profile/FollowedStores";
+import FollowedStores from "../screens/me/FollowedStores";
 import AddContact from "../screens/chat/Contacts";
 import { CartStackPramList } from "../types/Cart";
 import BackButtonNative from "../components/button/BackButtonNative";
@@ -31,6 +32,7 @@ import { BottomTabParamList } from "../types/BottomTab";
 import { HomeStackPramList } from "../types/Home";
 import { ProfileStackPramList } from "../types/Profile";
 import Camera from "../screens/chat/Camera";
+import Profile from "../screens/me/Profile";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -170,6 +172,8 @@ export default function BottomTabNavigator() {
 //   }
 // };
 
+const circleHieght = 40;
+
 function TabBarIcon(props: { name: string; color: string }) {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
@@ -180,41 +184,47 @@ const HomeNavigator = () => {
   return (
     <HomeStack.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerTransparent: true,
+        animationTypeForReplace: "pop",
       }}
     >
       <HomeStack.Screen
         name="Home"
         component={Home}
-        options={{ headerTitle: "Home", headerShown: false }}
+        options={{ headerTitle: "Home" }}
       />
       <HomeStack.Screen
         name="Product"
         component={Product}
+        sharedElementsConfig={(route) => [
+          {
+            id: route.params.product.id.toString(),
+            animation: "fade",
+          },
+        ]}
         options={{
+          headerShown: true,
           headerLeft: (props) => {
             return (
               <View
                 style={{
-                  justifyContent: "center",
-                  alignItems: "center",
                   backgroundColor,
-                  height: 40,
-                  width: 40,
+                  height: circleHieght,
+                  width: circleHieght,
                   opacity: 0.8,
-                  borderRadius: 40,
-                  marginLeft: 20,
+                  borderRadius: circleHieght,
+                  marginLeft: 10,
                 }}
               >
-                {/* {HeaderBackButton(props)} */}
-                <BackButtonNative />
+                <Center>
+                  <BackButtonNative />
+                </Center>
               </View>
             );
           },
-          headerTitle: "Product",
+
           headerTitleStyle: { display: "none" },
-          headerTintColor: "#fff",
           headerBackTitleVisible: false,
           cardStyleInterpolator: ({ current: { progress } }) => {
             return {
@@ -248,7 +258,6 @@ const ChatNavigator = () => {
         component={Chats}
         options={{
           headerTitleAlign: "center",
-          title: "Asma",
           headerRight: () => (
             <Ionicons size={24} name={"ellipsis-vertical"} color={color} />
           ),
@@ -269,7 +278,6 @@ const ChatNavigator = () => {
         options={{
           headerTitleAlign: "center",
           title: "AddContact",
-          headerShown: false,
         }}
       />
     </ChatStack.Navigator>
@@ -278,7 +286,22 @@ const ChatNavigator = () => {
 const ProfileStack = createStackNavigator<ProfileStackPramList>();
 const ProfileNavigator = () => {
   return (
-    <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+    <ProfileStack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+      <ProfileStack.Screen
+        name="Me"
+        component={Me}
+        options={{
+          title: "Me",
+          headerShown: false,
+        }}
+      />
+      <ProfileStack.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          title: "Settings",
+        }}
+      />
       <ProfileStack.Screen
         name="Profile"
         component={Profile}
@@ -287,36 +310,25 @@ const ProfileNavigator = () => {
         }}
       />
       <ProfileStack.Screen
-        name="Settings"
-        component={Settings}
-        options={{
-          headerShown: true,
-          headerTitleAlign: "center",
-          title: "Settings",
-        }}
-      />
-      <ProfileStack.Screen
         name="Favorite"
         component={Favorites}
         options={{
-          headerShown: true,
-          headerTitleAlign: "center",
           headerTitle: ({ style, allowFontScaling }) => (
             <View
+              transparent
               style={{
                 flexDirection: "row",
-                backgroundColor: "transparent",
-                justifyContent: "center",
-                alignItems: "center",
               }}
             >
-              <FontAwesome name="star-o" size={24} color={tintColorLight} />
-              <Text
-                allowFontScaling={allowFontScaling}
-                style={{ ...Fonts.h3, marginLeft: 10 }}
-              >
-                Favorites
-              </Text>
+              <Center>
+                <FontAwesome name="star-o" size={24} color={tintColorLight} />
+                <Text
+                  allowFontScaling={allowFontScaling}
+                  style={{ ...Fonts.h3, marginLeft: 10 }}
+                >
+                  Favorites
+                </Text>
+              </Center>
             </View>
           ),
         }}
@@ -325,15 +337,12 @@ const ProfileNavigator = () => {
         name="FollowedStores"
         component={FollowedStores}
         options={{
-          headerShown: true,
-          headerTitleAlign: "center",
           title: "Stores",
         }}
       />
     </ProfileStack.Navigator>
   );
 };
-
 const CartStack = createStackNavigator<CartStackPramList>();
 const CartNavigator = () => {
   return (

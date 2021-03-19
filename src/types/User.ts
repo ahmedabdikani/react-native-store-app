@@ -1,7 +1,7 @@
-export default interface User  {
+export default interface User {
   id:string
   name:string
   photoUrl:string
   email:string
-  rooms:any[]
+  rooms?:any[]
 }

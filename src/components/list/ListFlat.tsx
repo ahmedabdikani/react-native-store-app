@@ -4,8 +4,9 @@ import {
   FlatListProps,
   ListRenderItem,
 } from "react-native";
-import { Fonts, Styles } from "../../constants/Styles";
-import { TextSec, View } from "../theme";
+import { Styles } from "../../constants/Styles";
+import { View } from "../theme";
+import { Body1 } from "../typography";
 
 interface ListFlatProps<T> extends Omit<FlatListProps<T>, "renderItem"> {
   readonly data: T[];
@@ -20,7 +21,7 @@ const ListFlat = <T extends {}>({
   const ListEmptyComponent = () => {
     return (
       <View style={{ ...Styles.centerHV, flex: 1 }}>
-        <TextSec style={Fonts.body2}>List is Empty</TextSec>
+        <Body1 secondary>List is Empty</Body1>
       </View>
     );
   };

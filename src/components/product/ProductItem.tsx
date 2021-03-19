@@ -2,7 +2,7 @@ import * as React from "react";
 import { Image, StyleSheet } from "react-native";
 import { SharedElement } from "react-navigation-shared-element";
 
-import { Card } from "../theme";
+import { View } from "../theme";
 import Layout from "../../constants/Layout";
 import { Product } from "../../types/Product";
 import Button from "../button/Button";
@@ -23,31 +23,32 @@ const ProductItem: React.FC<ProductItemProps> = ({
 }) => {
   return (
     <Button onPress={() => navigationToProduct(product)}>
-      <Card style={styles.constainer}>
+      <View card style={styles.constainer}>
         <SharedElement id={product.id.toString()}>
           <Image source={{ uri: product?.images[0] }} style={styles.image} />
         </SharedElement>
-        <Card style={{ padding: spacing }}>
+        <View card style={{ padding: spacing }}>
           <Body2 numberOfLines={2}>{product.title}</Body2>
-          <Card
+          <View
+            card
+            flexR
             style={{
-              flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "flex-end",
             }}
           >
             <Body1 primary>{product.price}$</Body1>
             <Caption secondary>150 people liked</Caption>
-          </Card>
-        </Card>
-      </Card>
+          </View>
+        </View>
+      </View>
     </Button>
   );
 };
 
 const styles = StyleSheet.create({
   constainer: {
-    flex: 1,
+    // flex: 1,
     borderRadius: spacing,
     overflow: "hidden",
     width: productWidth,

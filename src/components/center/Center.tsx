@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import View from "./View";
+import View from "../theme/View";
 
 const Center = styled(View).attrs((props) => ({ transparent: true }))`
   flex: 1;

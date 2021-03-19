@@ -1,13 +1,13 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { ColorSchemeName } from "react-native";
+import { enableScreens } from "react-native-screens";
 
-import NotFoundScreen from "../screens/notFound/NotFoundScreen";
-import { RootStackParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import Colors from "../constants/Colors";
-import AuthStack from "./AuthNavigator";
+import RootNavigator from "./RootNavigator";
+
+enableScreens();
 
 interface NAvigationProps {
   colorScheme: ColorSchemeName;
@@ -21,21 +21,6 @@ const Navigation: React.FC<NAvigationProps> = ({ colorScheme }) => {
     >
       <RootNavigator />
     </NavigationContainer>
-  );
-};
-
-const Stack = createStackNavigator<RootStackParamList>();
-
-const RootNavigator: React.FC = ({}) => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={AuthStack} />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
-    </Stack.Navigator>
   );
 };
 

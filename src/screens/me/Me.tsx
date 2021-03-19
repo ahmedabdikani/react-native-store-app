@@ -8,7 +8,8 @@ import { Image, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Avatar from "../../components/Avatar";
-import { Card, View, Center } from "../../components/theme";
+import { View } from "../../components/theme";
+import Center from "../../components/center/Center";
 import useThemeColor from "../../hooks/useThemeColor";
 import { lightBlue, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
@@ -23,7 +24,7 @@ import { Body1, Body2, Subtitle1 } from "../../components/typography";
 const { width } = Layout.window;
 const padding = Sizes.base;
 
-interface ProfileProps extends ProfileScreenProps<"Profile"> {}
+interface MeProps extends ProfileScreenProps<"Me"> {}
 
 const colors = [
   "#213970",
@@ -34,7 +35,7 @@ const colors = [
   "#ed33f5",
 ];
 
-const Profile: React.FC<ProfileProps> = ({ navigation }) => {
+const Me: React.FC<MeProps> = ({ navigation }) => {
   const card = useThemeColor({}, "card");
   const { top } = useSafeAreaInsets();
   const { user } = useAuthContext();
@@ -46,7 +47,8 @@ const Profile: React.FC<ProfileProps> = ({ navigation }) => {
 
   const renderThemeOptions = () => {
     return (
-      <Card
+      <View
+        card
         style={{
           position: "absolute",
           height: 200,
@@ -58,9 +60,10 @@ const Profile: React.FC<ProfileProps> = ({ navigation }) => {
           borderRadius: padding,
         }}
       >
-        <Card
+        <View
+          card
+          transparent
           style={{
-            backgroundColor: "transparent",
             height: 10,
             width: 10,
             position: "absolute",
@@ -74,9 +77,10 @@ const Profile: React.FC<ProfileProps> = ({ navigation }) => {
             borderBottomWidth: 20,
           }}
         />
-        <Card
+        <View
+          card
+          flexR
           style={{
-            flexDirection: "row",
             flexWrap: "wrap",
             padding,
             alignItems: "center",
@@ -98,8 +102,8 @@ const Profile: React.FC<ProfileProps> = ({ navigation }) => {
               />
             );
           })}
-        </Card>
-      </Card>
+        </View>
+      </View>
     );
   };
 
@@ -147,15 +151,19 @@ const renderSelection = () => {
 
 const renderMyOrders = () => {
   return (
-    <Card style={{ marginTop: padding * 2, padding, borderRadius: padding }}>
+    <View
+      card
+      style={{ marginTop: padding * 2, padding, borderRadius: padding }}
+    >
       <Subtitle1>My orders</Subtitle1>
-      <Card
+      <View
+        card
         style={{
           marginVertical: padding,
           flexDirection: "row",
         }}
       >
-        <Card style={styles.selection_item}>
+        <View card style={styles.selection_item}>
           <MaterialIcons
             name="account-balance-wallet"
             size={24}
@@ -164,8 +172,8 @@ const renderMyOrders = () => {
           <Body2 secondary style={Fonts.body2}>
             Paying
           </Body2>
-        </Card>
-        <Card style={styles.selection_item}>
+        </View>
+        <View card style={styles.selection_item}>
           <MaterialIcons
             name="account-balance-wallet"
             size={24}
@@ -174,9 +182,9 @@ const renderMyOrders = () => {
           <Body2 secondary style={Fonts.body2}>
             Shiping
           </Body2>
-        </Card>
+        </View>
 
-        <Card style={styles.selection_item}>
+        <View card style={styles.selection_item}>
           <MaterialCommunityIcons
             name="truck-delivery"
             size={24}
@@ -185,8 +193,8 @@ const renderMyOrders = () => {
           <Body2 secondary style={Fonts.body2}>
             delivering
           </Body2>
-        </Card>
-        <Card style={styles.selection_item}>
+        </View>
+        <View card style={styles.selection_item}>
           <MaterialCommunityIcons
             name="comment-processing"
             size={24}
@@ -195,8 +203,8 @@ const renderMyOrders = () => {
           <Body2 secondary style={Fonts.body2}>
             Feedback
           </Body2>
-        </Card>
-        <Card style={styles.selection_item}>
+        </View>
+        <View card style={styles.selection_item}>
           <MaterialCommunityIcons
             name="credit-card-refund"
             size={24}
@@ -205,8 +213,8 @@ const renderMyOrders = () => {
           <Body2 secondary style={Fonts.body2}>
             Refund
           </Body2>
-        </Card>
-      </Card>
+        </View>
+      </View>
       <View style={{ padding, borderRadius: padding }}>
         <Body2 style={{ marginBottom: padding * 0.5, ...Fonts.body2 }}>
           Recent order
@@ -234,7 +242,7 @@ const renderMyOrders = () => {
           </View>
         </View>
       </View>
-    </Card>
+    </View>
   );
 };
 
@@ -251,7 +259,9 @@ const renderHeader = ({
   return (
     <>
       <View style={styles.headerContainer}>
-        <Ionicons name="person-outline" size={24} color={color} />
+        <Button onPress={() => navigation.navigate("Profile")}>
+          <Ionicons name="person-outline" size={24} color={color} />
+        </Button>
         <Button onPress={() => setOpenTheme((openTheme) => !openTheme)}>
           <Ionicons name="color-palette-outline" size={24} color={color} />
         </Button>
@@ -260,11 +270,12 @@ const renderHeader = ({
         </Button>
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Card style={{ padding: padding * 0.2, borderRadius: 100 }}>
-          <Avatar imageUri={user.photoUrl} initial={user.name} />
-        </Card>
+        <Avatar imageUri={user.photoUrl} initial={user.name} />
+
         <View style={{ marginLeft: padding, flexDirection: "row" }}>
-          <Subtitle1 secondary>User id: </Subtitle1>
+          <Subtitle1 secondary style={{ textTransform: "none" }}>
+            user ID:{" "}
+          </Subtitle1>
           <Subtitle1>{user.name}</Subtitle1>
         </View>
       </View>
@@ -274,7 +285,8 @@ const renderHeader = ({
 
 const renderPaymentMethods = () => {
   return (
-    <Card
+    <View
+      card
       style={{
         marginTop: Sizes.base * 2,
         padding: Sizes.base,
@@ -283,12 +295,12 @@ const renderPaymentMethods = () => {
       }}
     >
       <Subtitle1>Payment Methods</Subtitle1>
-      <Card style={Styles.flex}>
+      <View card style={Styles.flex}>
         <Center>
           <Body1 secondary>Currently no payment method is available</Body1>
         </Center>
-      </Card>
-    </Card>
+      </View>
+    </View>
   );
 };
 
@@ -300,6 +312,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginBottom: Sizes.base,
+    marginTop: padding,
   },
   selectionContainer: {
     marginTop: padding * 2,
@@ -314,4 +327,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default Me;

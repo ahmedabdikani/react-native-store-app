@@ -2,9 +2,10 @@ import * as React from "react";
 
 import useAsyncStorage from "../hooks/useAsyncStorage";
 import Loading from "../components/Loading";
-import { auth, db } from "../config/firebase";
-
+import supabase from "../config/supabase";
 import User from "../types/User";
+
+import "react-native-url-polyfill/auto";
 
 interface SignInWithEmailProps {
   email: string;
@@ -18,7 +19,9 @@ interface SignUpWithEmailProps {
 }
 interface Context {
   user: User | null;
+  updateUser: <T extends {}>(fields: T) => Promise<void>;
   signOut: () => Promise<any>;
+  signInWithFacebook: () => void;
   signInWithEmail: (signInWithEmail: SignInWithEmailProps) => Promise<any>;
   signUpWithEmail: (signInWithEmail: SignUpWithEmailProps) => Promise<any>;
 }
@@ -29,15 +32,8 @@ export const useAuthContext = () => {
   return React.useContext(AuthContext);
 };
 
-const fakeuser: User = {
-  email: "ahmedabdikani@g.com",
-  id: "random",
-  name: "ahmed abdikani",
-  photoUrl: "https://source.unsplash.com/random/45",
-};
-
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = React.useState<User | null>(null);
+  const [currentUser, setCurrentUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(true);
   const { getItem, setItem, removeItem } = useAsyncStorage();
 
@@ -45,7 +41,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     getItem("user")
       .then((result) => {
         if (result) {
-          setUser(result);
+          setCurrentUser(result);
         }
       })
       .catch((error) => console.log(error))
@@ -58,29 +54,63 @@ export const AuthProvider: React.FC = ({ children }) => {
       .catch((error) => console.log(error));
   };
 
-  const signInWithGoogle = () => {};
-  const signInWithFacebook = () => {};
-  const signInWithTwitter = () => {};
-  const rememberUser = () => {};
+  // const signInWithGoogle = () => {};
+  const signInWithFacebook = async () => {
+    try {
+      console.log("run");
+      const {} = await supabase.auth.signIn({ provider: "facebook" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // const signInWithTwitter = () => {};
+  // const rememberUser = () => {};
+
+  const updateUser = async <T extends {}>(fields: T) => {
+    console.log("runing");
+
+    try {
+      await supabase.auth.update({ data: fields });
+      const { data } = await supabase
+        .from("users")
+        .update(fields)
+        .match({ id: currentUser?.id })
+        .single();
+
+      if (data) {
+        saveUser(data);
+        setCurrentUser(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const signInWithEmail = async ({
     email,
     password,
     rememberMe,
   }: SignInWithEmailProps) => {
     try {
-      const { user } = await auth!.signInWithEmailAndPassword(email, password);
+      const { user, error } = await supabase.auth.signIn({ email, password });
+
+      if (error) {
+        throw error;
+      }
       if (user) {
+        console.log(user);
         const logedUser = {
-          name: user.displayName,
-          id: user.uid,
+          name: user.user_metadata.name,
+          id: user.id,
           email: user.email,
-          photoUrl: user.photoURL,
+          photoUrl: user.user_metadata.photoUrl,
         } as User;
         saveUser(logedUser);
-        setUser(logedUser);
+        setCurrentUser(logedUser);
       }
     } catch (error) {
       console.log(error);
+      throw error;
     }
   };
   const signUpWithEmail = async ({
@@ -89,37 +119,45 @@ export const AuthProvider: React.FC = ({ children }) => {
     password,
   }: SignUpWithEmailProps) => {
     try {
-      const { user } = await auth!.createUserWithEmailAndPassword(
+      const { user, error } = await supabase.auth.signUp({
         email,
-        password
-      );
+        password,
+      });
+
+      if (error) {
+        console.log(error);
+        throw error;
+      }
 
       if (user) {
+        console.log(user);
         const createdUser = {
-          id: user.uid,
-          name,
+          id: user.id,
+          name: name,
           email: user.email,
-          photoUrl: user.photoURL,
         } as User;
-        await user.updateProfile({ displayName: name });
-        await db?.collection("users").doc(user.uid).set(createdUser);
+        await supabase.auth.update({ data: { name } });
+        console.log(createdUser);
+        await supabase.from("users").insert(createdUser).single();
         saveUser(createdUser);
-        setUser(createdUser);
+        setCurrentUser(createdUser);
       }
     } catch (error) {
-      console.log(error);
-      throw new Error(error);
+      console.log(error.message);
+      throw error;
     }
   };
   const signOut = async () => {
     try {
-      await auth?.signOut();
+      setLoading(true);
+      await supabase.auth.signOut();
       await removeItem("user");
     } catch (error) {
       console.log(error);
-      throw new Error(error);
+      throw error;
     } finally {
-      setUser(null);
+      setCurrentUser(null);
+      setLoading(false);
     }
   };
 
@@ -129,7 +167,14 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, signOut, signInWithEmail, signUpWithEmail }}
+      value={{
+        user: currentUser,
+        signOut,
+        signInWithEmail,
+        signUpWithEmail,
+        updateUser,
+        signInWithFacebook,
+      }}
     >
       {children}
     </AuthContext.Provider>

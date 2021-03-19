@@ -1,12 +1,16 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 
-import eng from "../language/english";
+import useAsyncStorage from "../hooks/useAsyncStorage";
 
-const languages = { eng };
+import english from "../language/english";
+import somali from "../language/somali";
 
-type Language = keyof typeof languages;
+const languages = { english, somali };
+export type Language = keyof typeof languages;
+
 interface Context {
-  language: Object;
+  selectedLanguage: Language;
+  language: typeof languages[Language];
   changeLanguage: (language: Language) => void;
 }
 
@@ -15,20 +19,41 @@ const LanguageContext = React.createContext<Context>({} as Context);
 export const useLanguage = () => React.useContext(LanguageContext);
 
 export const LanguageProvider: React.FC = ({ children }) => {
-  const [language, setLanguage] = React.useState<typeof languages[Language]>(
-    languages["eng"]
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>("english");
+  const [language, setLanguage] = useState<typeof languages[Language]>(
+    languages[selectedLanguage]
   );
+  const { getItem, setItem } = useAsyncStorage();
+
+  useEffect(() => {
+    getItem("language")
+      .then((language) => {
+        if (language && languages[language]) {
+          setSelectedLanguage(language);
+          setLanguage(languages[language]);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const changeLanguage = (language: Language) => {
     if (languages[language]) {
-      setLanguage(languages[language]);
+      console.log("changed language to ", language);
+      setItem("language", language)
+        .then(() => {
+          setSelectedLanguage(language);
+          setLanguage(languages[language]);
+        })
+        .catch((error) => console.log(error));
     } else {
       throw new Error("language isn't supported!");
     }
   };
 
   return (
-    <LanguageContext.Provider value={{ language, changeLanguage }}>
+    <LanguageContext.Provider
+      value={{ language, selectedLanguage, changeLanguage }}
+    >
       {children}
     </LanguageContext.Provider>
   );

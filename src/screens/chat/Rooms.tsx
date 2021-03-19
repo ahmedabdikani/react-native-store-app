@@ -1,20 +1,39 @@
+import * as React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
-import * as React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import moment from "moment";
 
 import Button from "../../components/button/Button";
 import FlatList from "../../components/list/ListFlat";
-import { Card, TextSec, View } from "../../components/theme";
+import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { Sizes } from "../../constants/Styles";
 import { useChatContext } from "../../context/ChatContext";
 import Avatar from "../../components/Avatar";
-import { Body2, H2, H4 } from "../../components/typography";
+import { Body2, H6, Subtitle1 } from "../../components/typography";
 import Shadow from "../../components/shadow/Shadow";
 import { SetState } from "./Chats";
 
 const padding = Sizes.base;
+moment.updateLocale("en", {
+  relativeTime: {
+    s: "a moment",
+    ss: "%d s",
+    m: "a m",
+    mm: "%d m",
+    h: "an h",
+    hh: "%d h",
+    d: "a d",
+    dd: "%d d",
+    w: "a w",
+    ww: "%d w",
+    M: "a m",
+    MM: "%d m",
+    y: "a y",
+    yy: "%d y",
+  },
+});
 
 interface RoomsProps {}
 
@@ -84,26 +103,28 @@ const Header = ({ setOpenMenu }: { setOpenMenu: SetState<boolean> }) => {
   const color = useThemeColor({}, "text");
   return (
     <Shadow>
-      <Card
+      <View
+        card
         style={{
           paddingTop: top,
           paddingHorizontal: padding,
           paddingBottom: padding,
         }}
       >
-        <Card
+        <View
+          card
+          flexR
           style={{
-            flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <H2>Chats</H2>
+          <H6>Chats</H6>
           <Button onPress={() => setOpenMenu((prev) => !prev)}>
             <Ionicons name={"add"} size={30} color={color} />
           </Button>
-        </Card>
-      </Card>
+        </View>
+      </View>
     </Shadow>
   );
 };
@@ -121,12 +142,8 @@ const RoomItem = ({ item }) => {
         alignItems: "center",
       }}
     >
-      <Avatar
-        backgroundColor={"#000"}
-        imageUri={item?.member?.photoUrl}
-        initial={item?.member?.name}
-      />
-      <Card
+      <Avatar imageUri={item?.photoUrl} initial={item?.name} />
+      <View
         style={{
           flex: 1,
           borderBottomColor: backgroundColor,
@@ -134,11 +151,14 @@ const RoomItem = ({ item }) => {
           padding,
         }}
       >
-        <H4>{item?.member?.name}</H4>
-        <TextSec numberOfLines={1} style={{ marginLeft: padding }}>
-          {item?.lastMessage}
-        </TextSec>
-      </Card>
+        <Subtitle1>{item?.name}</Subtitle1>
+        <Body2 secondary numberOfLines={1}>
+          {item?.value}
+        </Body2>
+      </View>
+      <View>
+        <Body2 secondary>{moment(Date.now() - 1000 * 600).fromNow()}</Body2>
+      </View>
     </Button>
   );
 };

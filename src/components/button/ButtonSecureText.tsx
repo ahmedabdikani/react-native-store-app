@@ -6,7 +6,7 @@ import { SetState } from "../../screens/chat/Chats";
 
 interface ButtonSecureTextProps {
   secureTextEntry: boolean;
-  setSecureTextEntry: SetState<Boolean>;
+  setSecureTextEntry: SetState<boolean>;
 }
 
 const ButtonSecureText: React.FC<ButtonSecureTextProps> = ({

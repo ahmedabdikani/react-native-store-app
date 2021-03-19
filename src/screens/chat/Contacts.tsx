@@ -1,17 +1,18 @@
 import * as React from "react";
-import { useNavigation } from "@react-navigation/core";
+import { NavigationProp, useNavigation } from "@react-navigation/core";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Input from "../../components/input/Input";
 
 import Button from "../../components/button/Button";
 import Container from "../../components/container/Container";
-import Card from "../../components/theme/Card";
 import { Sizes } from "../../constants/Styles";
+import { View } from "../../components/theme";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
 import { useChatContext } from "../../context/ChatContext";
 import ListFlat from "../../components/list/ListFlat";
-import { H3 } from "../../components/typography";
+import { ButtonText, Subtitle1 } from "../../components/typography";
+import { BottomTabParamList } from "../../types/BottomTab";
 
 const spacing = Sizes.base;
 
@@ -19,10 +20,12 @@ interface ContactProps {}
 
 const Contacts: React.FC<ContactProps> = ({}) => {
   const { top } = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const navigation = useNavigation<
+    NavigationProp<BottomTabParamList, "ChatStack">
+  >();
   const { searchUser, createRoom } = useChatContext();
   const [value, setValue] = React.useState("");
-  const [result, setResult] = React.useState([]);
+  const [result, setResult] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     const unSubscribe = useHideBottomBar(navigation);
@@ -33,9 +36,10 @@ const Contacts: React.FC<ContactProps> = ({}) => {
 
   return (
     <Container style={{ paddingTop: top + spacing }}>
-      <Card
+      <View
+        card
+        flexR
         style={{
-          flexDirection: "row",
           padding: spacing,
           borderRadius: spacing,
           alignItems: "center",
@@ -49,24 +53,30 @@ const Contacts: React.FC<ContactProps> = ({}) => {
         <Button
           disabled={!value.length}
           onPress={async () => {
-            const result = await searchUser(value);
-            console.log(result);
-            setResult(result);
+            searchUser(value, (data, error) => {
+              if (error) {
+                console.log(error);
+                return;
+              }
+              if (data) {
+                setResult(data);
+              }
+            });
           }}
         >
-          <H3>Search</H3>
+          <ButtonText>Search</ButtonText>
         </Button>
-      </Card>
+      </View>
 
       <ListFlat data={result}>
-        {({ item }) => {
+        {({ item: user }) => {
           return (
             <Button
               onPress={() => {
-                createRoom(item);
+                createRoom(user);
               }}
             >
-              <H3 style={{ margin: 20 }}>{item.name}</H3>
+              <Subtitle1 style={{ margin: 20 }}>{user.name}</Subtitle1>
             </Button>
           );
         }}

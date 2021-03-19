@@ -6,9 +6,9 @@ import { Sizes } from "../../constants/Styles";
 import { useCartContext } from "../../context/CartContext";
 import { CartItem as ItemType } from "../../types/Cart";
 import Button from "../button/Button";
-import { Card, Text } from "../theme";
+import { View } from "../theme";
 import useThemeColor from "../../hooks/useThemeColor";
-import { Body1, Body2, H1, H3, H4, H6, Subtitle1 } from "../typography";
+import { Body1, Body2, Subtitle1 } from "../typography";
 
 const padding = Sizes.base;
 const imageHeight = 90;
@@ -20,16 +20,17 @@ interface ICartItemProps {
 
 const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
   return (
-    <Card style={styles.container}>
-      <Card style={{ flexDirection: "row" }}>
+    <View card style={styles.container}>
+      <View card style={{ flexDirection: "row" }}>
         <Subtitle1 style={{ marginBottom: padding }}>Furniture Store</Subtitle1>
-      </Card>
-      <Card style={{ flexDirection: "row" }}>
+      </View>
+      <View card style={{ flexDirection: "row" }}>
         <Image
           source={{ uri: cartItem.product.images[0] }}
           style={styles.img}
         />
-        <Card
+        <View
+          card
           style={{
             flex: 1,
             marginLeft: padding,
@@ -37,7 +38,8 @@ const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
           }}
         >
           <Body2 numberOfLines={2}>{cartItem.product.title}</Body2>
-          <Card
+          <View
+            card
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
@@ -50,10 +52,10 @@ const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
             ) : (
               <Amount cartItem={cartItem} />
             )}
-          </Card>
-        </Card>
-      </Card>
-    </Card>
+          </View>
+        </View>
+      </View>
+    </View>
   );
 };
 
@@ -85,7 +87,7 @@ const Amount = ({ cartItem }: IAmountProp) => {
   const disabled = cartItem.amount <= 1;
 
   return (
-    <Card style={[styles.amountContainer, { borderColor }]}>
+    <View transparent style={[styles.amountContainer, { borderColor }]}>
       <Button
         disabled={disabled}
         onPress={() => removeProductFromCart(cartItem.product.id)}
@@ -93,16 +95,16 @@ const Amount = ({ cartItem }: IAmountProp) => {
       >
         <Subtitle1>-</Subtitle1>
       </Button>
-      <Card style={{ paddingHorizontal: padding }}>
+      <View transparent style={{ paddingHorizontal: padding }}>
         <Body2>{cartItem.amount}</Body2>
-      </Card>
+      </View>
       <Button
         onPress={() => addProductToCart(cartItem.product)}
         style={[styles.amountBtn, { borderColor, borderLeftWidth: 1 }]}
       >
         <Subtitle1>+</Subtitle1>
       </Button>
-    </Card>
+    </View>
   );
 };
 

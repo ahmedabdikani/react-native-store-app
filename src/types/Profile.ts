@@ -2,8 +2,9 @@ import { NavigationProp, RouteProp } from "@react-navigation/core";
 import { Product } from "./Product";
 
 export type ProfileStackPramList = {
-  Profile: undefined;
+  Me: undefined;
   Settings: undefined;
+  Profile:undefined;
   Favorite: Product;
   FollowedStores: undefined;
 };

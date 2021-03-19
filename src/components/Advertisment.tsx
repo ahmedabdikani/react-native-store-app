@@ -9,12 +9,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { useLanguage } from "../context/LanguageContex";
 import { lightBlue, lightRed, tintColorLight } from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { Sizes, Styles } from "../constants/Styles";
 import Button from "./button/Button";
 import AnimatedList from "./list/ListAnimated";
-import { Card, View } from "./theme";
+import { View } from "./theme";
 import { Subtitle1 } from "./typography";
 
 const img0 = require("../assets/images/carosel4.png");
@@ -49,6 +50,9 @@ const Advertisment = ({}: IAdvertismentProps) => {
   const ref = React.useRef<FlatList>();
   const index = useSharedValue(0);
   const x = useSharedValue(0);
+  const { language } = useLanguage();
+  ads[0].title = language.bestProducts;
+  ads[1].title = language.bestStores;
 
   const onScroll = useAnimatedScrollHandler({
     onMomentumEnd: ({ contentOffset }) => {
@@ -57,21 +61,32 @@ const Advertisment = ({}: IAdvertismentProps) => {
     },
   });
 
-  // React.useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (index.value > 2) {
-  //       index.value = 0;
-  //       ref.current?.scrollToIndex({ index: 0 });
-  //     } else {
-  //       index.value = index.value + 1;
-  //       ref.current?.scrollToIndex({ index: index.value + 1 });
-  //     }
-  //   }, 5000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [index]);
+  React.useEffect(() => {
+    // index.value = withRepeat(
+    //   withTiming(index.value, { duration: 5000 }, (finished) => {
+    //     console.log("run");
+    //     if (index.value < 2) {
+    //       index.value = index.value + 1;
+    //     } else {
+    //       index.value = 0;
+    //     }
+    //   }),
+    //   -1,
+    //   false
+    // );
+    //   const interval = setInterval(() => {
+    //     if (index.value > 2) {
+    //       index.value = 0;
+    //       ref.current?.scrollToIndex({ index: 0 });
+    //     } else {
+    //       index.value = index.value + 1;
+    //       ref.current?.scrollToIndex({ index: index.value + 1 });
+    //     }
+    //   }, 5000);
+    //   return () => {
+    //     clearInterval(interval);
+    //   };
+  }, [index]);
 
   return (
     <View>
@@ -166,7 +181,8 @@ const Pagination = ({
 const CarouselItem = ({ item }: { item: typeof carousel[number] }) => {
   return (
     <Button>
-      <Card
+      <View
+        card
         style={[
           Styles.centerHV,
           {
@@ -174,7 +190,8 @@ const CarouselItem = ({ item }: { item: typeof carousel[number] }) => {
           },
         ]}
       >
-        <Card
+        <View
+          card
           style={{
             backgroundColor: "pink",
             height: cardHeight / 1.8,
@@ -201,14 +218,15 @@ const CarouselItem = ({ item }: { item: typeof carousel[number] }) => {
         >
           {item.name}
         </Subtitle1>
-      </Card>
+      </View>
     </Button>
   );
 };
 
 const AdItem = ({ adItem }: { adItem: typeof ads[number] }) => {
   return (
-    <Card
+    <View
+      card
       style={{
         borderRadius: radius,
         height: cardHeight / 2 - margin / 2,
@@ -225,7 +243,8 @@ const AdItem = ({ adItem }: { adItem: typeof ads[number] }) => {
       >
         {adItem.title}
       </Subtitle1>
-      <Card
+      <View
+        card
         style={{
           marginTop: padding,
           justifyContent: "space-between",
@@ -244,8 +263,8 @@ const AdItem = ({ adItem }: { adItem: typeof ads[number] }) => {
             }}
           />
         ))}
-      </Card>
-    </Card>
+      </View>
+    </View>
   );
 };
 

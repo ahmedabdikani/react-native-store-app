@@ -9,9 +9,10 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SharedElement } from "react-navigation-shared-element";
 
 import Button from "../../components/button/Button";
-import { Card, View } from "../../components/theme";
+import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
@@ -25,20 +26,16 @@ import {
   Body2,
   ButtonText,
   Caption,
-  H3,
-  H4,
-  H5,
-  H6,
   Subtitle1,
   Subtitle2,
 } from "../../components/typography";
 
-import Center from "../../components/theme/Center";
+import Center from "../../components/center/Center";
 import Carousel from "../../components/product/Carousel";
 import { Details, MoreDetails } from "../../components/product/Details";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
 import CommentList from "../../components/comment/CommentList";
-import { SharedElement } from "react-navigation-shared-element";
+import { useLanguage } from "../../context/LanguageContex";
 
 const { width, height } = Layout.window;
 const spacing = Sizes.base;
@@ -83,27 +80,29 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
 
   const SimilarProduts = () => {
     return (
-      <Card
+      <View
+        card
         style={{ margin: spacing, padding: spacing, borderRadius: spacing }}
       >
-        <Card style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View flexR card style={{ justifyContent: "space-between" }}>
           <Subtitle1>Furniture Store</Subtitle1>
           <Button>
             <Subtitle2 underline primary>
               See more
             </Subtitle2>
           </Button>
-        </Card>
-        <Card
+        </View>
+        <View
+          card
+          flexR
           style={{
             justifyContent: "center",
-            flexDirection: "row",
             flexWrap: "wrap",
           }}
         >
           {similarProduts.map(renderSimilarProductItem)}
-        </Card>
-      </Card>
+        </View>
+      </View>
     );
   };
 
@@ -123,12 +122,12 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
             borderRadius: spacing,
           }}
         />
-        <Card style={{ width: 100 }}>
+        <View card style={{ width: 100 }}>
           <Caption numberOfLines={2} style={{ marginVertical: spacing * 0.5 }}>
             {item.title}
           </Caption>
           <Body2 primary>${item.price}</Body2>
-        </Card>
+        </View>
       </Button>
     );
   };
@@ -206,16 +205,18 @@ const Header = ({
 
 const Footer = ({ product }: { product: Product }) => {
   const { addProductToCart } = useCartContext();
+  const { language } = useLanguage();
   const textSecondary = useThemeColor({}, "textSecondary");
   const color = "#fff";
   return (
-    <Card style={styles.footerContainer}>
+    <View card style={styles.footerContainer}>
       <FontAwesome5 name="store" color={tintColorLight} size={20} />
       <FontAwesome5 name="comment-dots" color={textSecondary} size={24} />
       <FontAwesome name="star" color={tintColorLight} size={24} />
-      <Card
+      <View
+        card
+        flexR
         style={{
-          flexDirection: "row",
           marginVertical: spacing / 2,
         }}
       >
@@ -231,7 +232,7 @@ const Footer = ({ product }: { product: Product }) => {
           ]}
         >
           <Center>
-            <ButtonText style={{ color }}>Send to cart</ButtonText>
+            <ButtonText style={{ color }}>{language.sendToCart}</ButtonText>
           </Center>
         </Button>
         <Button
@@ -245,23 +246,12 @@ const Footer = ({ product }: { product: Product }) => {
           ]}
         >
           <Center>
-            <ButtonText style={{ color }}>Puy item</ButtonText>
+            <ButtonText style={{ color }}>{language.puyItem}</ButtonText>
           </Center>
         </Button>
-      </Card>
-    </Card>
+      </View>
+    </View>
   );
-};
-
-ProductScreen.sharedElements = (route) => {
-  const { product } = route.params;
-  return [
-    {
-      id: product.id.toString(),
-      animation: "fade",
-      resize: "clip",
-    },
-  ];
 };
 
 const styles = StyleSheet.create({

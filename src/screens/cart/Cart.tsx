@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { View, Text, Card } from "../../components/theme";
+import { View, Text } from "../../components/theme";
 import { CartNavigationProp, CartRouteProp } from "../../types/Cart";
 import { useCartContext } from "../../context/CartContext";
 import CartList from "../../components/cart/CartList";
@@ -16,6 +16,7 @@ import {
 } from "../../components/typography";
 import { SetState } from "../chat/Chats";
 import Shadow from "../../components/shadow/Shadow";
+import { useLanguage } from "../../context/LanguageContex";
 
 const spacing = 10;
 
@@ -28,7 +29,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
   const { cartItems, total } = useCartContext();
 
   return (
-    <Card style={{ flex: 1 }}>
+    <View card style={{ flex: 1 }}>
       <Header
         length={cartItems.length}
         setOpenMore={setOpenMore}
@@ -38,7 +39,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
         <CartList openMore={openMore} />
       </View>
       <Footer total={total} />
-    </Card>
+    </View>
   );
 };
 
@@ -50,7 +51,7 @@ interface HeaderProps {
 
 const Header = ({ length, setOpenMore, openMore }: HeaderProps) => {
   const { top } = useSafeAreaInsets();
-
+  const { language } = useLanguage();
   return (
     <Shadow
       style={{
@@ -58,23 +59,26 @@ const Header = ({ length, setOpenMore, openMore }: HeaderProps) => {
         paddingTop: top,
       }}
     >
-      <Card
+      <View
+        card
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <H6>Shopping Cart</H6>
+        <H6>{language.shoppingCart}</H6>
         <Button onPress={() => setOpenMore((prev) => !prev)}>
           <Subtitle1 style={{ margin: spacing }}>
             {openMore ? "Hide" : "More"}
           </Subtitle1>
         </Button>
-      </Card>
-      <Card>
-        <Subtitle2 style={{ marginLeft: spacing }}> Items ({length})</Subtitle2>
-      </Card>
+      </View>
+      <View card>
+        <Subtitle2 style={{ marginLeft: spacing }}>
+          {language.items} ({length})
+        </Subtitle2>
+      </View>
     </Shadow>
   );
 };
@@ -82,7 +86,7 @@ const Header = ({ length, setOpenMore, openMore }: HeaderProps) => {
 const Footer = ({ total }: { total: number }) => {
   const borderColor = useThemeColor({}, "background");
   return (
-    <Card style={[styles.footerContainer, { borderColor }]}>
+    <View card style={[styles.footerContainer, { borderColor }]}>
       <Text>Sellect all</Text>
       <View
         transparent
@@ -98,7 +102,7 @@ const Footer = ({ total }: { total: number }) => {
           </ButtonText>
         </Button>
       </View>
-    </Card>
+    </View>
   );
 };
 

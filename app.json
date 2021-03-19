@@ -4,11 +4,11 @@
     "slug": "suristore",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon1.png",
+    "icon": "./src/assets/images/icon4.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/assets/images/splash.png",
+      "image": "./src/assets/images/splash4.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +24,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/icon4.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.dechunter.suristore"

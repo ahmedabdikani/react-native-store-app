@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import Card from "../theme/Card";
+import { View } from "../theme";
 import { Sizes } from "../../constants/Styles";
 import Button from "../../components/button/Button";
 import Layout from "../../constants/Layout";
@@ -18,7 +18,7 @@ const FileUpload: React.FC<FileUploadProps> = ({}) => {
   const color = useThemeColor({}, "text");
   const navigation = useNavigation();
   return (
-    <Card style={styles.container}>
+    <View card style={styles.container}>
       <Button style={styles.btn}>
         <MaterialCommunityIcons name="image" size={35} color={color} />
       </Button>
@@ -28,7 +28,7 @@ const FileUpload: React.FC<FileUploadProps> = ({}) => {
       <Button style={styles.btn}>
         <MaterialCommunityIcons name="map-marker" size={35} color={color} />
       </Button>
-    </Card>
+    </View>
   );
 };
 

@@ -40,7 +40,7 @@ const Carousel = ({ images }: CarouselProps) => {
       {visible && (
         <Modal visible={visible} setVisible={setVisible}>
           <Image
-            style={{ width: width, height: height / 1.5 }}
+            style={{ width: width, height: height / 1.8 }}
             source={{ uri: imgUri }}
           />
         </Modal>

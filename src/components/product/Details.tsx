@@ -4,22 +4,25 @@ import { Image } from "react-native";
 import { Product } from "../../types/Product";
 import Layout from "../../constants/Layout";
 import { Sizes } from "../../constants/Styles";
-import Card from "../theme/Card";
+import { View } from "../theme";
 import { Caption, Subtitle1, Body1 } from "../typography";
+import { useLanguage } from "../../context/LanguageContex";
 
 const { width } = Layout.window;
 const spacing = Sizes.base;
 
 const Details = ({ product }: { product: Product }) => {
+  const { language } = useLanguage();
   return (
-    <Card
+    <View
+      card
       style={{
         margin: spacing,
         padding: spacing * 2,
         borderRadius: spacing,
       }}
     >
-      <Caption primary>Price</Caption>
+      <Caption primary>{language.price}</Caption>
       <Subtitle1 primary>{product?.price}$</Subtitle1>
       <Body1
         style={{
@@ -28,13 +31,13 @@ const Details = ({ product }: { product: Product }) => {
       >
         {product?.title}
       </Body1>
-    </Card>
+    </View>
   );
 };
 
 const MoreDetails = ({ product }: { product: Product }) => {
   return (
-    <Card style={{ paddingHorizontal: spacing }}>
+    <View card style={{ paddingHorizontal: spacing }}>
       <Body1 style={{ paddingVertical: spacing }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, in maiores.
         Eligendi magni explicabo, accusantium, nisi deserunt pariatur distinctio
@@ -50,7 +53,7 @@ const MoreDetails = ({ product }: { product: Product }) => {
           />
         );
       })}
-    </Card>
+    </View>
   );
 };
 

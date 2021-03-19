@@ -13,7 +13,7 @@ import BackButtonNative from "../../components/button/BackButtonNative";
 import Button from "../../components/button/Button";
 import ButtonSecureText from "../../components/button/ButtonSecureText";
 import InputForm from "../../components/input/InputForm";
-import { Card, View } from "../../components/theme";
+import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { tintColorLight } from "../../constants/Colors";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
@@ -23,7 +23,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Gradient from "../../components/Gradient";
 import Layout from "../../constants/Layout";
-import { Body2, H2, H6, Subtitle1, H1 } from "../../components/typography";
+import { Body2, H6, Subtitle1, H1 } from "../../components/typography";
 
 const spacing = Sizes.base;
 const { height } = Layout.window;
@@ -88,7 +88,8 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
         </Gradient>
       </View>
 
-      <Card
+      <View
+        card
         style={{
           margin: spacing * 3,
           padding: spacing * 2,
@@ -99,7 +100,7 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
         <H6 style={{ textAlign: "center", marginBottom: spacing * 2 }}>
           SIGN IN
         </H6>
-        <Card>
+        <View card>
           <InputForm
             error={errors.email}
             control={control}
@@ -140,7 +141,8 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
           >
             Forget Password?
           </Subtitle1>
-          <Card
+          <View
+            card
             style={{
               padding: 10,
               borderRadius: 50,
@@ -149,12 +151,16 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
               bottom: -50,
             }}
           >
-            <Button primary onPress={handleSubmit(onSubmit)}>
+            <Button
+              style={{ width: 50, height: 50 }}
+              primary
+              onPress={handleSubmit(onSubmit)}
+            >
               <Ionicons name="arrow-forward" size={24} color={"#fff"} />
             </Button>
-          </Card>
-        </Card>
-      </Card>
+          </View>
+        </View>
+      </View>
       <View style={{ flex: 1 }} />
       <SocialMedia />
 
@@ -183,21 +189,24 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
   );
 };
 
-const SocialMedia = () => (
-  <View transparent style={[Styles.centerHV, Styles.fRow]}>
-    <View>
-      <Button style={styles.brandBtn}>
-        <FontAwesome name="facebook" size={30} color={"#5890FF"} />
+const SocialMedia = () => {
+  const { signInWithFacebook } = useAuthContext();
+  return (
+    <View transparent style={[Styles.centerHV, Styles.fRow]}>
+      <View>
+        <Button onPress={signInWithFacebook} style={styles.brandBtn}>
+          <FontAwesome name="facebook" size={30} color={"#5890FF"} />
+        </Button>
+      </View>
+      <Button onPress={() => null} style={[styles.brandBtn]}>
+        <Ionicons name="logo-google" size={34} color={"#dd4b39"} />
+      </Button>
+      <Button onPress={() => null} style={[styles.brandBtn]}>
+        <Ionicons name="ios-logo-twitter" size={34} color={"#00acee"} />
       </Button>
     </View>
-    <Button onPress={() => null} style={[styles.brandBtn]}>
-      <Ionicons name="logo-google" size={34} color={"#dd4b39"} />
-    </Button>
-    <Button onPress={() => null} style={[styles.brandBtn]}>
-      <Ionicons name="ios-logo-twitter" size={34} color={"#00acee"} />
-    </Button>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

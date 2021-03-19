@@ -1,21 +1,19 @@
 import * as React from "react";
 
 import Avatar from "../Avatar";
-import { Card, View } from "../theme";
+import { View } from "../theme";
 import Body2 from "../typography/Body2";
 import { Sizes } from "../../constants/Styles";
-import Center from "../theme/Center";
+import Center from "../center/Center";
 
 const spacing = Sizes.base;
 
 interface TextMessageProps {
   reverse?: boolean;
   message: any;
-  sender;
 }
 
-const TextMessage = ({ reverse, message, sender }: TextMessageProps) => {
-  console.log(message);
+const TextMessage = ({ reverse, message }: TextMessageProps) => {
   return (
     <View
       style={{
@@ -23,8 +21,9 @@ const TextMessage = ({ reverse, message, sender }: TextMessageProps) => {
         margin: spacing,
       }}
     >
-      <Avatar initial={sender?.name} imageUri={sender?.photoUrl} />
-      <Card
+      <Avatar initial={message?.name} imageUri={message?.photoUrl} />
+      <View
+        card
         style={{
           marginLeft: reverse ? 0 : spacing,
           marginRight: !reverse ? 0 : spacing,
@@ -33,9 +32,9 @@ const TextMessage = ({ reverse, message, sender }: TextMessageProps) => {
         }}
       >
         <Center>
-          <Body2>{message?.message?.value}</Body2>
+          <Body2>{message?.value}</Body2>
         </Center>
-      </Card>
+      </View>
     </View>
   );
 };

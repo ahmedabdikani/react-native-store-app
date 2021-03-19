@@ -6,20 +6,16 @@ import AudioMessage from "./AudioMessage";
 import TextMessage from "./TextMessage";
 import VideoMessage from "./VideoMessage";
 
-const MessageList = ({ chats, member }) => {
+const MessageList = ({ chats }) => {
   const { user } = useAuthContext();
 
   return (
-    <ListFlat data={chats}>
+    <ListFlat data={chats} inverted>
       {({ item, index }) => {
-        console.log(item);
-        const reverse = item?.sentBy === user?.id;
-        const sender = reverse ? user : member;
-        switch (item?.message?.type) {
+        const reverse = item?.sent_by === user?.id;
+        switch (item?.type) {
           case "text":
-            return (
-              <TextMessage sender={sender} reverse={reverse} message={item} />
-            );
+            return <TextMessage reverse={reverse} message={item} />;
           case "audio":
             return <AudioMessage />;
           case "video":

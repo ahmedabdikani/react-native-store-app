@@ -17,6 +17,7 @@ import Gradient from "../../components/Gradient";
 import { useProductContext } from "../../context/ProductContext";
 import { Body1, ButtonText } from "../../components/typography";
 import Input from "../../components/input/Input";
+import { useLanguage } from "../../context/LanguageContex";
 
 const { width } = Layout.window;
 const spacing = Sizes.base;
@@ -46,7 +47,7 @@ const Home: React.FC<IHomeProps> = ({ navigation }) => {
 
 const Header = () => {
   const { top } = useSafeAreaInsets();
-
+  const { language } = useLanguage();
   return (
     <View
       style={{
@@ -66,7 +67,7 @@ const Header = () => {
         <Button style={styles.searchButton}>
           <Gradient>
             <ButtonText style={{ color: "#fff", paddingHorizontal: spacing }}>
-              Search
+              {language.search}
             </ButtonText>
           </Gradient>
         </Button>
