@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "suristore",
+    "name": "Suristore",
     "slug": "suristore",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon4.png",
-    "scheme": "myapp",
+    "icon": "./src/assets/images/icon5.png",
+    "scheme": "https",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/images/splash4.png",
@@ -20,14 +20,30 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dechunter.suristore"
+      "bundleIdentifier": "com.ahmedabdikani.suristore"
     },
     "android": {
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.suristore.web.app",
+              "pathPrefix": "*"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/icon4.png",
+        "foregroundImage": "./src/assets/images/adaptive-icon1.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.dechunter.suristore"
+      "package": "com.ahmedabdikani.suristore"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"

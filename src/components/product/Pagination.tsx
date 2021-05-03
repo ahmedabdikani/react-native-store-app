@@ -1,21 +1,15 @@
-import * as React from "react";
+import React from "react";
 import { StyleSheet, TextInput } from "react-native";
-
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 
 import { View } from "../theme";
 import Center from "../center/Center";
 import { Sizes } from "../../constants/Styles";
 
-Animated.addWhitelistedUIProps({
-  text: true,
-  value: true,
-});
-
-Animated.addWhitelistedNativeProps({ text: true, value: true });
+Animated.addWhitelistedNativeProps({ text: true });
 
 const AnimatedText = Animated.createAnimatedComponent(TextInput);
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 interface PaginationProps {
   x: Animated.SharedValue<number>;
@@ -26,13 +20,14 @@ interface PaginationProps {
 const Pagination = ({ x, total, width }: PaginationProps) => {
   const animatedProps = useAnimatedProps(() => {
     return {
-      value: Math.round(x.value / width) + 1 + "/ " + 5,
+      text: `${Math.round(x.value / width) + 1}/${total}`,
     };
   });
   return (
     <View style={styles.container}>
       <Center>
         <AnimatedText
+          defaultValue={`1/${total}`}
           style={styles.text}
           editable={false}
           animatedProps={animatedProps}
@@ -51,7 +46,7 @@ const styles = StyleSheet.create({
     right: 0,
     marginRight: spacing,
     borderRadius: spacing * 2,
-    backgroundColor: "#666",
+    backgroundColor: "#222",
   },
   text: { color: "#fff" },
 });

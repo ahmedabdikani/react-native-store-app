@@ -9,12 +9,12 @@ import Container from "../../components/container/Container";
 import { Sizes } from "../../constants/Styles";
 import { View } from "../../components/theme";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
-import { useChatContext } from "../../context/ChatContext";
+import { useChatContext } from "../../context/chat/ChatContext";
 import ListFlat from "../../components/list/ListFlat";
 import { ButtonText, Subtitle1 } from "../../components/typography";
 import { BottomTabParamList } from "../../types/BottomTab";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 interface ContactProps {}
 

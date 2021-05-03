@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import NotFoundScreen from "../screens/notFound/NotFoundScreen";
@@ -9,8 +9,11 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 const RootNavigator: React.FC = ({}) => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={AuthStack} />
+    <Stack.Navigator
+      initialRouteName={"Auth"}
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="Auth" component={AuthStack} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

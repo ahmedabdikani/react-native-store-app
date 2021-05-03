@@ -6,7 +6,7 @@ import useThemeColor from "../../hooks/useThemeColor";
 import { ViewProps } from "../../types/Theme";
 
 const View: React.FC<ViewProps> = ({
-  flexR,
+  row,
   card,
   primary,
   transparent,
@@ -22,10 +22,10 @@ const View: React.FC<ViewProps> = ({
     : card
     ? useThemeColor({ light: lightColor, dark: darkColor }, "card")
     : useThemeColor({ light: lightColor, dark: darkColor }, "background");
-  const flexDirection = flexR ? "row" : "column";
+  const flexDirection = row ? "row" : "column";
   return (
     <DefaultView
-      style={[{ flexDirection, backgroundColor }, style]}
+      style={[{ backgroundColor, flexDirection }, style]}
       {...otherProps}
     />
   );

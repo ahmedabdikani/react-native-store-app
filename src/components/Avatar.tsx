@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Image, StyleSheet } from "react-native";
 
 import { Styles } from "../constants/Styles";

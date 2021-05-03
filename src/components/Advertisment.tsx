@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useRef, useEffect } from "react";
 import { FlatList, Image } from "react-native";
 import Animated, {
   useSharedValue,
@@ -9,7 +9,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { useLanguage } from "../context/LanguageContex";
+import { useLanguage } from "../context/language/LanguageContex";
 import { lightBlue, lightRed, tintColorLight } from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { Sizes, Styles } from "../constants/Styles";
@@ -29,7 +29,7 @@ const img7 = require("../assets/images/ad10.png");
 
 const { width } = Layout.window;
 const margin = 10;
-const padding = Sizes.base;
+const padding = Sizes.spacing.s;
 const radius = 20;
 const cardWidth = (width - margin * 4) / 2;
 const cardHeight = cardWidth * 1.5;
@@ -47,7 +47,7 @@ const ads = [
 interface IAdvertismentProps {}
 
 const Advertisment = ({}: IAdvertismentProps) => {
-  const ref = React.useRef<FlatList>();
+  const ref = useRef<FlatList>();
   const index = useSharedValue(0);
   const x = useSharedValue(0);
   const { language } = useLanguage();
@@ -61,7 +61,7 @@ const Advertisment = ({}: IAdvertismentProps) => {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     // index.value = withRepeat(
     //   withTiming(index.value, { duration: 5000 }, (finished) => {
     //     console.log("run");

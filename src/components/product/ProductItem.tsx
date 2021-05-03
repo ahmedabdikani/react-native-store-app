@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Image, StyleSheet } from "react-native";
 import { SharedElement } from "react-navigation-shared-element";
 
@@ -31,7 +31,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
           <Body2 numberOfLines={2}>{product.title}</Body2>
           <View
             card
-            flexR
+            row
             style={{
               justifyContent: "space-between",
               alignItems: "flex-end",

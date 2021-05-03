@@ -1,14 +1,15 @@
 import { NavigationProp } from "@react-navigation/core";
+import { BottomTabParamList } from "src/types/BottomTab";
 
-const useHideBottomBar = (navigation:NavigationProp<any>)=> {
+const useHideBottomBar = (navigation:NavigationProp<BottomTabParamList,any>)=> {
+  if(!navigation) return
   
-  const parent = navigation.dangerouslyGetParent();
-  parent?.setOptions({
+  navigation.setOptions({
     tabBarVisible: false,
   });
 
   return () => {
-    parent?.setOptions({
+    navigation?.setOptions({
         tabBarVisible: true,
       });
     };

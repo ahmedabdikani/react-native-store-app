@@ -1,30 +1,38 @@
-import { FontAwesome } from "@expo/vector-icons";
-import * as React from "react";
+import React from "react";
 import { Image, StyleSheet } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Sizes } from "../../constants/Styles";
-import { useCartContext } from "../../context/CartContext";
+import { useCartContext } from "../../context/cart/CartContext";
 import { CartItem as ItemType } from "../../types/Cart";
 import Button from "../button/Button";
 import { View } from "../theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { Body1, Body2, Subtitle1 } from "../typography";
+import SelectionToggleIcon from "./SelectionToggleIcon";
 
-const padding = Sizes.base;
+const padding = Sizes.spacing.s;
 const imageHeight = 90;
 
-interface ICartItemProps {
+interface CartItemProps {
   cartItem: ItemType;
   openMore: boolean;
 }
 
-const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
+const CartItem: React.FC<CartItemProps> = ({ cartItem, openMore }) => {
+  const { toggleProductSelection } = useCartContext();
   return (
     <View card style={styles.container}>
-      <View card style={{ flexDirection: "row" }}>
-        <Subtitle1 style={{ marginBottom: padding }}>Furniture Store</Subtitle1>
+      <View card row style={{}}>
+        <Button onPress={() => toggleProductSelection(cartItem.product.id)}>
+          <SelectionToggleIcon condition={cartItem.selected} />
+        </Button>
+        <Subtitle1 style={{ marginBottom: padding, marginLeft: padding }}>
+          Furniture Store
+        </Subtitle1>
       </View>
-      <View card style={{ flexDirection: "row" }}>
+      <View card row>
+        {/* <FontAwesome name={"circle-o"} size={18} /> */}
         <Image
           source={{ uri: cartItem.product.images[0] }}
           style={styles.img}
@@ -59,11 +67,11 @@ const CartItem: React.FC<ICartItemProps> = ({ cartItem, openMore }) => {
   );
 };
 
-interface ITrashProp {
+interface TrashProps {
   id: ItemType["product"]["id"];
 }
 
-const Trash = ({ id }: ITrashProp) => {
+const Trash = ({ id }: TrashProps) => {
   const color = useThemeColor({}, "text");
   const { deleteProductFromCart } = useCartContext();
   return (
@@ -72,16 +80,16 @@ const Trash = ({ id }: ITrashProp) => {
         deleteProductFromCart(id);
       }}
     >
-      <FontAwesome name="trash-o" size={24} color={color} />
+      <FontAwesome5 name="trash-alt" size={20} color={color} />
     </Button>
   );
 };
 
-interface IAmountProp {
+interface AmountProps {
   cartItem: ItemType;
 }
 
-const Amount = ({ cartItem }: IAmountProp) => {
+const Amount = ({ cartItem }: AmountProps) => {
   const { removeProductFromCart, addProductToCart } = useCartContext();
   const borderColor = useThemeColor({}, "text");
   const disabled = cartItem.amount <= 1;
@@ -91,9 +99,9 @@ const Amount = ({ cartItem }: IAmountProp) => {
       <Button
         disabled={disabled}
         onPress={() => removeProductFromCart(cartItem.product.id)}
-        style={[styles.amountBtn, { borderColor, borderRightWidth: 2 }]}
+        style={[styles.amountBtn, { borderColor, borderRightWidth: 1 }]}
       >
-        <Subtitle1>-</Subtitle1>
+        <Subtitle1 secondary={disabled}>-</Subtitle1>
       </Button>
       <View transparent style={{ paddingHorizontal: padding }}>
         <Body2>{cartItem.amount}</Body2>
@@ -112,8 +120,7 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: padding,
     borderRadius: padding,
-    paddingVertical: padding,
-    paddingHorizontal: padding * 2,
+    padding,
   },
   amountContainer: {
     flexDirection: "row",
@@ -129,7 +136,8 @@ const styles = StyleSheet.create({
     width: imageHeight,
     resizeMode: "cover",
     marginBottom: padding,
+    marginLeft: padding,
   },
 });
 
-export default CartItem;
+export default React.memo(CartItem);

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
 
 import Layout from "../constants/Layout";
@@ -10,7 +10,7 @@ import useThemeColor from "../hooks/useThemeColor";
 
 const { width } = Layout.window;
 const miniAppWidth = (width - 60) / 4;
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 interface MiniAppItemProps {
   appName: string;

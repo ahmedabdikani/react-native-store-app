@@ -1,4 +1,7 @@
-import { NavigationProp, RouteProp } from "@react-navigation/native";
+import React from "react"
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { CompositeNavigationProp } from "@react-navigation/native";
+import {StackScreenProps } from "@react-navigation/stack";
 import { Product } from "./Product";
 
 export type HomeStackPramList = {
@@ -9,7 +12,10 @@ export type HomeStackPramList = {
 };
 
 export type HomeNavigationProps <T extends keyof HomeStackPramList> = {
-  navigation: NavigationProp<HomeStackPramList, T>;
-  route: RouteProp<HomeStackPramList, T>;
-
-};
+ route:StackScreenProps<HomeStackPramList, T>["route"],
+ navigation: CompositeNavigationProp<
+ StackScreenProps<HomeStackPramList, T>["navigation"],
+ BottomTabNavigationProp<HomeStackPramList>
+ >
+}
+ 

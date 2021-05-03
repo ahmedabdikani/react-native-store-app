@@ -38,7 +38,7 @@ const miniApps = [
     color: lightRed,
   },
 ];
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 interface MiniAppListProps {}
 

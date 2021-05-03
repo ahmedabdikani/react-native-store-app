@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { Image, StyleSheet } from "react-native";
 import Animated, {
@@ -17,11 +17,11 @@ import useThemeColor from "../../hooks/useThemeColor";
 import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Sizes, Styles } from "../../constants/Styles";
-import { useCartContext } from "../../context/CartContext";
+import { useCartContext } from "../../context/cart/CartContext";
 import { HomeNavigationProps } from "../../types/Home";
 import { Product } from "../../types/Product";
 import AnimatedList from "../../components/list/ListAnimated";
-import { useProductContext } from "../../context/ProductContext";
+import { useProductContext } from "../../context/product/ProductContext";
 import {
   Body2,
   ButtonText,
@@ -35,10 +35,11 @@ import Carousel from "../../components/product/Carousel";
 import { Details, MoreDetails } from "../../components/product/Details";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
 import CommentList from "../../components/comment/CommentList";
-import { useLanguage } from "../../context/LanguageContex";
+import { useLanguage } from "../../context/language/LanguageContex";
+import Shadow from "../../components/shadow/Shadow";
 
 const { width, height } = Layout.window;
-const spacing = Sizes.base;
+const { spacing } = Sizes;
 const imageHeight = height / 2;
 
 const comments = Array.from({ length: 3 }, (_, index) => {
@@ -71,10 +72,10 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
     },
   });
 
-  React.useEffect(() => {
-    const unSubscribe = useHideBottomBar(navigation);
+  useEffect(() => {
+    const unSubscripe = useHideBottomBar(navigation.dangerouslyGetParent());
     return () => {
-      unSubscribe();
+      unSubscripe && unSubscripe();
     };
   }, [navigation]);
 
@@ -82,11 +83,19 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
     return (
       <View
         card
-        style={{ margin: spacing, padding: spacing, borderRadius: spacing }}
+        style={{
+          margin: spacing.s,
+          padding: spacing.s,
+          borderRadius: spacing.s,
+        }}
       >
-        <View flexR card style={{ justifyContent: "space-between" }}>
+        <View row card style={{ justifyContent: "space-between" }}>
           <Subtitle1>Furniture Store</Subtitle1>
-          <Button>
+          <Button
+            onPress={() =>
+              navigation.navigate("ProfileStack", { screen: "Store" })
+            }
+          >
             <Subtitle2 underline primary>
               See more
             </Subtitle2>
@@ -94,9 +103,10 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
         </View>
         <View
           card
-          flexR
+          row
           style={{
-            justifyContent: "center",
+            marginHorizontal: spacing.s,
+            justifyContent: "space-between",
             flexWrap: "wrap",
           }}
         >
@@ -111,7 +121,7 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
       <Button
         onPress={() => navigation.navigate("Product", { product })}
         key={index}
-        style={{ margin: spacing }}
+        style={{ margin: spacing.s }}
       >
         <Image
           source={{ uri: item.images[0] }}
@@ -119,11 +129,11 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
             height: 100,
             width: 100,
             resizeMode: "cover",
-            borderRadius: spacing,
+            borderRadius: spacing.s,
           }}
         />
         <View card style={{ width: 100 }}>
-          <Caption numberOfLines={2} style={{ marginVertical: spacing * 0.5 }}>
+          <Caption numberOfLines={2} style={{ marginVertical: spacing.s / 2 }}>
             {item.title}
           </Caption>
           <Body2 primary>${item.price}</Body2>
@@ -174,7 +184,7 @@ const Header = ({
       backgroundColor,
       flex: 1,
       width,
-      zIndex: 100,
+      zIndex: 20,
       opacity,
       overflow: "hidden",
     };
@@ -197,9 +207,11 @@ const Header = ({
     };
   });
   return (
-    <Animated.View style={[Styles.centerH, containerStyle]}>
-      <Animated.Text style={textStyle}>Banana</Animated.Text>
-    </Animated.View>
+    <Shadow>
+      <Animated.View style={[Styles.centerH, containerStyle]}>
+        <Animated.Text style={textStyle}>Banana</Animated.Text>
+      </Animated.View>
+    </Shadow>
   );
 };
 
@@ -215,9 +227,9 @@ const Footer = ({ product }: { product: Product }) => {
       <FontAwesome name="star" color={tintColorLight} size={24} />
       <View
         card
-        flexR
+        row
         style={{
-          marginVertical: spacing / 2,
+          marginVertical: spacing.s,
         }}
       >
         <Button
@@ -225,8 +237,8 @@ const Footer = ({ product }: { product: Product }) => {
           style={[
             styles.footerBtn,
             {
-              borderBottomLeftRadius: spacing * 3,
-              borderTopLeftRadius: spacing * 3,
+              borderBottomLeftRadius: spacing.l,
+              borderTopLeftRadius: spacing.l,
               backgroundColor: darkYellow,
             },
           ]}
@@ -240,8 +252,8 @@ const Footer = ({ product }: { product: Product }) => {
             styles.footerBtn,
 
             {
-              borderBottomRightRadius: spacing * 3,
-              borderTopRightRadius: spacing * 3,
+              borderBottomRightRadius: spacing.l,
+              borderTopRightRadius: spacing.l,
             },
           ]}
         >
@@ -257,7 +269,7 @@ const Footer = ({ product }: { product: Product }) => {
 const styles = StyleSheet.create({
   footerContainer: {
     flexDirection: "row",
-    paddingHorizontal: spacing,
+    paddingHorizontal: spacing.s,
     justifyContent: "space-between",
     alignItems: "center",
   },

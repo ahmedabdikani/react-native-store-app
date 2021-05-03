@@ -5,15 +5,15 @@ import Button from "../../components/button/Button";
 import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { Sizes } from "../../constants/Styles";
-import { AuthNavigationProp } from "../../types/Auth";
+import { AuthScreenProps } from "../../types/Auth";
 import Logo from "../../components/Logo";
 import { Subtitle1 } from "../../components/typography";
 
-const padding = Sizes.base;
+const padding = Sizes.spacing.s;
 
-interface ntroProps extends AuthNavigationProp<"Intro"> {}
+interface IntroProps extends AuthScreenProps<"Intro"> {}
 
-const Intro: React.FC<ntroProps> = ({ navigation }) => {
+const Intro: React.FC<IntroProps> = ({ navigation }) => {
   const backgroundColor = useThemeColor({}, "card");
 
   return (

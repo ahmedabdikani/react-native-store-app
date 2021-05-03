@@ -1,5 +1,4 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../../components/button/Button";
 
@@ -11,7 +10,7 @@ export default function NotFoundScreen({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>This screen doesn't exist.</Text>
-      <Button onPress={() => navigation.replace("Root")} style={styles.link}>
+      <Button onPress={() => navigation.replace("Auth")} style={styles.link}>
         <Text style={styles.linkText}>Go to home screen!</Text>
       </Button>
     </View>

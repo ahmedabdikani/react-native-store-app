@@ -1,6 +1,6 @@
+import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
 
 import { tintColorLight } from "../../constants/Colors";
 import { Product } from "../../types/Product";
@@ -10,9 +10,9 @@ import { View } from "../theme";
 import { Sizes } from "../../constants/Styles";
 import { Subtitle1 } from "../typography";
 import { StyleSheet } from "react-native";
-import { useLanguage } from "../../context/LanguageContex";
+import { useLanguage } from "../../context/language/LanguageContex";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 const numColmns = 2;
 
 interface IProductListProps {

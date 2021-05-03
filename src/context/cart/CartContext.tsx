@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { CartItem } from "../types/Cart";
-import { Product } from "../types/Product";
+import { CartItem } from "../../types/Cart";
+import { Product } from "../../types/Product";
 import reducer from "./CartReducer";
-import useAsyncStorage from "../hooks/useAsyncStorage";
+import useAsyncStorage from "../../hooks/useAsyncStorage";
 
 export type AddProductToCartType = (product: Product) => void;
 export type RemoveProductFromCartType = (id: Product["id"]) => void;
@@ -14,6 +14,8 @@ interface Context {
   addProductToCart: AddProductToCartType;
   removeProductFromCart: RemoveProductFromCartType;
   deleteProductFromCart: RemoveProductFromCartType;
+  toggleProductSelection: RemoveProductFromCartType;
+  selecteAllProducts: () => void;
 }
 
 const CartContext = React.createContext<Context>({} as Context);
@@ -26,12 +28,15 @@ export const CartProvider: React.FC = ({ children }) => {
   const [state, useDispatch] = React.useReducer(reducer, []);
   const { getItem, setItem } = useAsyncStorage();
   const total = state.reduce(
-    (acc, cartItem) => parseInt(cartItem.product.price) * cartItem.amount + acc,
+    (acc, cartItem) =>
+      cartItem.selected
+        ? parseInt(cartItem.product.price) * cartItem.amount + acc
+        : acc,
     0
   );
 
   React.useEffect(() => {
-    getItem("cart")
+    getItem("shoppingCart")
       .then((data) => {
         if (data) {
           useDispatch({ payload: data, type: "UpdateCart" });
@@ -41,13 +46,21 @@ export const CartProvider: React.FC = ({ children }) => {
   }, []);
 
   const UpdateCartLocaly = () => {
-    setItem("cart", state)
+    setItem("shoppingCart", state)
       .then(() => console.log("stored succsesfully"))
       .catch((error) => console.log(error));
   };
 
   const addProductToCart = (product: Product) => {
     useDispatch({ payload: product, type: "AddProductToCart" });
+    UpdateCartLocaly();
+  };
+  const toggleProductSelection = (id: Product["id"]) => {
+    useDispatch({ payload: id, type: "SelectProduct" });
+    UpdateCartLocaly();
+  };
+  const selecteAllProducts = () => {
+    useDispatch({ type: "SelectAllProducts" });
     UpdateCartLocaly();
   };
   const removeProductFromCart = (id: Product["id"]) => {
@@ -66,6 +79,8 @@ export const CartProvider: React.FC = ({ children }) => {
         deleteProductFromCart,
         removeProductFromCart,
         addProductToCart,
+        toggleProductSelection,
+        selecteAllProducts,
       }}
     >
       {children}

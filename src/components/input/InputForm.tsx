@@ -7,7 +7,7 @@ import InputControlled, { InputControlledProps } from "./InputControlled";
 import Error from "../Error";
 import View from "../theme/View";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 interface InputFormProps extends InputControlledProps {
   left?: () => JSX.Element;
@@ -24,6 +24,7 @@ const InputForm: React.FC<InputFormProps> = ({
   return (
     <View transparent style={{ marginVertical: spacing }}>
       <View
+        card
         style={[
           styles.inputContainer,
           {

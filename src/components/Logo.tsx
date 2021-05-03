@@ -1,21 +1,19 @@
-import * as React from "react";
+import React from "react";
 
 import { tintColorLight } from "../constants/Colors";
-import { Sizes } from "../constants/Styles";
 import { Text } from "./theme";
 
-const spacing = Sizes.base;
 const sizes = {
   l: 1,
   m: 0.6,
   s: 0.3,
 };
 
-interface ILogoProps {
+interface LogoProps {
   size?: keyof typeof sizes;
 }
 
-const Logo: React.FC<ILogoProps> = ({ size = "l" }) => {
+const Logo: React.FC<LogoProps> = ({ size = "l" }) => {
   const ratio = sizes[size];
 
   return (

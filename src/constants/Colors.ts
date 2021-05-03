@@ -5,6 +5,8 @@ export const lightRed = '#FA0064'
 export const darkYellow =  '#F5AF00' //'#D69A18' 
 export const lightGreen = '#25EC28'
 
+
+
 export default {
   light: {
     dark:true,

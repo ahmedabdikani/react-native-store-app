@@ -1,5 +1,6 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
+  FontAwesome5,
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
@@ -14,7 +15,7 @@ import useThemeColor from "../../hooks/useThemeColor";
 import { lightBlue, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../context/auth/AuthContext";
 import User from "../../types/User";
 import { ProfileScreenProps } from "../../types/Profile";
 import Button from "../../components/button/Button";
@@ -22,7 +23,7 @@ import { useNavigation } from "@react-navigation/core";
 import { Body1, Body2, Subtitle1 } from "../../components/typography";
 
 const { width } = Layout.window;
-const padding = Sizes.base;
+const padding = Sizes.spacing.s;
 
 interface MeProps extends ProfileScreenProps<"Me"> {}
 
@@ -39,7 +40,7 @@ const Me: React.FC<MeProps> = ({ navigation }) => {
   const card = useThemeColor({}, "card");
   const { top } = useSafeAreaInsets();
   const { user } = useAuthContext();
-  const [openTheme, setOpenTheme] = React.useState(false);
+  const [openTheme, setOpenTheme] = useState(false);
 
   if (!user) {
     return null;
@@ -79,7 +80,7 @@ const Me: React.FC<MeProps> = ({ navigation }) => {
         />
         <View
           card
-          flexR
+          row
           style={{
             flexWrap: "wrap",
             padding,
@@ -259,6 +260,9 @@ const renderHeader = ({
   return (
     <>
       <View style={styles.headerContainer}>
+        <Button onPress={() => navigation.navigate("Store")}>
+          <MaterialIcons name="storefront" size={24} color={color} />
+        </Button>
         <Button onPress={() => navigation.navigate("Profile")}>
           <Ionicons name="person-outline" size={24} color={color} />
         </Button>
@@ -288,8 +292,8 @@ const renderPaymentMethods = () => {
     <View
       card
       style={{
-        marginTop: Sizes.base * 2,
-        padding: Sizes.base,
+        marginTop: Sizes.spacing.s * 2,
+        padding: Sizes.spacing.s,
         borderRadius: padding,
         minHeight: 200,
       }}
@@ -307,11 +311,11 @@ const renderPaymentMethods = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     alignSelf: "flex-end",
-    width: "40%",
+    width: "50%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: Sizes.base,
+    marginBottom: Sizes.spacing.s,
     marginTop: padding,
   },
   selectionContainer: {

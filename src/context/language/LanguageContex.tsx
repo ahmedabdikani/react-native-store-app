@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import * as React from "react";
 
-import useAsyncStorage from "../hooks/useAsyncStorage";
+import useAsyncStorage from "../../hooks/useAsyncStorage";
 
-import english from "../language/english";
-import somali from "../language/somali";
+import english from "../../language/english";
+import somali from "../../language/somali";
 
 const languages = { english, somali };
 export type Language = keyof typeof languages;

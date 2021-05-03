@@ -1,9 +1,9 @@
-import * as React from "react";
+import { useEffect } from "react";
 import * as ImagePicker from 'expo-image-picker';
 
 
 const useImagePicker = ()=> {
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {    
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
@@ -28,7 +28,7 @@ const useImagePicker = ()=> {
 
   const snapImage = async ()=>{
     let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: false,
       quality: 1,
     });

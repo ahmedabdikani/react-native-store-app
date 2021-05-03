@@ -1,6 +1,6 @@
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import View from "../../components/theme/View";
@@ -14,23 +14,49 @@ import { Sizes, Styles } from "../../constants/Styles";
 import Button from "../../components/button/Button";
 import FlatList from "../../components/list/ListFlat";
 import Gradient from "../../components/Gradient";
-import { useProductContext } from "../../context/ProductContext";
+import { useProductContext } from "../../context/product/ProductContext";
 import { Body1, ButtonText } from "../../components/typography";
 import Input from "../../components/input/Input";
-import { useLanguage } from "../../context/LanguageContex";
+import { useLanguage } from "../../context/language/LanguageContex";
+import wait from "../../utils/wait";
+import useThemeColor from "../../hooks/useThemeColor";
 
 const { width } = Layout.window;
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 const searchHeight = 40;
 
 interface IHomeProps extends HomeNavigationProps<"Home"> {}
 
 const Home: React.FC<IHomeProps> = ({ navigation }) => {
   const { products } = useProductContext();
+  const [refreshing, setRefreshing] = React.useState(false);
+  const bg = useThemeColor({}, "card");
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    console.log("refreshing");
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   return (
     <View style={styles.container}>
       <Header />
-      <FlatList data={[0]} contentContainerStyle={styles.listContainer}>
+      <FlatList
+        bounces
+        refreshControl={
+          <RefreshControl
+            colors={["red", "green"]}
+            progressBackgroundColor={bg}
+            // progressViewOffset={100}
+            refreshing={refreshing}
+            size={200}
+            tintColor={tintColorLight}
+            title={"refreshing"}
+            onRefresh={onRefresh}
+          />
+        }
+        data={[0]}
+        contentContainerStyle={styles.listContainer}
+      >
         {() => (
           <View>
             <MiniAppList />

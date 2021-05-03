@@ -1,5 +1,4 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import navigation from "../navigation";
 
 import { Product } from "./Product";
 
@@ -18,6 +17,7 @@ export type CartRouteProp <T extends keyof CartStackPramList> = {
 
 export type CartItem = {
   product: Product;
+  selected:boolean,
   amount: number;
 };
 

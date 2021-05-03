@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import {
   FlatList as _DefaultList,
   FlatListProps,
@@ -11,11 +11,13 @@ import { Body1 } from "../typography";
 interface ListFlatProps<T> extends Omit<FlatListProps<T>, "renderItem"> {
   readonly data: T[];
   children: ListRenderItem<T>;
+  dependencies?: any[];
 }
 
 const ListFlat = <T extends {}>({
   children,
   data,
+  dependencies,
   ...props
 }: ListFlatProps<T>) => {
   const ListEmptyComponent = () => {
@@ -26,6 +28,8 @@ const ListFlat = <T extends {}>({
     );
   };
 
+  dependencies = dependencies || [data];
+
   return (
     <_DefaultList
       bounces={false}
@@ -33,8 +37,8 @@ const ListFlat = <T extends {}>({
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       data={data}
-      keyExtractor={(_, index) => index.toString()}
-      renderItem={React.useCallback(children, [data])}
+      keyExtractor={useCallback((_, index) => index.toString(), dependencies)}
+      renderItem={useCallback(children, dependencies)}
       {...props}
     />
   );

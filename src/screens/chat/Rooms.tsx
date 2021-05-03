@@ -2,38 +2,40 @@ import * as React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import moment from "moment";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 import Button from "../../components/button/Button";
 import FlatList from "../../components/list/ListFlat";
 import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { Sizes } from "../../constants/Styles";
-import { useChatContext } from "../../context/ChatContext";
+import { useChatContext } from "../../context/chat/ChatContext";
 import Avatar from "../../components/Avatar";
 import { Body2, H6, Subtitle1 } from "../../components/typography";
 import Shadow from "../../components/shadow/Shadow";
 import { SetState } from "./Chats";
 
-const padding = Sizes.base;
-moment.updateLocale("en", {
-  relativeTime: {
-    s: "a moment",
-    ss: "%d s",
-    m: "a m",
-    mm: "%d m",
-    h: "an h",
-    hh: "%d h",
-    d: "a d",
-    dd: "%d d",
-    w: "a w",
-    ww: "%d w",
-    M: "a m",
-    MM: "%d m",
-    y: "a y",
-    yy: "%d y",
-  },
-});
+const padding = Sizes.spacing.s;
+dayjs.extend(relativeTime);
+// moment.updateLocale("en", {
+//   relativeTime: {
+//     s: "a moment",
+//     ss: "%d s",
+//     m: "a m",
+//     mm: "%d m",
+//     h: "an h",
+//     hh: "%d h",
+//     d: "a d",
+//     dd: "%d d",
+//     w: "a w",
+//     ww: "%d w",
+//     M: "a m",
+//     MM: "%d m",
+//     y: "a y",
+//     yy: "%d y",
+//   },
+// });
 
 interface RoomsProps {}
 
@@ -113,7 +115,7 @@ const Header = ({ setOpenMenu }: { setOpenMenu: SetState<boolean> }) => {
       >
         <View
           card
-          flexR
+          row
           style={{
             justifyContent: "space-between",
             alignItems: "center",
@@ -129,9 +131,8 @@ const Header = ({ setOpenMenu }: { setOpenMenu: SetState<boolean> }) => {
   );
 };
 
-const RoomItem = ({ item }) => {
+const RoomItem = ({ item }: any) => {
   const navigation = useNavigation();
-
   const backgroundColor = useThemeColor({}, "background");
   return (
     <Button
@@ -157,7 +158,7 @@ const RoomItem = ({ item }) => {
         </Body2>
       </View>
       <View>
-        <Body2 secondary>{moment(Date.now() - 1000 * 600).fromNow()}</Body2>
+        <Body2 secondary>{dayjs(Date.now() - 1000 * 600).fromNow()}</Body2>
       </View>
     </Button>
   );

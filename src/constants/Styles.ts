@@ -2,12 +2,12 @@ import { StyleSheet } from "react-native"
 
 const Sizes = {
 
-  //global sizes
-  base:10,
-  font:14,
-  radius:30,
-  padding:10, 
-  padding2:12,
+  spacing:{
+    s:8,
+    m:16,
+    l:24,
+    xl:40
+  },
 
   // fontSizes from material.io
   h1: 96,
@@ -30,38 +30,38 @@ const Fonts = StyleSheet.create({
     fontFamily:"lobster",
     fontWeight:"300",
     fontSize:Sizes.h1,
-    margin: Sizes.base,
+    margin: Sizes.spacing.s,
     letterSpacing:-1.5
   },
   h2:{
     fontWeight:"300",
     fontSize:Sizes.h2,
-    margin: Sizes.base,
+    margin: Sizes.spacing.s,
     letterSpacing:-0.5
     
   },
   h3:{
     fontWeight:"400",
     fontSize:Sizes.h3,
-    margin: Sizes.base,
+    margin: Sizes.spacing.s,
     letterSpacing:0
   },
   h4:{
     fontWeight:"400",
     fontSize:Sizes.h4,
-    margin: Sizes.base,
+    margin: Sizes.spacing.s,
     letterSpacing:.25
   },
   h5:{
     fontWeight:"400",
     fontSize:Sizes.h4,
-    margin: Sizes.base,
+    margin: Sizes.spacing.s,
     letterSpacing:0
   },
   h6:{
     fontWeight:"500",
     fontSize:Sizes.h4,
-    margin: Sizes.base,
+    margin: Sizes.spacing.s,
     letterSpacing:.15,
   },
   subtitle1:{
@@ -125,7 +125,7 @@ const Styles =StyleSheet.create( {
     flex:1
   },
   container:{
-    padding:Sizes.base
+    padding:Sizes.spacing.s
   },
   
 })

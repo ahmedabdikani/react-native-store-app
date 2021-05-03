@@ -4,7 +4,7 @@ import { Sizes } from "../../constants/Styles";
 import View from "../theme/View";
 import Layout from "../../constants/Layout";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 const { width } = Layout.window;
 
 const Container = styled(View).attrs((props) => ({ transparent: true }))({

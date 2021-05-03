@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import useAsyncStorage from "../hooks/useAsyncStorage";
-import Loading from "../components/Loading";
-import supabase from "../config/supabase";
-import User from "../types/User";
+import useAsyncStorage from "../../hooks/useAsyncStorage";
+import Loading from "../../components/Loading";
+import supabase from "../../config/supabase";
+import User from "../../types/User";
 
 import "react-native-url-polyfill/auto";
 

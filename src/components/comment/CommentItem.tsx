@@ -1,11 +1,11 @@
-import * as React from "react";
+import React from "react";
 import { Image } from "react-native";
 
 import { Sizes } from "../../constants/Styles";
 import { View } from "../theme";
 import { Body2, Caption, Subtitle2 } from "../typography";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 const CommentItem = ({ comment }: { comment: any }) => {
   return (

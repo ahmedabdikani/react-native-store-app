@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Image } from "react-native";
 
 import { Product } from "../../types/Product";
@@ -6,10 +6,10 @@ import Layout from "../../constants/Layout";
 import { Sizes } from "../../constants/Styles";
 import { View } from "../theme";
 import { Caption, Subtitle1, Body1 } from "../typography";
-import { useLanguage } from "../../context/LanguageContex";
+import { useLanguage } from "../../context/language/LanguageContex";
 
 const { width } = Layout.window;
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 const Details = ({ product }: { product: Product }) => {
   const { language } = useLanguage();

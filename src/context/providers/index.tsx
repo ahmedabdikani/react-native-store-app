@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { AuthProvider } from "./AuthContext";
-import { ChatProvier } from "./ChatContext";
-import { ProductProvider } from "./ProductContext";
-import { CartProvider } from "./CartContext";
-import { LanguageProvider } from "./LanguageContex";
+import { AuthProvider } from "../auth/AuthContext";
+import { ChatProvier } from "../chat/ChatContext";
+import { ProductProvider } from "../product/ProductContext";
+import { CartProvider } from "../cart/CartContext";
+import { LanguageProvider } from "../language/LanguageContex";
 
 const ContextProviders: React.FC = ({ children }) => (
   <AuthProvider>

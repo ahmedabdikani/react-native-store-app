@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
+import { Image, StyleSheet } from "react-native";
 
 import useHideBottomBar from "../../hooks/useHideBottomBar";
 import { ProfileScreenProps } from "src/types/Profile";
 import { View } from "../../components/theme";
 import { Subtitle1 } from "../../components/typography";
 import { Sizes } from "../../constants/Styles";
-import { Image, StyleSheet } from "react-native";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../context/auth/AuthContext";
 import Button from "../../components/button/Button";
 import useImagePicker from "../../hooks/useImagePicker";
 import storage from "../../config/storage";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 const imageHeight = 60;
 
 interface ProfileProps extends ProfileScreenProps<"Profile"> {}
@@ -19,57 +19,51 @@ interface ProfileProps extends ProfileScreenProps<"Profile"> {}
 const Profile: React.FC<ProfileProps> = ({ navigation }) => {
   const { user, updateUser } = useAuthContext();
   const { pickImage } = useImagePicker();
-  console.log(user?.photoUrl);
 
   const onPress = () => {
     pickImage()
       .then(async (result) => {
-        const storageRef = storage?.ref();
+        const profileRef = storage?.ref("/profile");
         const res = await fetch(result.uri);
         const blob = await res.blob();
 
-        const imageRef = storageRef?.child("profile/" + user?.id + ".jpg");
-        const task = imageRef?.put(blob);
+        const extension = blob.type.split("/")[1];
 
+        const imageRef = profileRef?.child(
+          `${user?.id}${Date.now()}.${extension}`
+        );
+        const task = imageRef?.put(blob);
         task?.on(
           "state_changed",
-          (res) => {
-            console.log("uploaded");
-            updateUser({
-              photoUrl: `https://firebasestorage.googleapis.com/v0/b/suriapp-2f701.appspot.com/o/profile%2F${user?.id}.jpg?alt=media`,
-            });
-          },
+          (res) => console.log("uploaded"),
           (error) => {
             console.log("error", error.message);
+          },
+          () => {
+            task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              updateUser({
+                photoUrl: downloadURL,
+              });
+            });
           }
         );
       })
       .catch((error) => console.log(error));
   };
   useEffect(() => {
-    const unSubscripe = useHideBottomBar(navigation);
+    const unSubscripe = useHideBottomBar(navigation.dangerouslyGetParent());
     return () => {
-      unSubscripe();
+      unSubscripe && unSubscripe();
     };
-  });
+  }, [navigation]);
 
   return (
     <View style={{ padding: spacing }}>
       <Button onPress={onPress}>
         <View card style={styles.card}>
           <Subtitle1 style={{ flex: 1 }}>Profile Photo</Subtitle1>
-          {
-            <Image
-              style={{
-                borderRadius: spacing * 2,
-                margin: spacing / 2,
-                height: imageHeight * 0.9,
-                width: imageHeight * 0.9,
-                resizeMode: "cover",
-              }}
-              source={{ uri: user?.photoUrl }}
-            />
-          }
+          <Image style={styles.image} source={{ uri: user?.photoUrl }} />
         </View>
       </Button>
       <View card style={styles.card}>
@@ -95,6 +89,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing,
     marginBottom: 1,
     justifyContent: "space-between",
+  },
+  image: {
+    borderRadius: spacing * 2,
+    margin: spacing / 2,
+    height: imageHeight * 0.9,
+    width: imageHeight * 0.9,
+    resizeMode: "cover",
   },
 });
 

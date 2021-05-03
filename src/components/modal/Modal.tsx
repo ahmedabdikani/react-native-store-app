@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import { SetState } from "../../screens/chat/Chats";
 import Button from "../button/Button";
-import { View } from "../theme";
 
 interface ModalProps {
   visible: boolean;
@@ -14,15 +13,14 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ children, setVisible, visible }) => {
   return (
     <DefaultModal
-      statusBarTranslucent={true}
+      statusBarTranslucent
       animationType="slide"
-      transparent={false}
+      transparent
       visible={visible}
       onRequestClose={() => setVisible((prev) => !prev)}
     >
-      <Container onPress={() => setVisible((prev) => !prev)}>
-        {children}
-      </Container>
+      <Container onPress={() => setVisible((prev) => !prev)}></Container>
+      {children}
     </DefaultModal>
   );
 };
@@ -33,7 +31,6 @@ const Container = styled(Button)({
   position: "absolute",
   width: "100%",
   height: "100%",
-  justifyContent: "center",
 });
 
 export default Modal;

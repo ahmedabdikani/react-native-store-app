@@ -6,6 +6,8 @@ export type ProfileStackPramList = {
   Settings: undefined;
   Profile:undefined;
   Favorite: Product;
+  Store:undefined
+  AddProduct:undefined;
   FollowedStores: undefined;
 };
 

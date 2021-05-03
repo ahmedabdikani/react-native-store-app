@@ -1,12 +1,13 @@
-import * as React from "react";
+import React from "react";
 
 import Avatar from "../Avatar";
 import { View } from "../theme";
 import Body2 from "../typography/Body2";
 import { Sizes } from "../../constants/Styles";
 import Center from "../center/Center";
+import useThemeColor from "../../hooks/useThemeColor";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 interface TextMessageProps {
   reverse?: boolean;
@@ -14,6 +15,7 @@ interface TextMessageProps {
 }
 
 const TextMessage = ({ reverse, message }: TextMessageProps) => {
+  const backgroundColor = useThemeColor({}, "card");
   return (
     <View
       style={{
@@ -29,6 +31,7 @@ const TextMessage = ({ reverse, message }: TextMessageProps) => {
           marginRight: !reverse ? 0 : spacing,
           borderRadius: spacing,
           padding: spacing,
+          backgroundColor: reverse ? "pink" : backgroundColor,
         }}
       >
         <Center>

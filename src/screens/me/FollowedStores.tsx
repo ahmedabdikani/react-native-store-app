@@ -1,32 +1,40 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image } from "react-native";
 
 import Avatar from "../../components/Avatar";
-import { Card, View } from "../../components/theme";
+import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { Sizes } from "../../constants/Styles";
 import { Product } from "../../types/Product";
 import ListFlat from "../../components/list/ListFlat";
-import { useProductContext } from "../../context/ProductContext";
+import { useProductContext } from "../../context/product/ProductContext";
 import Button from "../../components/button/Button";
-import { Body2, H3 } from "../../components/typography";
+import { Body2, Subtitle1 } from "../../components/typography";
+import useHideBottomBar from "../../hooks/useHideBottomBar";
+import { ProfileScreenProps } from "../../types/Profile";
 
-const padding = Sizes.base;
+const padding = Sizes.spacing.s;
 
-interface FollowedStoresProps {}
+interface FollowedStoresProps extends ProfileScreenProps<"Me"> {}
 
-const FollowedStores = ({}: FollowedStoresProps) => {
+const FollowedStores = ({ navigation }: FollowedStoresProps) => {
   const { products } = useProductContext();
   const color = useThemeColor({}, "text");
-
+  useEffect(() => {
+    const unSubscripe = useHideBottomBar(navigation.dangerouslyGetParent());
+    return () => {
+      unSubscripe && unSubscripe();
+    };
+  }, [navigation]);
   const StorePost = ({ item, index }: { item: Product; index: number }) => {
     return (
-      <Card
+      <View
+        card
+        row
         style={{
           borderRadius: padding,
           padding,
-          flexDirection: "row",
           marginBottom: padding,
           paddingVertical: padding * 2,
           overflow: "hidden",
@@ -34,27 +42,30 @@ const FollowedStores = ({}: FollowedStoresProps) => {
       >
         <Avatar imageUri={item.images[0]} initial={item.title} />
 
-        <Card
+        <View
+          card
           style={{
             marginLeft: padding,
             flex: 1,
           }}
         >
-          <Card
+          <View
+            card
             style={{
               flexDirection: "row",
               flex: 1,
               justifyContent: "space-between",
             }}
           >
-            <Card>
-              <H3>Store{index + 1}</H3>
+            <View card>
+              <Subtitle1>Store{index + 1}</Subtitle1>
               <Body2>Followed {index + 1} month ago</Body2>
-            </Card>
+            </View>
             <MaterialIcons name="more-horiz" size={24} color={color} />
-          </Card>
+          </View>
 
-          <Card
+          <View
+            card
             style={{ flexDirection: "row", flex: 1, paddingVertical: padding }}
           >
             {item.images.map((imageUri, index) => {
@@ -72,9 +83,9 @@ const FollowedStores = ({}: FollowedStoresProps) => {
                 </Button>
               );
             })}
-          </Card>
-        </Card>
-      </Card>
+          </View>
+        </View>
+      </View>
     );
   };
 

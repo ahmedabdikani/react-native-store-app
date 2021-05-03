@@ -1,10 +1,10 @@
-import * as React from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { View, Text } from "../../components/theme";
 import { CartNavigationProp, CartRouteProp } from "../../types/Cart";
-import { useCartContext } from "../../context/CartContext";
+import { useCartContext } from "../../context/cart/CartContext";
 import CartList from "../../components/cart/CartList";
 import useThemeColor from "../../hooks/useThemeColor";
 import Button from "../../components/button/Button";
@@ -16,7 +16,9 @@ import {
 } from "../../components/typography";
 import { SetState } from "../chat/Chats";
 import Shadow from "../../components/shadow/Shadow";
-import { useLanguage } from "../../context/LanguageContex";
+import { useLanguage } from "../../context/language/LanguageContex";
+import Gradient from "../../components/Gradient";
+import SelectionToggleIcon from "../../components/cart/SelectionToggleIcon";
 
 const spacing = 10;
 
@@ -28,6 +30,8 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
   const [openMore, setOpenMore] = React.useState(false);
   const { cartItems, total } = useCartContext();
 
+  const allSelected = cartItems.every((cartItem) => cartItem.selected);
+
   return (
     <View card style={{ flex: 1 }}>
       <Header
@@ -38,7 +42,7 @@ const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
       <View style={{ paddingHorizontal: spacing, flex: 1 }}>
         <CartList openMore={openMore} />
       </View>
-      <Footer total={total} />
+      <Footer total={total} allSelected={allSelected} />
     </View>
   );
 };
@@ -83,11 +87,24 @@ const Header = ({ length, setOpenMore, openMore }: HeaderProps) => {
   );
 };
 
-const Footer = ({ total }: { total: number }) => {
+const Footer = ({
+  total,
+  allSelected,
+}: {
+  total: number;
+  allSelected: boolean;
+}) => {
   const borderColor = useThemeColor({}, "background");
+  const { selecteAllProducts } = useCartContext();
+
   return (
     <View card style={[styles.footerContainer, { borderColor }]}>
-      <Text>Sellect all</Text>
+      <Button onPress={selecteAllProducts}>
+        <View transparent row>
+          <SelectionToggleIcon condition={allSelected && total > 0} />
+          <Text style={{ marginLeft: spacing }}>Sellect all</Text>
+        </View>
+      </Button>
       <View
         transparent
         style={{
@@ -95,11 +112,13 @@ const Footer = ({ total }: { total: number }) => {
           flexDirection: "row",
         }}
       >
-        <Text>Total ${total}</Text>
+        <Text>Total: ${total}</Text>
         <Button primary style={styles.btn}>
-          <ButtonText style={{ color: "#fff", padding: spacing }}>
-            Checkout
-          </ButtonText>
+          <Gradient>
+            <ButtonText style={{ color: "#fff", padding: spacing }}>
+              Checkout
+            </ButtonText>
+          </Gradient>
         </Button>
       </View>
     </View>
@@ -114,6 +133,9 @@ const styles = StyleSheet.create({
   btn: {
     marginLeft: spacing,
     borderRadius: spacing * 3,
+    overflow: "hidden",
+    backgroundColor: "red",
+    height: 40,
   },
   footerContainer: {
     padding: spacing,

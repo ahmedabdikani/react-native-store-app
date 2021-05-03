@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import { Sizes } from "../../constants/Styles";
 import Button from "../button/Button";
@@ -7,7 +7,7 @@ import { View } from "../theme";
 import { Subtitle1, Subtitle2 } from "../typography";
 import CommentItem from "./CommentItem";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 const CommentList = ({ comments }: { comments: any }) => {
   return (

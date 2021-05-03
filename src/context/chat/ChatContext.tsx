@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import * as React from "react";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
@@ -6,10 +7,10 @@ import { RealtimeSubscription } from "@supabase/realtime-js";
 
 import "react-native-url-polyfill/auto";
 
-import supabase from "../config/supabase";
-import { Chat } from "../types/Chat";
-import User from "../types/User";
-import { useAuthContext } from "./AuthContext";
+import supabase from "../../config/supabase";
+import { Chat } from "../../types/Chat";
+import User from "../../types/User";
+import { useAuthContext } from "../auth/AuthContext";
 
 type CallBack = <T>(data: unknown[] | null, error: T) => void;
 
@@ -17,7 +18,12 @@ interface Context {
   chats: Chat[];
   rooms: any[];
   createRoom: (friend: User) => void;
-  createMessage: (message: Object, roomId: string, chatId: string) => void;
+  createMessage: (
+    message: Object,
+    roomId: string,
+    chatId: string,
+    pushToken: string
+  ) => void;
   getChat: (chatId: string) => void;
   searchUser: (name: string, callBack: CallBack) => Promise<void>;
 }
@@ -97,11 +103,15 @@ export const ChatProvier: React.FC = ({ children }) => {
   const { user, updateUser } = useAuthContext();
 
   useEffect(() => {
-    registerForPushNotificationsAsync()
-      .then((token) => {
-        updateUser({ pushToken: token });
-      })
-      .catch((error) => console.log("push notification error: ", error));
+    if (user) {
+      registerForPushNotificationsAsync()
+        .then((token) => {
+          updateUser({ pushToken: token });
+        })
+        .catch((error) =>
+          console.log("push notification error: ", error.message)
+        );
+    }
   }, []);
 
   useEffect(() => {
@@ -154,7 +164,8 @@ export const ChatProvier: React.FC = ({ children }) => {
   const createMessage = async (
     message: any,
     roomId: string,
-    chatId: string
+    chatId: string,
+    pushToken: string
   ) => {
     try {
       const { error, data } = await supabase
@@ -170,8 +181,13 @@ export const ChatProvier: React.FC = ({ children }) => {
           .from("chats")
           .update({ last_message_id: data?.id })
           .match({ room_id: roomId });
-
-        // await schedulePushNotification()
+        await schedulePushNotification({
+          name: user?.name,
+          value: message?.value,
+          pushToken,
+        })
+          .catch((error) => console.log(error))
+          .then(() => console.log("sent"));
       }
     } catch (error) {
       console.log(error);
@@ -202,7 +218,7 @@ export const ChatProvier: React.FC = ({ children }) => {
         .from("messages_v")
         .select("*")
         .eq("chat_id", chatId);
-      console.log(data);
+      // console.log(data);
 
       console.log(error);
       if (data) {

@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+import { Fragment } from "react";
 
 interface ListSmallProps<T> {
   data: T[];
@@ -7,9 +8,7 @@ interface ListSmallProps<T> {
 
 const ListSmall = <T extends {}>({ children, data }: ListSmallProps<T>) => {
   return (
-    <React.Fragment>
-      {data.map((item, index) => children({ item, index }))}
-    </React.Fragment>
+    <Fragment>{data.map((item, index) => children({ item, index }))}</Fragment>
   );
 };
 

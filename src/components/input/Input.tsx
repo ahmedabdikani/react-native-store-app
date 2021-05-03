@@ -3,7 +3,7 @@ import { TextInput, TextInputProps } from "react-native";
 import { Fonts, Sizes } from "../../constants/Styles";
 import useThemeColor from "../../hooks/useThemeColor";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 const Input: React.FC<TextInputProps> = ({ style, ...otherProps }) => {
   const color = useThemeColor({}, "textSecondary");

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -7,22 +7,37 @@ import { Sizes } from "../../constants/Styles";
 import Button from "../../components/button/Button";
 import Layout from "../../constants/Layout";
 import useThemeColor from "../../hooks/useThemeColor";
-import { useNavigation } from "@react-navigation/core";
+import useImagePicker from "../../hooks/useImagePicker";
 
 const { height } = Layout.window;
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 
 interface FileUploadProps {}
 
 const FileUpload: React.FC<FileUploadProps> = ({}) => {
   const color = useThemeColor({}, "text");
-  const navigation = useNavigation();
+  const { pickImage, snapImage } = useImagePicker();
+
   return (
     <View card style={styles.container}>
-      <Button style={styles.btn}>
+      <Button
+        onPress={() => {
+          pickImage()
+            .then(() => {})
+            .catch((error) => console.log(error));
+        }}
+        style={styles.btn}
+      >
         <MaterialCommunityIcons name="image" size={35} color={color} />
       </Button>
-      <Button style={styles.btn} onPress={() => navigation.navigate("Camera")}>
+      <Button
+        style={styles.btn}
+        onPress={() => {
+          snapImage()
+            .then(() => {})
+            .catch((error) => console.log(error));
+        }}
+      >
         <MaterialCommunityIcons name="camera" size={35} color={color} />
       </Button>
       <Button style={styles.btn}>

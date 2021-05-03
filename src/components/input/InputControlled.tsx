@@ -9,6 +9,7 @@ export interface InputControlledProps {
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   name: string;
+  secureTextEntry?: boolean;
 }
 
 const InputControlled: React.FC<InputControlledProps> = ({
@@ -16,6 +17,7 @@ const InputControlled: React.FC<InputControlledProps> = ({
   placeholder,
   keyboardType,
   name,
+  secureTextEntry,
 }) => {
   return (
     <Controller
@@ -26,6 +28,7 @@ const InputControlled: React.FC<InputControlledProps> = ({
           onChangeText={(value) => onChange(value)}
           placeholder={placeholder}
           value={value}
+          secureTextEntry={secureTextEntry}
         />
       )}
       name={name}

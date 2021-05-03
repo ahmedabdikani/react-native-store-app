@@ -5,9 +5,10 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import BackButtonNative from "../../components/button/BackButtonNative";
 import Button from "../../components/button/Button";
@@ -17,15 +18,15 @@ import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { tintColorLight } from "../../constants/Colors";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
-import { useAuthContext } from "../../context/AuthContext";
-import { AuthNavigationProp, SignInFormProps } from "../../types/Auth";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAuthContext } from "../../context/auth/AuthContext";
+import { SignInFormProps, AuthScreenProps } from "../../types/Auth";
 
-import Gradient from "../../components/Gradient";
 import Layout from "../../constants/Layout";
-import { Body2, H6, Subtitle1, H1 } from "../../components/typography";
+import { Body2, ButtonText, H6, Subtitle1 } from "../../components/typography";
+import Center from "../../components/center/Center";
+import Logo from "../../components/Logo";
 
-const spacing = Sizes.base;
+const spacing = Sizes.spacing.s;
 const { height } = Layout.window;
 
 const schema = yup.object().shape({
@@ -33,7 +34,7 @@ const schema = yup.object().shape({
   password: yup.string().required().trim(),
 });
 
-interface SignInProps extends AuthNavigationProp<"SignIn"> {}
+interface SignInProps extends AuthScreenProps<"SignIn"> {}
 
 const SignIn: React.FC<SignInProps> = ({ navigation }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
@@ -64,106 +65,84 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
       >
         <BackButtonNative />
       </View>
-      <View
-        style={{
-          flex: 1,
-          overflow: "hidden",
-        }}
-      >
-        <Gradient>
-          <View
-            style={{
-              backgroundColor: "transparent",
-              alignContent: "center",
-              paddingTop: top + spacing * 3,
-              paddingLeft: spacing * 2,
-            }}
-          >
-            <H1 style={{ color: "#fff" }}>Welcome</H1>
-            <Subtitle1 numberOfLines={2} style={{ color: "#fff" }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus omnis am
-            </Subtitle1>
-          </View>
-        </Gradient>
-      </View>
+      <ScrollView>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            margin: spacing * 3,
+            marginTop: 100,
+          }}
+        >
+          <Logo size="m" />
+          <H6 style={{ textAlign: "center", marginBottom: spacing * 2 }}>
+            SIGN IN
+          </H6>
+          <View>
+            <InputForm
+              secureTextEntry={secureTextEntry}
+              error={errors.email}
+              control={control}
+              left={() => (
+                <MaterialCommunityIcons
+                  name="email-outline"
+                  color={color}
+                  size={20}
+                />
+              )}
+              placeholder="Enter email..."
+              name="email"
+              keyboardType={"email-address"}
+            />
+            <InputForm
+              secureTextEntry={secureTextEntry}
+              error={errors.password}
+              control={control}
+              left={() => (
+                <MaterialCommunityIcons name="lock" color={color} size={20} />
+              )}
+              right={() => (
+                <ButtonSecureText
+                  setSecureTextEntry={setSecureTextEntry}
+                  secureTextEntry={secureTextEntry}
+                />
+              )}
+              placeholder="Enter password..."
+              name="password"
+            />
 
-      <View
-        card
-        style={{
-          margin: spacing * 3,
-          padding: spacing * 2,
-          borderRadius: spacing * 2,
-          // marginTop: 0,
-        }}
-      >
-        <H6 style={{ textAlign: "center", marginBottom: spacing * 2 }}>
-          SIGN IN
-        </H6>
-        <View card>
-          <InputForm
-            error={errors.email}
-            control={control}
-            left={() => (
-              <MaterialCommunityIcons
-                name="email-outline"
-                color={color}
-                size={20}
-              />
-            )}
-            placeholder="Enter email..."
-            name="email"
-            keyboardType={"email-address"}
-          />
-          <InputForm
-            error={errors.password}
-            control={control}
-            left={() => (
-              <MaterialCommunityIcons name="lock" color={color} size={20} />
-            )}
-            right={() => (
-              <ButtonSecureText
-                setSecureTextEntry={setSecureTextEntry}
-                secureTextEntry={secureTextEntry}
-              />
-            )}
-            placeholder="Enter password..."
-            name="password"
-          />
-
-          <Subtitle1
+            {/* <Subtitle1
             primary
             style={{
               margin: spacing,
               marginBottom: spacing * 4,
               alignSelf: "flex-end",
             }}
-          >
+            >
             Forget Password?
-          </Subtitle1>
-          <View
-            card
-            style={{
-              padding: 10,
-              borderRadius: 50,
-              alignSelf: "center",
-              position: "absolute",
-              bottom: -50,
-            }}
-          >
+          </Subtitle1> */}
+
             <Button
-              style={{ width: 50, height: 50 }}
+              style={{
+                alignSelf: "center",
+                width: 200,
+                flexDirection: "row",
+                padding: spacing * 1.2,
+                marginTop: spacing,
+                borderRadius: spacing * 4,
+              }}
               primary
               onPress={handleSubmit(onSubmit)}
             >
-              <Ionicons name="arrow-forward" size={24} color={"#fff"} />
+              <Center>
+                <ButtonText style={{ color: "#fff" }}>Sign in</ButtonText>
+              </Center>
             </Button>
           </View>
         </View>
-      </View>
-      <View style={{ flex: 1 }} />
+      </ScrollView>
+      <View style={{}} />
       <SocialMedia />
-
       <View
         style={{
           alignSelf: "center",
@@ -191,18 +170,28 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
 
 const SocialMedia = () => {
   const { signInWithFacebook } = useAuthContext();
+  const color = "#fff";
   return (
     <View transparent style={[Styles.centerHV, Styles.fRow]}>
       <View>
-        <Button onPress={signInWithFacebook} style={styles.brandBtn}>
-          <FontAwesome name="facebook" size={30} color={"#5890FF"} />
+        <Button
+          onPress={signInWithFacebook}
+          style={[styles.brandBtn, { backgroundColor: "#5890FF" }]}
+        >
+          <FontAwesome name="facebook" size={30} color={color} />
         </Button>
       </View>
-      <Button onPress={() => null} style={[styles.brandBtn]}>
-        <Ionicons name="logo-google" size={34} color={"#dd4b39"} />
+      <Button
+        onPress={() => null}
+        style={[styles.brandBtn, { backgroundColor: "#dd4b39" }]}
+      >
+        <Ionicons name="logo-google" size={34} color={color} />
       </Button>
-      <Button onPress={() => null} style={[styles.brandBtn]}>
-        <Ionicons name="ios-logo-twitter" size={34} color={"#00acee"} />
+      <Button
+        onPress={() => null}
+        style={[styles.brandBtn, { backgroundColor: "#00acee" }]}
+      >
+        <Ionicons name="ios-logo-twitter" size={34} color={color} />
       </Button>
     </View>
   );
@@ -222,7 +211,6 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60,
-    elevation: 10,
     // backgroundColor: "#333",
     marginLeft: spacing,
   },

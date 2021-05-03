@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import * as React from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -8,22 +9,23 @@ import { Sizes, Styles } from "../../constants/Styles";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import { ChatScreenProps } from "../../types/Chat";
-import { useChatContext } from "../../context/ChatContext";
+import { useChatContext } from "../../context/chat/ChatContext";
 import MessageList from "../../components/chat/MessageList";
 import FileUpload from "../../components/chat/FileUpload";
 import { Subtitle1 } from "../../components/typography";
+import useHideBottomBar from "../../hooks/useHideBottomBar";
 
-const padding = Sizes.base;
+const padding = Sizes.spacing.s;
 
 export type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
 interface ChatsProps extends ChatScreenProps<"Chat"> {}
 
 const Chats: React.FC<ChatsProps> = ({ navigation, route }) => {
-  const [openFileUpload, setOpenFileUpload] = React.useState(false);
+  const [openFileUpload, setOpenFileUpload] = useState(false);
   const { item } = route.params;
   const { createMessage, chats, getChat } = useChatContext();
 
-  React.useEffect(() => {
+  useEffect(() => {
     navigation.setOptions({ title: item.name });
     console.log(item.chat_id);
     getChat(item?.chat_id);
@@ -35,18 +37,13 @@ const Chats: React.FC<ChatsProps> = ({ navigation, route }) => {
     }
     const message = { type: "text", value };
 
-    createMessage(message, item.room_id, item?.chat_id);
+    createMessage(message, item.room_id, item?.chat_id, item?.pushToken);
   };
 
-  React.useEffect(() => {
-    const parent = navigation.dangerouslyGetParent();
-    parent?.setOptions({
-      tabBarVisible: false,
-    });
+  useEffect(() => {
+    const unSubscripe = useHideBottomBar(navigation.dangerouslyGetParent());
     return () => {
-      parent?.setOptions({
-        tabBarVisible: true,
-      });
+      unSubscripe && unSubscripe();
     };
   }, [navigation]);
 

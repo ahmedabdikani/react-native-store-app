@@ -1,6 +1,6 @@
 import * as React from "react";
 import {} from "react-native";
-import { Product } from "../types/Product";
+import { Product } from "../../types/Product";
 
 const getImages = (index: number): string[] => {
   return Array.from(
@@ -28,7 +28,7 @@ const ProductContext = React.createContext<Context>({ products: intialData });
 export const useProductContext = () => React.useContext(ProductContext);
 
 export const ProductProvider: React.FC = ({ children }) => {
-  const [products, setProducts] = React.useState<Product[]>(intialData);
+  const [products] = React.useState<Product[]>(intialData);
 
   return (
     <ProductContext.Provider value={{ products }}>

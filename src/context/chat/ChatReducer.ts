@@ -1,4 +1,4 @@
-import { Chat } from "types/Chat";
+import { Chat } from "../../types/Chat";
 
 type Create = {
   type: "create";

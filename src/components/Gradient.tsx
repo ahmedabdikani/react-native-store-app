@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { darkYellow, tintColorLight } from "../constants/Colors";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
@@ -26,7 +26,11 @@ const Gradient: React.FC<GradientProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default Gradient;

@@ -9,7 +9,7 @@ import { Text, View } from "../../components/theme";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
 import useThemeColor from "../../hooks/useThemeColor";
 import { AuthNavigationProp, SignUpFormProps } from "../../types/Auth";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../context/auth/AuthContext";
 import { Control, SubmitHandler, useForm } from "react-hook-form";
 import Logo from "../../components/Logo";
 import { tintColorLight } from "../../constants/Colors";
@@ -18,7 +18,7 @@ import InputForm from "../../components/input/InputForm";
 import ButtonSecureText from "../../components/button/ButtonSecureText";
 import { Body2, ButtonText, H2, Subtitle1 } from "../../components/typography";
 
-const padding = Sizes.base;
+const padding = Sizes.spacing.s;
 
 const signUpSchema = yup.object().shape({
   name: yup.string().required("Please Enter Name").trim().min(4),
@@ -72,6 +72,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
         SIGN UP
       </H2>
       <Form
+        errors={errors}
         control={control}
         onPress={handleSubmit(onSubmit)}
         disabled={disabled}
@@ -107,6 +108,7 @@ interface FormProps {
   setSecureTextEntry: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
   onPress: () => void;
+  errors: Object;
 }
 const Form = ({
   control,
@@ -114,17 +116,20 @@ const Form = ({
   secureTextEntry,
   disabled,
   onPress,
+  errors,
 }: FormProps) => {
   const color = useThemeColor({}, "text");
   return (
     <View>
       <InputForm
+        error={errors.name}
         name="name"
         placeholder="Enter Name..."
         control={control}
         left={() => <MaterialIcons name="person" color={color} size={20} />}
       />
       <InputForm
+        error={errors.email}
         keyboardType={"email-address"}
         name="email"
         placeholder="Enter Email..."
@@ -138,7 +143,8 @@ const Form = ({
         )}
       />
       <InputForm
-        keyboardType={"email-address"}
+        secureTextEntry={secureTextEntry}
+        error={errors.password}
         name="password"
         placeholder="Enter password..."
         control={control}
@@ -153,6 +159,8 @@ const Form = ({
         )}
       />
       <InputForm
+        secureTextEntry={secureTextEntry}
+        error={errors.passwordConform}
         name="passwordConform"
         placeholder="Confirm password..."
         control={control}
