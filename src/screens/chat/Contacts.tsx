@@ -20,9 +20,8 @@ interface ContactProps {}
 
 const Contacts: React.FC<ContactProps> = ({}) => {
   const { top } = useSafeAreaInsets();
-  const navigation = useNavigation<
-    NavigationProp<BottomTabParamList, "ChatStack">
-  >();
+  const navigation =
+    useNavigation<NavigationProp<BottomTabParamList, "ChatStack">>();
   const { searchUser, createRoom } = useChatContext();
   const [value, setValue] = React.useState("");
   const [result, setResult] = React.useState<any[]>([]);
@@ -38,7 +37,7 @@ const Contacts: React.FC<ContactProps> = ({}) => {
     <Container style={{ paddingTop: top + spacing }}>
       <View
         card
-        flexR
+        row
         style={{
           padding: spacing,
           borderRadius: spacing,

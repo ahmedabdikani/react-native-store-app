@@ -2,17 +2,20 @@ import * as React from "react";
 
 import { AuthProvider } from "../auth/AuthContext";
 import { ChatProvier } from "../chat/ChatContext";
-import { ProductProvider } from "../product/ProductContext";
+import { ProductProvider } from "../product";
 import { CartProvider } from "../cart/CartContext";
+import { FavorateProvider } from "../favorites";
 import { LanguageProvider } from "../language/LanguageContex";
 
 const ContextProviders: React.FC = ({ children }) => (
   <AuthProvider>
     <ChatProvier>
       <ProductProvider>
-        <CartProvider>
-          <LanguageProvider>{children}</LanguageProvider>
-        </CartProvider>
+        <FavorateProvider>
+          <CartProvider>
+            <LanguageProvider>{children}</LanguageProvider>
+          </CartProvider>
+        </FavorateProvider>
       </ProductProvider>
     </ChatProvier>
   </AuthProvider>

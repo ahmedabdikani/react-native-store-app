@@ -13,7 +13,7 @@ import Profile from "..//screens/me/Profile";
 import Settings from "../screens/me/Settings";
 import Store from "../screens/me/Store";
 import { ProfileStackPramList } from "../types/Profile";
-import AddProduct from "../screens/me/AddProduct";
+import AddProduct from "../screens/me/CreateProduct";
 
 const ProfileStack = createStackNavigator<ProfileStackPramList>();
 

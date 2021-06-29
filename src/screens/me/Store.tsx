@@ -10,7 +10,7 @@ import useHideBottomBar from "../../hooks/useHideBottomBar";
 import { ProfileScreenProps } from "../../types/Profile";
 import Input from "../../components/input/Input";
 import { Sizes } from "../../constants/Styles";
-import { useProductContext } from "../../context/product/ProductContext";
+import { useProductContext } from "../../context/product";
 import ProductList from "../../components/product/ProductList";
 import BackButtonNative from "../../components/button/BackButtonNative";
 import Button from "../../components/button/Button";
@@ -74,7 +74,7 @@ const Header = () => {
         </View>
         <Center>
           <Button onPress={() => navigation.navigate("AddProduct")}>
-            <Subtitle1 primary>Add product</Subtitle1>
+            <Subtitle1 primary>New product</Subtitle1>
           </Button>
         </Center>
       </View>

@@ -25,6 +25,7 @@ import Layout from "../../constants/Layout";
 import { Body2, ButtonText, H6, Subtitle1 } from "../../components/typography";
 import Center from "../../components/center/Center";
 import Logo from "../../components/Logo";
+import Error from "../../components/Error";
 
 const spacing = Sizes.spacing.s;
 const { height } = Layout.window;
@@ -44,12 +45,13 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
   const { control, errors, handleSubmit } = useForm<SignInFormProps>({
     resolver: yupResolver(schema),
   });
+  const [error, setError] = React.useState("");
 
   const onSubmit: SubmitHandler<SignInFormProps> = async ({
     email,
     password,
   }) => {
-    signInWithEmail({ email, password });
+    signInWithEmail({ email, password }).catch((err) => setError(err.message));
   };
 
   return (
@@ -139,6 +141,7 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
               </Center>
             </Button>
           </View>
+          <Error error={error} />
         </View>
       </ScrollView>
       <View style={{}} />

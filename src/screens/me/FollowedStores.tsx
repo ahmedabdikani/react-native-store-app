@@ -8,7 +8,7 @@ import useThemeColor from "../../hooks/useThemeColor";
 import { Sizes } from "../../constants/Styles";
 import { Product } from "../../types/Product";
 import ListFlat from "../../components/list/ListFlat";
-import { useProductContext } from "../../context/product/ProductContext";
+import { useProductContext } from "../../context/product";
 import Button from "../../components/button/Button";
 import { Body2, Subtitle1 } from "../../components/typography";
 import useHideBottomBar from "../../hooks/useHideBottomBar";

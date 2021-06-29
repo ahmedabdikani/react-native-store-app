@@ -7,6 +7,7 @@ import Animated, {
   Extrapolate,
   interpolate,
   withTiming,
+  withRepeat,
 } from "react-native-reanimated";
 
 import { useLanguage } from "../context/language/LanguageContex";
@@ -34,9 +35,9 @@ const radius = 20;
 const cardWidth = (width - margin * 4) / 2;
 const cardHeight = cardWidth * 1.5;
 const carousel = [
+  { img: img3, name: "Headphones" },
   { img: img1, name: "Samsung Tvs" },
   { img: img2, name: "Fridges" },
-  { img: img3, name: "Headphones" },
   { img: img0, name: "Laptops" },
 ];
 const ads = [
@@ -62,31 +63,28 @@ const Advertisment = ({}: IAdvertismentProps) => {
   });
 
   useEffect(() => {
+
     // index.value = withRepeat(
-    //   withTiming(index.value, { duration: 5000 }, (finished) => {
-    //     console.log("run");
-    //     if (index.value < 2) {
-    //       index.value = index.value + 1;
-    //     } else {
-    //       index.value = 0;
-    //     }
+    //   withTiming(Math.round(index.value+1), { duration: 2000, }, (finished) => {
+    //     // index.value ++
+    //     console.log("run",index.value);
     //   }),
-    //   -1,
+    //   carousel.length,
     //   false
     // );
-    //   const interval = setInterval(() => {
-    //     if (index.value > 2) {
-    //       index.value = 0;
-    //       ref.current?.scrollToIndex({ index: 0 });
-    //     } else {
-    //       index.value = index.value + 1;
-    //       ref.current?.scrollToIndex({ index: index.value + 1 });
-    //     }
-    //   }, 5000);
-    //   return () => {
-    //     clearInterval(interval);
-    //   };
-  }, [index]);
+      const interval = setInterval(() => {
+        if (index.value > 2) {
+          index.value = 0;
+          ref.current?.scrollToIndex({ index: 0 });
+        } else {
+          index.value = index.value + 1;
+          ref.current?.scrollToIndex({ index: index.value + 1 });
+        }
+      }, 5000);
+      return () => {
+        clearInterval(interval);
+      };
+  }, []);
 
   return (
     <View>
@@ -205,7 +203,7 @@ const CarouselItem = ({ item }: { item: typeof carousel[number] }) => {
           style={{
             backgroundColor: "transparent",
             height: cardHeight * 0.9,
-            width: cardWidth + 1,
+            width: cardWidth,
             resizeMode: "contain",
           }}
         />

@@ -6,10 +6,11 @@ import { Sizes } from "../../constants/Styles";
 import { Product } from "../../types/Product";
 import Button from "../../components/button/Button";
 import ListFlat from "../../components/list/ListFlat";
-import { useProductContext } from "../../context/product/ProductContext";
+import { useProductContext } from "../../context/product";
 import { Body2, Subtitle1 } from "../../components/typography";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
-import { ProfileScreenProps } from "src/types/Profile";
+import { ProfileScreenProps } from "../../types/Profile";
+import { useFavorateContext } from "../../context/favorites";
 
 const itemHight = 150;
 const spacing = Sizes.spacing.s;
@@ -18,7 +19,7 @@ interface FavoritesProps extends ProfileScreenProps<"Me"> {}
 
 const Favorites: React.FC<FavoritesProps> = ({ navigation }) => {
   const { products } = useProductContext();
-
+  const { favorites } = useFavorateContext();
   useEffect(() => {
     const unSubscripe = useHideBottomBar(navigation.dangerouslyGetParent());
     return () => {
@@ -28,7 +29,7 @@ const Favorites: React.FC<FavoritesProps> = ({ navigation }) => {
 
   return (
     <View card style={{ padding: spacing, flex: 1 }}>
-      <ListFlat data={products}>
+      <ListFlat data={favorites}>
         {({ item }) => <FavoriteItem item={item} />}
       </ListFlat>
     </View>

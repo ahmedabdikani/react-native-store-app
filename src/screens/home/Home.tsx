@@ -14,7 +14,7 @@ import { Sizes, Styles } from "../../constants/Styles";
 import Button from "../../components/button/Button";
 import FlatList from "../../components/list/ListFlat";
 import Gradient from "../../components/Gradient";
-import { useProductContext } from "../../context/product/ProductContext";
+import { useProductContext } from "../../context/product";
 import { Body1, ButtonText } from "../../components/typography";
 import Input from "../../components/input/Input";
 import { useLanguage } from "../../context/language/LanguageContex";
@@ -28,13 +28,14 @@ const searchHeight = 40;
 interface IHomeProps extends HomeNavigationProps<"Home"> {}
 
 const Home: React.FC<IHomeProps> = ({ navigation }) => {
-  const { products } = useProductContext();
+  const { products, getData } = useProductContext();
   const [refreshing, setRefreshing] = React.useState(false);
   const bg = useThemeColor({}, "card");
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     console.log("refreshing");
+    getData();
     wait(2000).then(() => setRefreshing(false));
   }, []);
   return (

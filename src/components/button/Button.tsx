@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
       {...props}
       style={({ pressed }) => [
         {
-          opacity: pressed ? 0.3 : 1,
+          opacity: pressed || props.disabled ? 0.3 : 1,
           backgroundColor,
         },
         style,

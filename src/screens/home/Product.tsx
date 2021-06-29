@@ -21,7 +21,7 @@ import { useCartContext } from "../../context/cart/CartContext";
 import { HomeNavigationProps } from "../../types/Home";
 import { Product } from "../../types/Product";
 import AnimatedList from "../../components/list/ListAnimated";
-import { useProductContext } from "../../context/product/ProductContext";
+import { useProductContext } from "../../context/product";
 import {
   Body2,
   ButtonText,
@@ -37,6 +37,7 @@ import useHideBottomBar from "../../hooks/useHideBottomBar";
 import CommentList from "../../components/comment/CommentList";
 import { useLanguage } from "../../context/language/LanguageContex";
 import Shadow from "../../components/shadow/Shadow";
+import { useFavorateContext } from "../../context/favorites";
 
 const { width, height } = Layout.window;
 const { spacing } = Sizes;
@@ -58,8 +59,10 @@ interface ProductProps extends HomeNavigationProps<"Product"> {}
 
 const ProductScreen = ({ navigation, route }: ProductProps) => {
   const { products } = useProductContext();
+  const { createFavorate, favorites } = useFavorateContext();
+
   const similarProduts = Array.from(
-    { length: 6 },
+    { length: Math.min(products.length, 6) },
     (_, index) => products[index]
   );
   const { product } = route.params;
@@ -72,12 +75,20 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
     },
   });
 
+  const liked = favorites.some((favorite) => favorite.id === product.id);
+
+  const onLike = () => {
+    createFavorate(product.id);
+  };
+
   useEffect(() => {
     const unSubscripe = useHideBottomBar(navigation.dangerouslyGetParent());
     return () => {
       unSubscripe && unSubscripe();
     };
   }, [navigation]);
+
+  console.log();
 
   const SimilarProduts = () => {
     return (
@@ -106,7 +117,7 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
           row
           style={{
             marginHorizontal: spacing.s,
-            justifyContent: "space-between",
+            // justifyContent: "space-between",
             flexWrap: "wrap",
           }}
         >
@@ -160,18 +171,17 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
           );
         }}
       </AnimatedList>
-      <Footer product={product} />
+      <Footer product={product} onLike={onLike} liked={liked} />
     </View>
   );
 };
 
-const Header = ({
-  y,
-  top,
-}: {
+interface HeaderProps {
   top: number;
   y: Animated.SharedValue<number>;
-}) => {
+}
+
+const Header = ({ y, top }: HeaderProps) => {
   const backgroundColor = useThemeColor({}, "background");
   const color = useThemeColor({}, "text");
   const inputRange = [0, imageHeight / 2];
@@ -209,13 +219,21 @@ const Header = ({
   return (
     <Shadow>
       <Animated.View style={[Styles.centerH, containerStyle]}>
-        <Animated.Text style={textStyle}>Banana</Animated.Text>
+        <Animated.Text style={textStyle}>Go to top</Animated.Text>
       </Animated.View>
     </Shadow>
   );
 };
 
-const Footer = ({ product }: { product: Product }) => {
+const Footer = ({
+  product,
+  onLike,
+  liked,
+}: {
+  liked: boolean;
+  product: Product;
+  onLike: () => void;
+}) => {
   const { addProductToCart } = useCartContext();
   const { language } = useLanguage();
   const textSecondary = useThemeColor({}, "textSecondary");
@@ -224,7 +242,15 @@ const Footer = ({ product }: { product: Product }) => {
     <View card style={styles.footerContainer}>
       <FontAwesome5 name="store" color={tintColorLight} size={20} />
       <FontAwesome5 name="comment-dots" color={textSecondary} size={24} />
-      <FontAwesome name="star" color={tintColorLight} size={24} />
+      {!liked ? (
+        <Button onPress={onLike}>
+          <FontAwesome name="star" color={textSecondary} size={24} />
+        </Button>
+      ) : (
+        <Button onPress={() => {}}>
+          <FontAwesome name="star" color={tintColorLight} size={24} />
+        </Button>
+      )}
       <View
         card
         row
@@ -244,7 +270,9 @@ const Footer = ({ product }: { product: Product }) => {
           ]}
         >
           <Center>
-            <ButtonText style={{ color }}>{language.sendToCart}</ButtonText>
+            <ButtonText style={{ color }}>
+            <FontAwesome name="shopping-cart" size={24} color = {'#fff'} />
+            </ButtonText>
           </Center>
         </Button>
         <Button
