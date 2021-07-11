@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Cart from "../screens/cart/Cart";
-import { CartStackPramList } from "../types/Cart";
+import { CartStackPramList } from "../types/navigation";
 
 const CartStack = createStackNavigator<CartStackPramList>();
 const CartNavigator = () => (

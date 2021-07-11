@@ -6,9 +6,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { Image } from "react-native";
 import {
-  PinchGestureHandler,
-  gestureHandlerRootHOC,
   PinchGestureHandlerGestureEvent,
+  PanGestureHandler,
 } from "react-native-gesture-handler";
 
 import { Product } from "../../types/Product";
@@ -36,16 +35,15 @@ const Carousel = ({ images }: CarouselProps) => {
     },
   });
 
-  const onGestureEvent = useAnimatedGestureHandler<PinchGestureHandlerGestureEvent>(
-    {
+  const onGestureEvent =
+    useAnimatedGestureHandler<PinchGestureHandlerGestureEvent>({
       onActive: (cotext) => {
         console.log(cotext);
       },
       onStart: (cotext) => {
         console.log(cotext);
       },
-    }
-  );
+    });
 
   const openModel = (uri: string) => {
     setVisible(true);
@@ -56,9 +54,8 @@ const Carousel = ({ images }: CarouselProps) => {
     <View>
       {visible && (
         <Modal visible={visible} setVisible={setVisible}>
-          {/* <GestureHandlerRootView style={{ width: "100%", height: "100%" }}> */}
+          {/* {gestureHandlerRootHOC(() => FullScreenImage({ imgUri }))} / */}
           <FullScreenImage imgUri={imgUri} />
-          {/* </GestureHandlerRootView> */}
         </Modal>
       )}
       <ListAnimated data={images} horizontal onScroll={onScroll} pagingEnabled>
@@ -78,27 +75,29 @@ const Carousel = ({ images }: CarouselProps) => {
   );
 };
 
-const FullScreenImage = ({ imgUri }) => {
+const FullScreenImage = ({ imgUri }: { imgUri: string }) => {
   return (
-    <PinchGestureHandler
-      onGestureEvent={(e) => {
-        console.log("from event", e.nativeEvent);
-      }}
-    >
-      <Animated.View
-        pointerEvents="none"
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+    <View transparent style={{ flex: 1 }}>
+      <PanGestureHandler
+        onGestureEvent={(e) => {
+          console.log("from event", e.nativeEvent);
         }}
       >
-        <Image
-          style={{ width: width, height: height / 1.8 }}
-          source={{ uri: imgUri }}
-        />
-      </Animated.View>
-    </PinchGestureHandler>
+        <Animated.View
+          pointerEvents="none"
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            style={{ flex: 0.5, aspectRatio: 1.5, resizeMode: "contain" }}
+            source={{ uri: imgUri }}
+          />
+        </Animated.View>
+      </PanGestureHandler>
+    </View>
   );
 };
 

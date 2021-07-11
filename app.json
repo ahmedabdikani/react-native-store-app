@@ -23,14 +23,16 @@
       "bundleIdentifier": "com.ahmedabdikani.suristore"
     },
     "android": {
+
       "intentFilters": [
         {
           "action": "VIEW",
+          "autoVerify": true,
           "data": [
             {
               "scheme": "https",
-              "host": "*.suristore.web.app",
-              "pathPrefix": "*"
+              "host": "suristore.web.app",
+              "pathPrefix": "/"
             }
           ],
           "category": [

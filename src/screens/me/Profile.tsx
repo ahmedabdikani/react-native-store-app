@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { Image, StyleSheet } from "react-native";
 
 import useHideBottomBar from "../../hooks/useHideBottomBar";
-import { ProfileScreenProps } from "src/types/Profile";
+import { ProfileScreenProps } from "src/types/navigation";
 import { View } from "../../components/theme";
 import { Subtitle1 } from "../../components/typography";
 import { Sizes } from "../../constants/Styles";
-import { useAuthContext } from "../../context/auth/AuthContext";
+import { useAuthContext } from "../../context/auth";
 import Button from "../../components/button/Button";
 import useImagePicker from "../../hooks/useImagePicker";
 import storage from "../../config/storage";

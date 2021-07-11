@@ -3,7 +3,7 @@ export default {
   youMayLike:"waxa laga yaba inad ka hesho",
   bestProducts:"alaab shidan",
   bestStores:"suuq shidan",
-  puyItem:"gado shayga",
+  puyItem:"gado",
   sendToCart:"salada ku rid",
   shoppingCart:"salada adeega",
   items:"alaabta",

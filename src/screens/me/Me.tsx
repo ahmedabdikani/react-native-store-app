@@ -15,7 +15,7 @@ import useThemeColor from "../../hooks/useThemeColor";
 import { lightBlue, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
-import { useAuthContext } from "../../context/auth/AuthContext";
+import { useAuthContext } from "../../context/auth";
 import User from "../../types/User";
 import { ProfileScreenProps } from "../../types/Profile";
 import Button from "../../components/button/Button";

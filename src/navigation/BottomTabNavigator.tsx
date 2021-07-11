@@ -6,11 +6,13 @@ import {
 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { BottomTabParamList } from "../types/BottomTab";
+import { BottomTabParamList } from "../types/navigation";
 import ProfileNavigator from "./ProfileNavigator";
 import HomeNavigator from "./HomeNavigator";
 import ChatNavigator from "./ChatNavigator";
 import CartNavigator from "./CartNavigator";
+import HearBeat from "../Icons/HearBeat";
+import Playground from "../screens/playground/Playground";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -43,13 +45,13 @@ const BottomTabNavigator = () => {
           },
         }}
       />
-      {/* <BottomTab.Screen
-        name="Fallowed"
+      <BottomTab.Screen
+        name="Playground"
         component={Playground}
         options={{
           tabBarIcon: ({ color }) => <HearBeat color={color} />,
         }}
-      /> */}
+      />
       <BottomTab.Screen
         name="ChatStack"
         component={ChatNavigator}

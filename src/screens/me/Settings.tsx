@@ -3,20 +3,20 @@ import { Picker } from "@react-native-picker/picker";
 
 import { View } from "../../components/theme";
 import { Sizes } from "../../constants/Styles";
-import { useAuthContext } from "../../context/auth/AuthContext";
+import { useAuthContext } from "../../context/auth";
 import useThemeColor from "../../hooks/useThemeColor";
 import Button from "../../components/button/Button";
 import { ButtonText, Subtitle1 } from "../../components/typography";
 import { useLanguage } from "../../context/language/LanguageContex";
 import Center from "../../components/center/Center";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
-import { ProfileScreenProps } from "../../types/Profile";
+import { ProfileScreenProps } from "../../types/navigation";
 
 const padding = Sizes.spacing.s;
 
 interface SettingsProps extends ProfileScreenProps<"Settings"> {}
 
-const Settings = ({ navigation }: SettingsProps) => {
+const Settings: React.FC<SettingsProps> = ({ navigation }) => {
   const { signOut } = useAuthContext();
   const color = useThemeColor({}, "text");
   const { changeLanguage, selectedLanguage } = useLanguage();
@@ -52,7 +52,7 @@ const Settings = ({ navigation }: SettingsProps) => {
             dropdownIconColor={color}
             style={{ color }}
           >
-            <Picker.Item label={"english"} value="english" />
+            <Picker.Item label="english" value="english" />
             <Picker.Item label="somali" value="somali" />
           </Picker>
         </View>

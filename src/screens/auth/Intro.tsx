@@ -5,7 +5,7 @@ import Button from "../../components/button/Button";
 import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { Sizes } from "../../constants/Styles";
-import { AuthScreenProps } from "../../types/Auth";
+import { AuthScreenProps } from "../../types/navigation";
 import Logo from "../../components/Logo";
 import { Subtitle1 } from "../../components/typography";
 

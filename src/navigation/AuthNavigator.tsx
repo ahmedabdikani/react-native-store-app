@@ -6,8 +6,8 @@ import SignIn from "../screens/auth/SignIn";
 import SignUp from "../screens/auth/SignUp";
 import BottomTabNavigator from "./BottomTabNavigator";
 import Loading from "../components/Loading";
-import { AuthStackPramList } from "../types/Auth";
-import { useAuthContext } from "../context/auth/AuthContext";
+import { AuthStackPramList } from "../types/navigation";
+import { useAuthContext } from "../context/auth";
 
 const AuthStack = createStackNavigator<AuthStackPramList>();
 

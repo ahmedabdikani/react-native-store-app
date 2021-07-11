@@ -20,9 +20,9 @@ const ListAnimated = React.forwardRef(
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(_: T, index: number) => index.toString()}
+        keyExtractor={(_, index: number) => index.toString()}
         data={data}
-        renderItem={React.useCallback(children, [data])}
+        renderItem={children}
         {...props}
       />
     );

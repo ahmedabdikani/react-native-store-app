@@ -18,7 +18,7 @@ import { darkYellow, tintColorLight } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import { Sizes, Styles } from "../../constants/Styles";
 import { useCartContext } from "../../context/cart/CartContext";
-import { HomeNavigationProps } from "../../types/Home";
+import { HomeScreenProps } from "../../types/navigation";
 import { Product } from "../../types/Product";
 import AnimatedList from "../../components/list/ListAnimated";
 import { useProductContext } from "../../context/product";
@@ -38,6 +38,7 @@ import CommentList from "../../components/comment/CommentList";
 import { useLanguage } from "../../context/language/LanguageContex";
 import Shadow from "../../components/shadow/Shadow";
 import { useFavorateContext } from "../../context/favorites";
+import { CommonActions, StackActions } from "@react-navigation/native";
 
 const { width, height } = Layout.window;
 const { spacing } = Sizes;
@@ -55,19 +56,25 @@ const comments = Array.from({ length: 3 }, (_, index) => {
   };
 });
 
-interface ProductProps extends HomeNavigationProps<"Product"> {}
+interface ProductProps extends HomeScreenProps<"Product"> {}
 
 const ProductScreen = ({ navigation, route }: ProductProps) => {
   const { products } = useProductContext();
+  const { product } = route.params;
   const { createFavorate, favorites } = useFavorateContext();
 
   const similarProduts = Array.from(
     { length: Math.min(products.length, 6) },
     (_, index) => products[index]
   );
-  const { product } = route.params;
   const y = useSharedValue(0);
   const { top } = useSafeAreaInsets();
+
+  // const action = CommonActions.("ProfileStack", {
+  //   name: "ProfileStack",
+  //   key: Math.floor(Math.random() * 100000).toString(),
+  //   params: { screen: "Store" },
+  // });
 
   const onScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
@@ -80,6 +87,8 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
   const onLike = () => {
     createFavorate(product.id);
   };
+
+  // const state = route.
 
   useEffect(() => {
     const unSubscripe = useHideBottomBar(navigation.dangerouslyGetParent());
@@ -103,9 +112,10 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
         <View row card style={{ justifyContent: "space-between" }}>
           <Subtitle1>Furniture Store</Subtitle1>
           <Button
-            onPress={() =>
-              navigation.navigate("ProfileStack", { screen: "Store" })
-            }
+            onPress={() => {
+              // navigation.dispatch(action)
+              // navigation
+            }}
           >
             <Subtitle2 underline primary>
               See more
@@ -164,7 +174,7 @@ const ProductScreen = ({ navigation, route }: ProductProps) => {
                 <Carousel images={product.images} />
               </SharedElement>
               <Details product={product} />
-              <CommentList comments={comments} />
+              <CommentList comments={comments} navigation={navigation} />
               {SimilarProduts()}
               <MoreDetails product={product} />
             </View>
@@ -271,7 +281,7 @@ const Footer = ({
         >
           <Center>
             <ButtonText style={{ color }}>
-            <FontAwesome name="shopping-cart" size={24} color = {'#fff'} />
+              <FontAwesome name="shopping-cart" size={24} color={"#fff"} />
             </ButtonText>
           </Center>
         </Button>

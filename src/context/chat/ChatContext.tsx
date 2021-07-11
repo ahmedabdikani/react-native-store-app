@@ -10,7 +10,7 @@ import "react-native-url-polyfill/auto";
 import supabase from "../../config/supabase";
 import { Chat } from "../../types/Chat";
 import User from "../../types/User";
-import { useAuthContext } from "../auth/AuthContext";
+import { useAuthContext } from "../auth";
 
 type CallBack = <T>(data: unknown[] | null, error: T) => void;
 
@@ -24,7 +24,7 @@ interface Context {
     chatId: string,
     pushToken: string
   ) => void;
-  getChat: (chatId: string) => void;
+  getChat: (chatId: string, roomId: string) => void;
   searchUser: (name: string, callBack: CallBack) => Promise<void>;
 }
 
@@ -71,9 +71,8 @@ async function schedulePushNotification(message: any) {
 async function registerForPushNotificationsAsync() {
   let token;
   if (Constants.isDevice) {
-    const {
-      status: existingStatus,
-    } = await Notifications.getPermissionsAsync();
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
     if (existingStatus !== "granted") {
       const { status } = await Notifications.requestPermissionsAsync();
@@ -101,6 +100,7 @@ export const ChatProvier: React.FC = ({ children }) => {
   const [rooms, setRooms] = useState<any>([]);
   const [chats, setChats] = useState<any>([]);
   const { user, updateUser } = useAuthContext();
+  const fetchedRooms: any[] = [];
 
   useEffect(() => {
     if (user) {
@@ -212,7 +212,14 @@ export const ChatProvier: React.FC = ({ children }) => {
     }
   };
 
-  const getChat = async (chatId: string) => {
+  const getChat = async (chatId: string, roomId: string) => {
+    const found = fetchedRooms.findIndex((value) => value.roomId === roomId);
+
+    if (found !== -1) {
+      setChats(fetchedRooms[found].data);
+      return 0;
+    }
+
     try {
       const { data, error } = await supabase
         .from("messages_v")
@@ -222,6 +229,7 @@ export const ChatProvier: React.FC = ({ children }) => {
 
       console.log(error);
       if (data) {
+        fetchedRooms.push({ data, roomId });
         setChats(data);
       }
     } catch (error) {

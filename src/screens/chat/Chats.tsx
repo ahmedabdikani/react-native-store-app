@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { View } from "../../components/theme";
@@ -8,12 +7,13 @@ import { tintColorLight } from "../../constants/Colors";
 import { Sizes, Styles } from "../../constants/Styles";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
-import { ChatScreenProps } from "../../types/Chat";
+import { ChatScreenProps } from "../../types/navigation";
 import { useChatContext } from "../../context/chat/ChatContext";
 import MessageList from "../../components/chat/MessageList";
 import FileUpload from "../../components/chat/FileUpload";
 import { Subtitle1 } from "../../components/typography";
 import useHideBottomBar from "../../hooks/useHideBottomBar";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const padding = Sizes.spacing.s;
 
@@ -28,7 +28,7 @@ const Chats: React.FC<ChatsProps> = ({ navigation, route }) => {
   useEffect(() => {
     navigation.setOptions({ title: item.name });
     console.log(item.chat_id);
-    getChat(item?.chat_id);
+    getChat(item?.chat_id, item.id);
   }, [item]);
 
   const onSend = (value: string) => {
@@ -49,7 +49,9 @@ const Chats: React.FC<ChatsProps> = ({ navigation, route }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <MessageList chats={chats} room={item} />
+      <View style={{ height: useWindowDimensions().height * 0.86, flex: 1 }}>
+        <MessageList chats={chats} room={item} />
+      </View>
       <Footer onSend={onSend} setOpenFileUpload={setOpenFileUpload} />
       {openFileUpload && <FileUpload />}
     </View>

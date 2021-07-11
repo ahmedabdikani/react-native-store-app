@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "react-query";
 import * as Linking from "expo-linking";
@@ -8,6 +8,7 @@ import useCachedResources from "./src/hooks/useCachedResources";
 import useColorScheme from "./src/hooks/useColorScheme";
 import Navigation from "./src/navigation";
 import ContextProviders from "./src/context/providers";
+import { View } from "./src/components/theme";
 
 const client = new QueryClient();
 
@@ -33,7 +34,7 @@ export default function App() {
   const colorScheme = useColorScheme();
   // const url = Linking.makeUrl("https://suristore.web.app");
 
-  // React.useEffect(() => {});
+  useEffect(() => {});
 
   if (!isLoadingComplete) {
     return null;

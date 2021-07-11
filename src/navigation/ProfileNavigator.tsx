@@ -12,7 +12,7 @@ import Me from "..//screens/me/Me";
 import Profile from "..//screens/me/Profile";
 import Settings from "../screens/me/Settings";
 import Store from "../screens/me/Store";
-import { ProfileStackPramList } from "../types/Profile";
+import { ProfileStackPramList } from "../types/navigation";
 import AddProduct from "../screens/me/CreateProduct";
 
 const ProfileStack = createStackNavigator<ProfileStackPramList>();
@@ -20,7 +20,7 @@ const ProfileStack = createStackNavigator<ProfileStackPramList>();
 const ProfileNavigator = () => {
   return (
     <ProfileStack.Navigator
-      mode="modal"
+      mode={"modal"}
       screenOptions={{ headerTitleAlign: "center" }}
     >
       <ProfileStack.Screen

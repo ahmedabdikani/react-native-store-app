@@ -1,13 +1,19 @@
 import React from "react";
 import { Platform } from "react-native";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
-import BackButtonNative from "../components/button/BackButtonNative";
-import Center from "../components/center/Center";
-import { View } from "../components/theme";
-import useThemeColor from "../hooks/useThemeColor";
+import {
+  CardStyleInterpolators,
+  TransitionSpecs,
+} from "@react-navigation/stack";
+
 import Home from "../screens/home/Home";
 import Product from "../screens/home/Product";
-import { HomeStackPramList } from "../types/Home";
+import Comments from "../screens/home/Comments";
+import { View } from "../components/theme";
+import useThemeColor from "../hooks/useThemeColor";
+import Center from "../components/center/Center";
+import BackButtonNative from "../components/button/BackButtonNative";
+import { HomeStackPramList } from "../types/navigation";
 
 const circleHieght = 40;
 const HomeStack = createSharedElementStackNavigator<HomeStackPramList>();
@@ -20,9 +26,20 @@ const HomeNavigator = () => {
         headerShown: false,
         headerTransparent: true,
         animationTypeForReplace: "pop",
+        transitionSpec: {
+          close: TransitionSpecs.TransitionIOSSpec,
+          open: TransitionSpecs.TransitionIOSSpec,
+        },
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
+      headerMode={"screen"}
     >
       <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen
+        name="Comments"
+        component={Comments}
+        options={{ headerShown: true }}
+      />
       <HomeStack.Screen
         name="Product"
         component={Product}

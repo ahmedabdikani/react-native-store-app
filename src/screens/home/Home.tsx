@@ -1,7 +1,8 @@
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import * as React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as Location from "expo-location";
 
 import View from "../../components/theme/View";
 import { tintColorLight } from "../../constants/Colors";
@@ -9,7 +10,7 @@ import Layout from "../../constants/Layout";
 import Advertisment from "../../components/Advertisment";
 import ProductList from "../../components/product/ProductList";
 import MiniAppList from "../../components/MiniAppList";
-import { HomeNavigationProps } from "../../types/Home";
+import { HomeScreenProps } from "../../types/navigation";
 import { Sizes, Styles } from "../../constants/Styles";
 import Button from "../../components/button/Button";
 import FlatList from "../../components/list/ListFlat";
@@ -25,12 +26,30 @@ const { width } = Layout.window;
 const spacing = Sizes.spacing.s;
 const searchHeight = 40;
 
-interface IHomeProps extends HomeNavigationProps<"Home"> {}
+interface IHomeProps extends HomeScreenProps<"Home"> {}
 
 const Home: React.FC<IHomeProps> = ({ navigation }) => {
   const { products, getData } = useProductContext();
   const [refreshing, setRefreshing] = React.useState(false);
   const bg = useThemeColor({}, "card");
+
+  const getLocation = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+      }
+      // let location = await Location.getCurrentPositionAsync({
+      //   accuracy: Location.Accuracy.Low,
+      // });
+      // console.log(location);
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLocation();
+  });
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);

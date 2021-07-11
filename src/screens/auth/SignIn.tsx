@@ -5,10 +5,10 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+// import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import BackButtonNative from "../../components/button/BackButtonNative";
 import Button from "../../components/button/Button";
@@ -18,17 +18,16 @@ import { View } from "../../components/theme";
 import useThemeColor from "../../hooks/useThemeColor";
 import { tintColorLight } from "../../constants/Colors";
 import { Fonts, Sizes, Styles } from "../../constants/Styles";
-import { useAuthContext } from "../../context/auth/AuthContext";
-import { SignInFormProps, AuthScreenProps } from "../../types/Auth";
+import { useAuthContext } from "../../context/auth";
+import { SignInFormProps } from "../../types/Auth";
+import { AuthScreenProps } from "../../types/navigation";
 
-import Layout from "../../constants/Layout";
 import { Body2, ButtonText, H6, Subtitle1 } from "../../components/typography";
 import Center from "../../components/center/Center";
 import Logo from "../../components/Logo";
 import Error from "../../components/Error";
 
 const spacing = Sizes.spacing.s;
-const { height } = Layout.window;
 
 const schema = yup.object().shape({
   email: yup.string().required().email().trim(),
@@ -40,7 +39,7 @@ interface SignInProps extends AuthScreenProps<"SignIn"> {}
 const SignIn: React.FC<SignInProps> = ({ navigation }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const color = useThemeColor({}, "text");
-  const { top } = useSafeAreaInsets();
+  // const { top } = useSafeAreaInsets();
   const { signInWithEmail } = useAuthContext();
   const { control, errors, handleSubmit } = useForm<SignInFormProps>({
     resolver: yupResolver(schema),

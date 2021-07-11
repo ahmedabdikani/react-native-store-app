@@ -1,12 +1,10 @@
-import React from 'react';
-import FastImage,{FastImageProps} from "react-native-fast-image"
+import React from "react";
+// import FastImage from "react-native-fast-image"
+import { Image as DefaultImage, ImageProps as Props } from "react-native";
 
-interface ImageProps extends FastImageProps{ 
+interface ImageProps extends Props {}
+
+const Image: React.FC<ImageProps> = (props) => {
+  return <DefaultImage {...props} />;
 };
-
-const Image:React.FC<ImageProps> = (props) => {
-
-   return <FastImage {...props} />
-
-}
-export default Image
+export default Image;

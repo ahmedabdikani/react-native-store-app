@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { AuthProvider } from "../auth/AuthContext";
+import { AuthProvider } from "../auth";
 import { ChatProvier } from "../chat/ChatContext";
 import { ProductProvider } from "../product";
 import { CartProvider } from "../cart/CartContext";

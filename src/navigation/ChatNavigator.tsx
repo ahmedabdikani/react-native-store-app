@@ -7,7 +7,7 @@ import Camera from "../screens/chat/Camera";
 import Chats from "../screens/chat/Chats";
 import Contacts from "../screens/chat/Contacts";
 import Rooms from "../screens/chat/Rooms";
-import { ChatStackPramList } from "../types/Chat";
+import { ChatStackPramList } from "../types/navigation";
 
 const ChatStack = createStackNavigator<ChatStackPramList>();
 const ChatNavigator = () => {

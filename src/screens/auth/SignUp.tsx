@@ -5,11 +5,12 @@ import * as yup from "yup";
 import { StyleSheet } from "react-native";
 
 import Button from "../../components/button/Button";
-import { Text, View } from "../../components/theme";
-import { Fonts, Sizes, Styles } from "../../constants/Styles";
+import { View } from "../../components/theme";
+import { Sizes, Styles } from "../../constants/Styles";
 import useThemeColor from "../../hooks/useThemeColor";
-import { AuthNavigationProp, SignUpFormProps } from "../../types/Auth";
-import { useAuthContext } from "../../context/auth/AuthContext";
+import { SignUpFormProps } from "../../types/Auth";
+import { AuthScreenProps } from "../../types/navigation";
+import { useAuthContext } from "../../context/auth";
 import { Control, SubmitHandler, useForm } from "react-hook-form";
 import Logo from "../../components/Logo";
 import { tintColorLight } from "../../constants/Colors";
@@ -31,7 +32,7 @@ const signUpSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Passwords Must Match"),
 });
 
-interface SignUpProps extends AuthNavigationProp<"SignUp"> {}
+interface SignUpProps extends AuthScreenProps<"SignUp"> {}
 
 const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
   const [disabled, setDisabled] = React.useState(false);

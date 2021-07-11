@@ -3,7 +3,8 @@ import {LinkingOptions} from "@react-navigation/native"
 
 // adb shell am start -d exp://192.168.1.102:19000/--/testing/reset-db
 // const url = Linking.makeUrl("https://suristore.web.app");
-const prefixes = [Linking.makeUrl('https://suristore.web.app')];
+
+const prefixes = [Linking.createURL('https://suristore.web.app')];
 
 export default {
   prefixes,

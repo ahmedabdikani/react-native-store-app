@@ -1,11 +1,12 @@
-import * as React from "react";
+import "react-native-url-polyfill/auto";
+
+import React, { useEffect, useState } from "react";
+import * as AuthSession from "expo-auth-session";
 
 import useAsyncStorage from "../../hooks/useAsyncStorage";
 import Loading from "../../components/Loading";
 import supabase from "../../config/supabase";
 import User from "../../types/User";
-
-import "react-native-url-polyfill/auto";
 
 interface SignInWithEmailProps {
   email: string;
@@ -33,11 +34,11 @@ export const useAuthContext = () => {
 };
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [currentUser, setCurrentUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   const { getItem, setItem, removeItem } = useAsyncStorage();
 
-  React.useEffect(() => {
+  useEffect(() => {
     getItem("user")
       .then((result) => {
         if (result) {
@@ -46,7 +47,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [currentUser]);
 
   const saveUser = (user: User) => {
     setItem("user", user)
@@ -56,11 +57,31 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   // const signInWithGoogle = () => {};
   const signInWithFacebook = async () => {
+    const provider = "facebook";
     try {
-      console.log("run");
-      const {} = await supabase.auth.signIn({ provider: "facebook" });
+      const redirectUri = AuthSession.makeRedirectUri({ useProxy: true });
+      console.log(redirectUri);
+      const response = await AuthSession.startAsync({
+        authUrl: `https://zriyjjlpytcztjtvbmzr.supabase.co/auth/v1/authorize?provider=${provider}&redirect_to=${redirectUri}`,
+        // returnUrl: redirectUri,
+      });
+      if (!response) return;
+      const { user, session, error } = await supabase.auth.signIn({
+        refreshToken: response.params?.refresh_token,
+      });
+      console.log(user);
+      if (user) {
+        const loggedInUser = {
+          email: user?.email,
+          id: user?.id,
+          photoUrl: user?.user_metadata.avatar_url,
+          name: user?.user_metadata.full_name,
+        };
+        saveUser(loggedInUser);
+        setCurrentUser(loggedInUser);
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
   // const signInWithTwitter = () => {};

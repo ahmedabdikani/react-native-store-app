@@ -1,13 +1,13 @@
+import "react-native-url-polyfill/auto";
+
 import React, { useState, useEffect } from "react";
 // import { v4 } from "uuid";
 
 import { Product } from "../../types/Product";
 import supabase from "../../config/supabase";
-import { useAuthContext } from "../auth/AuthContext";
+import { useAuthContext } from "../auth";
 import localFileToBlob from "../../utils/localFileToBlob";
 import storage from "../../config/storage";
-
-import "react-native-url-polyfill/auto";
 
 const getImages = (index: number): string[] => {
   return Array.from(

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { View, Text } from "../../components/theme";
-import { CartNavigationProp, CartRouteProp } from "../../types/Cart";
+import { CartScreenProps } from "../../types/navigation";
 import { useCartContext } from "../../context/cart/CartContext";
 import CartList from "../../components/cart/CartList";
 import useThemeColor from "../../hooks/useThemeColor";
@@ -22,12 +22,10 @@ import SelectionToggleIcon from "../../components/cart/SelectionToggleIcon";
 
 const spacing = 10;
 
-interface ICartProps
-  extends CartNavigationProp<"Cart">,
-    CartRouteProp<"Cart"> {}
+interface CartProps extends CartScreenProps<"Cart"> {}
 
-const Cart: React.FC<ICartProps> = ({ navigation, route }) => {
-  const [openMore, setOpenMore] = React.useState(false);
+const Cart: React.FC<CartProps> = ({ navigation, route }) => {
+  const [openMore, setOpenMore] = useState(false);
   const { cartItems, total } = useCartContext();
 
   const allSelected = cartItems.every((cartItem) => cartItem.selected);

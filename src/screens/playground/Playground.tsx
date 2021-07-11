@@ -1,4 +1,8 @@
-import { PanGestureHandler } from "react-native-gesture-handler";
+import React from "react";
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -7,14 +11,16 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { lightenGreen, lightGreen } from "../../constants/Colors";
+import RadialGradient from "../../components/gradient/RadialGradient";
+import { View } from "../../components/theme";
+import Layout from "../../constants/Layout";
 
 const { width, height } = Layout.window;
-import { View } from "../components/theme";
-import Layout from "../constants/Layout";
 
-interface IChatsProps {}
+interface PlaygroundProps {}
 
-const Chats = ({}: IChatsProps) => {
+const Playground = ({}: PlaygroundProps) => {
   const x = useSharedValue<number>(0);
   const y = useSharedValue<number>(0);
 
@@ -44,7 +50,10 @@ const Chats = ({}: IChatsProps) => {
     };
   });
 
-  const onGestureEvent = useAnimatedGestureHandler({
+  const onGestureEvent = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    { x: number; y: number }
+  >({
     onStart: (_, ctx) => {
       ctx.x = x.value;
       ctx.y = y.value;
@@ -66,7 +75,17 @@ const Chats = ({}: IChatsProps) => {
   });
 
   return (
-    <View style={{ flex: 1, marginTop: 45, overflow: "hidden" }}>
+    <View style={{ flex: 1 }}>
+      <RadialGradient
+        width={width}
+        height={height}
+        cx={"50%"}
+        cy={"45%"}
+        stops={[
+          { offset: "0%", stopColor: lightenGreen },
+          { offset: "100%", stopColor: lightGreen },
+        ]}
+      />
       <PanGestureHandler onGestureEvent={onGestureEvent}>
         <Animated.View style={style}>
           <Animated.Image
@@ -78,4 +97,4 @@ const Chats = ({}: IChatsProps) => {
     </View>
   );
 };
-export default Chats;
+export default Playground;

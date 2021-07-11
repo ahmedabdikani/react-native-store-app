@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import supabase from "../../config/supabase";
-import { useAuthContext } from "../auth/AuthContext";
+import { useAuthContext } from "../auth";
 
 import "react-native-url-polyfill/auto";
 
